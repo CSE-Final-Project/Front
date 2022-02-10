@@ -1,0 +1,52 @@
+.headerStyle {
+  /* 레이아웃 */
+  display: flex;
+  position: fixed;
+  align-items: center;
+  justify-content: center; /*가로 정렬*/
+  height: 60px;
+  z-index: 5; /*위치*/
+  /* 폰트 */
+  font-size: 1.5rem;
+  text-align: center;
+  width: 100%;
+  background-color: #ffffff;
+  border-bottom: 2px solid #000000;
+}
+
+.listStyle {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 8px 0px 8px 16px;
+  list-style: none;
+  border-bottom: 1px solid #a7a7a7;
+}
+
+.listStyle:hover {
+  background-color: #f7f7f7;
+  border-radius: 4px;
+  transition: all 0.2s ease-out;
+}
+.xButton {
+  height: 5%;
+  width: 10%;
+  position: relative;
+  left: 91%;
+  top: 1%;
+}
+
+@media screen and (max-width: 450px) {
+  .xButton {
+    height: 5%;
+    width: 10%;
+    position: relative;
+    left: 87%;
+    top: 0%;
+  }
+}
+
+.userID {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
