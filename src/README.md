@@ -1,4 +1,4 @@
-├── @fortawesome/fontawesome-svg-core@1.2.36
+├── @fortawesome/fontawesome-svg-core@1.2.36\
 ├── @fortawesome/free-brands-svg-icons@5.15.4
 ├── @fortawesome/free-regular-svg-icons@5.15.4
 ├── @fortawesome/free-solid-svg-icons@5.15.4
