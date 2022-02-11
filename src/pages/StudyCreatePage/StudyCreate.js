@@ -54,7 +54,7 @@ const StudyCreate = (props) => {
             // const response = await axios.post(URL,JSON.stringify(inputs));
             const response = await axios.post(URL,inputs);
             console.log(response.data.result);
-            if(response.data.result === "success"){
+            if(response.data.code === "200"){
               console.log('study_id:',inputs.study_id);
               // sessionStorage.setItem('user',inputs.id);
               window.location.replace('/');

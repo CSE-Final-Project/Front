@@ -57,12 +57,14 @@ const RegisterForm = ({history}) => {
         return;
         }
         if (auth) {
-        console.log('회원가입 성공!');
-        console.log(auth);
-        // localStorage.setItem('user', JSON.stringify(auth));
-        dispatch(check());
-        // history.push('/');
-
+            console.log(auth);
+            if(auth.code==='200'){
+                console.log('회원가입 성공');
+                history.push('/');
+            }
+     
+        }else{
+            console.log('회원가입 실패');
         }
     }, [auth, authError,dispatch,history]);
 

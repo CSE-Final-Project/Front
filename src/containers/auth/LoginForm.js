@@ -47,9 +47,9 @@ const LoginForm = ({history}) => {
           return;
         }
         if (auth) {
-            if(auth.data==='login success'){
+            console.log(auth);
+            if(auth.code==='200'){
                 console.log('로그인 성공');
-                console.log(auth.data);
                 console.log(auth.id);
                 // dispatch(check());
                 dispatch(tempSetUser(auth.id));
