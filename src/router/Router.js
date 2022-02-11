@@ -13,6 +13,7 @@ import StudyCreate from '../pages/StudyCreatePage/StudyCreate';
 import PostListPage from '../pages/PostListPage';
 import LoginPage from '../pages/LoginPage';
 import RegisterPage from '../pages/RegisterPage';
+import StudiesPage from '../pages/StudiesPage';
 
 import styled from 'styled-components';
 import HeaderContainer from '../containers/common/HeaderContainer';
@@ -26,12 +27,25 @@ const Wrapper = styled.div`
 
 const Router = () => {
 
+    const [isLogin, setIsLogin] = useState();
+    useEffect(()=>{
+        if(localStorage.getItem('user')){
+            // console.log('lc:',localStorage.getItem('user'));
+            setIsLogin(true);
+        }
+    },[]);
+
     return (
         <>
         <BrowserRouter>
             <Wrapper>
                 <HeaderContainer/>
                 <Switch>    
+                    {/* {isLogin ? (
+                        <Route path="/" exact component={CreateRoom} />
+                    ):(
+                        <Route path="/" exact component={LoginPage} />
+                    )} */}
                     <Route path="/" exact component={CreateRoom} />
                     <Route path="/room/:roomID" component={Room} />
                     <Route path="/studyCreate" component={StudyCreate} />
@@ -41,6 +55,7 @@ const Router = () => {
                     <Route component={PostListPage} path={'/postlist'} exact />
                     <Route component={LoginPage} path={'/login'} exact />
                     <Route component={RegisterPage} path={'/register'} exact />
+                    <Route component={StudiesPage} path={'/studies'} exact />
                 </Switch>
             </Wrapper>
             <Footer />

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import AuthForm from '../../components/auth/AuthForm';
 import { changeField, initializeForm, login } from '../../modules/auth';
-import { check } from '../../modules/user';
+import { check, tempSetUser } from '../../modules/user';
 import { withRouter } from 'react-router-dom';
 
 const LoginForm = ({history}) => {
@@ -26,6 +26,7 @@ const LoginForm = ({history}) => {
             })
         )
     }
+
 
     const onSubmit = e =>{
         e.preventDefault();
@@ -49,7 +50,9 @@ const LoginForm = ({history}) => {
             if(auth.data==='login success'){
                 console.log('로그인 성공');
                 console.log(auth.data);
-                dispatch(check());
+                console.log(auth.id);
+                // dispatch(check());
+                dispatch(tempSetUser(auth.id));
             }
      
         }else{

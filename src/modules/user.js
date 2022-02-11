@@ -29,7 +29,7 @@ function checkFailureSaga() {
 function* logoutSaga() {
   try {
     localStorage.removeItem('user'); // localStorage에서 user를 제거
-    // yield call(authAPI.logout); // logout API 호출
+    yield call(authAPI.logout); // logout API 호출
   } catch (e) {
     console.log(e);
   }
