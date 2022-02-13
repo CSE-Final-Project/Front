@@ -76,7 +76,7 @@ const List = styled.div`
 const Header = ({user, onLogout}) => {
   const [isOpen, setMenu] = useState(false);
   const menus = [
-    { title: "참여 중인 스터디" , path: "/studies/:userId"},  // 실제 주소 'api/' 제외
+    { title: "참여 중인 스터디" , path: "/studies/my"},  // 실제 주소 'api/' 제외
     { title: "스터디 목록", path: "/studies"}, 
   ]
 
