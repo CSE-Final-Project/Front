@@ -35,6 +35,18 @@ const StyledCanvas = styled.canvas`
     width: 50%;
 `;
 
+const boxstyle = {
+    
+    marginTop: '0.5%',
+    marginBottom: '0.5%',
+    position: 'relative',
+    textAlign: 'center',
+    display: 'inline-block',
+    width: '100%',
+    height: '50%',
+    border: '2pt solid black',
+    boxSizing: 'border-box',
+}
 
 let videoColor; 
 let detect;
@@ -88,7 +100,7 @@ const Room = (props) => {
     useEffect(() => { //렌더링 될 때마다 실행, peers 값 변할 때마다 렌더링
         console.log("렌더링3:  useEffect 실행 -> 소켓 통신, 디텍션 "); 
         console.log("렌더링3: videolistRef.current[0] : ", videolistRef.current[0]);
-        socketRef.current = io.connect("https://localhost:8000"); //현재 커넥트 정보 저장 
+        socketRef.current = io.connect("https://172.30.1.46:8000"); //현재 커넥트 정보 저장 
         console.log(socketRef.current) 
         
         navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: false })
@@ -194,7 +206,7 @@ const Room = (props) => {
             const formData = new FormData();
             formData.append('image', imageRef.current);
 
-            const response = await fetch('https://192.168.0.28:5000/image', { 
+            const response = await fetch('https://172.30.1.46:5000/image', { 
             method: "POST",
             body: formData,
             }).then().catch(err => console.log(err));
@@ -322,7 +334,7 @@ const Room = (props) => {
                 <StyledVideo  color={videoColor} muted ref={userVideo} autoPlay playsInline > 
                 <StyledCanvas ref={canvasRef} hidden></StyledCanvas>
                 </StyledVideo>
-                <StopWatch myID={myID} roomID={roomID} socket={socketRef.current} detect={result} watch={watch} getWatchValue={getWatchValue} />
+                <StopWatch detect={result} watch={watch} getWatchValue={getWatchValue} />
             </div>
                 {peers.map((peer, index) => {
                     return(

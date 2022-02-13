@@ -4,17 +4,33 @@ const StopWatch = (props) => {
     const [time, setTime] = useState(0);
     const [stop, setStop] = useState(true);
     const [click, setClick] = useState(true);
-    const socket = props.socket;
+
+    const buttonstyle = {
+            
+        border: "medium none",
+        display: "block",
+        fontSize: "12px",
+        padding: "0px 0px",
+        right: "0",
+        backgroundColor: "#ff0000",
+        backgroundRepeat:"no-repeat",
+        position: "absolute",
+        left: "40%",
+        top: "90%" ,
+        bottom: "0%",
+        margin: "auto", 
+        backgroundSize: "contain",
+        backgroundPosition: "center",
+        float: "right" 
+         }
     
     let stop_val = true;
 
     const sendWatchValue= () =>{
         if(props.watch === 'false'){
             props.getWatchValue('true');
-            socket.emit('false-event', { peer_tf: props.myID, dst_room: props.roomID, tf_state: 'true'})
         }else{
             props.getWatchValue('false');
-            socket.emit('false-event', { peer_tf: props.myID, dst_room: props.roomID, tf_state: 'false'})
         }
     }
 

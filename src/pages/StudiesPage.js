@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import StudiesComp from '../components/StudiesComp';
+import AllStudy from '../components/AllStudy';
 import axios from 'axios';
 
 const StudiesPage = () => {
@@ -18,6 +18,7 @@ const StudiesPage = () => {
             
             const response = await axios.get(URL);
             setStudies(response.data);
+            console.log('studies:',studies);
         } catch(e){
             setError(e);
         }
@@ -26,6 +27,7 @@ const StudiesPage = () => {
 
     useEffect(()=>{
         fetchStudies();
+        console.log('studies1:',studies);
     },[]);
 
     if(loading) return <div>loading...</div>;
@@ -37,12 +39,12 @@ const StudiesPage = () => {
             {
                 studies.map(function(study,i){
                         return(
-                            <StudiesComp study={study} i={i} key={i}/>
+                            <AllStudy study={study} i={i} key={i}/>
                         )
                     }       
                 )
             }
-            <button onClick={fetchStudies}>다시 불러오기</button>
+            {/* <button onClick={fetchStudies}>다시 불러오기</button> */}
     
         </div>
     );

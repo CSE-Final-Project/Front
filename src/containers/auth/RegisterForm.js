@@ -60,11 +60,15 @@ const RegisterForm = ({history}) => {
             console.log(auth);
             if(auth.code==='200'){
                 console.log('회원가입 성공');
+                alert('회원가입이 성공했습니다.')
                 history.push('/');
+                window.location.replace('/');
             }
-     
+            else{
+                alert('회원가입이 실패했습니다.');
+            }
         }else{
-            console.log('회원가입 실패');
+            console.log('회원가입 오류');
         }
     }, [auth, authError,dispatch,history]);
 
