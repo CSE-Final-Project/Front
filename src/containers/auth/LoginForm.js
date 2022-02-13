@@ -49,24 +49,20 @@ const LoginForm = ({history}) => {
         if (auth) {
             console.log(auth);
             if(auth.code==='200'){
-                alert('로그인이 성공했습니다.');
                 console.log('로그인 성공');
                 console.log(auth.id);
                 // dispatch(check());
                 dispatch(tempSetUser(auth.id));
-            }else{
-                alert('로그인이 실패했습니다.');
             }
      
         }else{
-            console.log('로그인 오류');
+            console.log('로그인 실패');
         }
     }, [auth, authError, dispatch,history]);
 
     useEffect(() => {
         if (user) {
             history.push('/');
-            window.location.replace('/');
             try {
             localStorage.setItem('user', user);
             // localStorage.setItem('user', JSON.stringify(user));
