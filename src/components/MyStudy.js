@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import axios from 'axios';
+import Manage from './Manage';
 
 const MyStudy = (props) => {
     const mystudy = props.mystudy;
@@ -21,7 +22,7 @@ const MyStudy = (props) => {
     }
 
     const enterManage = () =>{
-        props.history.push('/manage');
+        props.history.push('/manage/'+ mystudy_id);
     }
 
     return (

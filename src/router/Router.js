@@ -5,8 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import CreateRoom from "../components/CreateRoom";
 import Room from "../components/Room";
-import StopWatch from '../components/StopWatch';
-
+import Manage from '../components/Manage';
 
 import StudyCreate from '../pages/StudyCreatePage/StudyCreate';
 
@@ -15,6 +14,7 @@ import LoginPage from '../pages/LoginPage';
 import RegisterPage from '../pages/RegisterPage';
 import StudiesPage from '../pages/StudiesPage';
 import MyStudyPage from '../pages/MyStudyPage';
+import ManagePage from '../pages/ManagePage';
 
 import styled from 'styled-components';
 import HeaderContainer from '../containers/common/HeaderContainer';
@@ -58,6 +58,7 @@ const Router = () => {
                     <Route component={RegisterPage} path={'/register'} exact />
                     <Route component={StudiesPage} path={'/studies'} exact />
                     <Route component={MyStudyPage} path={'/studies/my'} exact />
+                    <Route component={ManagePage} path={'/manage/:studyID'} exact />
                 </Switch>
             </Wrapper>
             <Footer />
