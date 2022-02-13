@@ -25,7 +25,7 @@ const CreateRoom = (props) => {
 				<div>
 					<button type='button' className="button_style" onClick={create}>방 새로 만들기</button>	
 				</div>
-				{/* <div>
+				<div>
 					<button type='button' className="button_style">
 						<Link to="enterRoom/1">1번 방</Link>				
 					</button>
@@ -39,12 +39,12 @@ const CreateRoom = (props) => {
 					<button type='button' className="button_style">
 						<Link to="enterRoom/3">3번 방</Link>				
 					</button>
-				</div> */}
-				{/* <div>
+				</div>
+				<div>
 					<button type='button' className="button_style">
 						<Link to="/cal/study">총 공부시간</Link>				
 					</button>
-				</div>	          */}
+				</div>	         
 			</div>			
 		</div>
 	    </>

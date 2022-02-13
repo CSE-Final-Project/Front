@@ -47,7 +47,7 @@ const StudyCreate = (props) => {
     const {inputs,submitting,handleChange,handleSubmit} = useForm({
       initialValues: {study_id: "",title:"",topic:"",target_time:"",penalty:"",info:""},
       onSubmit: (inputs) => {
-        // alert(JSON.stringify(inputs,null,2));
+        alert(JSON.stringify(inputs,null,2));
   
         const fetchData = async()=>{
           try{
@@ -57,7 +57,6 @@ const StudyCreate = (props) => {
             if(response.data.code === "200"){
               console.log('study_id:',inputs.study_id);
               // sessionStorage.setItem('user',inputs.id);
-              alert('스터디가 생성되었습니다.');
               window.location.replace('/');
             }
           }
