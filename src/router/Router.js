@@ -14,6 +14,7 @@ import PostListPage from '../pages/PostListPage';
 import LoginPage from '../pages/LoginPage';
 import RegisterPage from '../pages/RegisterPage';
 import StudiesPage from '../pages/StudiesPage';
+import MyStudyPage from '../pages/MyStudyPage';
 
 import styled from 'styled-components';
 import HeaderContainer from '../containers/common/HeaderContainer';
@@ -56,6 +57,7 @@ const Router = () => {
                     <Route component={LoginPage} path={'/login'} exact />
                     <Route component={RegisterPage} path={'/register'} exact />
                     <Route component={StudiesPage} path={'/studies'} exact />
+                    <Route component={MyStudyPage} path={'/studies/my'} exact />
                 </Switch>
             </Wrapper>
             <Footer />
