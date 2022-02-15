@@ -5,7 +5,7 @@ import Penalty from '../components/manage/Penalty';
 
 const ManagePage = (props) => {
     const studyID = props.match.params.studyID;
-    console.log(studyID);
+    // console.log(studyID);
     let [tab, setTab] = useState(1);
 
 
