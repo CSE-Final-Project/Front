@@ -353,6 +353,7 @@ const Room = (props) => {
         console.log('최종 공부시간(초):',studyTime_total/1000);
         fetchStudyTime();
         props.history.push('/');
+        // window.location.replace('/');
     }
 
     return (
