@@ -3,6 +3,7 @@ import io from "socket.io-client";
 import Peer from "simple-peer";
 import styled, {css} from "styled-components";
 import StopWatch from './StopWatch';
+import axios from 'axios';
 
 console.log("렌더링0"); 
 
@@ -113,13 +114,13 @@ const Room = (props) => {
                     console.log("추가된 peers:", peers);
                     console.log("peers[0]: " , peers[0]); 
              
-                    console.log(JSON.stringify(peers)); 
+                    // console.log(JSON.stringify(peers)); 
                     console.log(JSON.stringify(peersRef.current)); 
                 })
                 setPeers(peers); //peers 업데이트 -> 재렌더링
                  
                 console.log("peer목록 업데이트 후: " ,peers);  //첫 접속자는 null, forEach  실행 안함
-                console.log(JSON.stringify(peersRef.current)); 
+                // console.log(JSON.stringify(peersRef.current)); 
             })
 
 
@@ -226,9 +227,8 @@ const Room = (props) => {
                     if(watch === 'false'){
                         detect.result = 'false';
                         console.log('4>(Room)detect 변경: ',detect.result);
-                    }else{
-                        console.log('~~watch_test~~');
                     }
+
                     console.log('5>(Room)두번째 detect: ',detect.result);
 
                     if(detect.result === 'true'){
@@ -330,8 +330,33 @@ const Room = (props) => {
         })
     };
 
+    const fetchStudyTime = async () => {
+        try{
+            const response = await axios.post('/api/studies/totalStudyTime',{total:studyTime_total/1000});
+            console.log(response.data);
+            if(response.data.code==="200"){
+                window.location.replace('/');
+            }
+        }catch(e){
+            console.log(e);
+        }
+    }
+
+    const enterHome = () =>{
+        if((yn_arr[0]+yn_arr[1])==0){
+            now_no=new Date();
+            studyTime=now_no.getTime()-now_yes.getTime();
+            studyTime_total+=studyTime;
+            console.log('YES상태에서 나가기 누름');
+        }
+    
+        console.log('최종 공부시간(초):',studyTime_total/1000);
+        fetchStudyTime();
+        props.history.push('/');
+    }
+
     return (
-      
+        <>
            <Container>
             <div style = {{position: 'relative', height: '45%', width: '45%', margin: '0.5%', border: '2pt solid black'}}>
                 <StyledVideo  color={videoColor} muted ref={userVideo} autoPlay playsInline > 
@@ -346,8 +371,10 @@ const Room = (props) => {
                         </div>
                         )
                
-                    })}
+                })}
             </Container>
+            <button onClick={()=>{enterHome()}}>나가기</button>
+        </>
     );
 };
 
