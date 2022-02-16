@@ -1,12 +1,23 @@
 import React from 'react';
+import {Card} from 'react-bootstrap';
 
 const PenaltyCard = (props) => {
     const penalty = props.penalty;
     return (
         <div>
-            아이디: {penalty.user_id} <br/>
-            벌금: {penalty.total_penalty}
-            <hr/>
+            <br/>
+            <Card>
+                <Card.Header>{penalty.user_id}</Card.Header>
+                <Card.Body>
+                    <blockquote className="blockquote mb-0">
+                    <p>
+                        {' '}
+                        {penalty.total_penalty}원{' '}
+                    </p>
+                    
+                    </blockquote>
+                </Card.Body>
+            </Card>
         </div>
     );
 };
