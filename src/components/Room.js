@@ -91,7 +91,7 @@ const Room = (props) => {
     useEffect(() => { //렌더링 될 때마다 실행, peers 값 변할 때마다 렌더링
         console.log("렌더링3:  useEffect 실행 -> 소켓 통신, 디텍션 "); 
         console.log("렌더링3: videolistRef.current[0] : ", videolistRef.current[0]);
-        socketRef.current = io.connect("https://10.200.130.41:8000"); //현재 커넥트 정보 저장 
+        socketRef.current = io.connect("https://10.200.130.237:8000"); //현재 커넥트 정보 저장 
         console.log(socketRef.current) 
         
         navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: false })
@@ -199,6 +199,8 @@ const Room = (props) => {
     useEffect(()=>{
         const interval = setInterval(async () => {
             console.log('[interval 실행]');
+            // const roomID = props.match.params.roomID;
+            // console.log('roomID:',roomID);
 
             captureImageFromCamera();
 
@@ -206,7 +208,7 @@ const Room = (props) => {
                 const formData = new FormData();
                 formData.append('image', imageRef.current);
 
-                const response = await fetch('https://10.200.130.41:5000/image', { 
+                const response = await fetch('https://10.200.130.237:5000/image', { 
                 method: "POST",
                 body: formData,
                 }).then().catch(err => console.log(err));
@@ -332,7 +334,9 @@ const Room = (props) => {
 
     const fetchStudyTime = async () => {
         try{
-            const response = await axios.post('/api/studies/totalStudyTime',{total:studyTime_total/1000});
+            const roomID = props.match.params.roomID;
+            console.log('roomID:',roomID);
+            const response = await axios.post('/api/studies/time/'+roomID,{study_time:studyTime_total/1000});
             console.log(response.data);
             if(response.data.code==="200"){
                 window.location.replace('/');

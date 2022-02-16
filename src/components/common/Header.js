@@ -26,13 +26,14 @@ const Header2 = ({user, onLogout}) => {
                             user? (
                                 <>
                                     <Nav.Link onClick={onLogout}>로그아웃</Nav.Link>
+                                    <Nav.Link href="/studies/my">참여 중인 스터디</Nav.Link>
+                            <Nav.Link href="/studies">스터디 목록</Nav.Link>
                                 </>
                             ) : (
                                 <Nav.Link href="/login">로그인</Nav.Link>
                             )
                         }
-                        <Nav.Link href="/studies/my">참여 중인 스터디</Nav.Link>
-                        <Nav.Link href="/studies">스터디 목록</Nav.Link>
+                        
                         </Nav>
                     </Offcanvas.Body>
                     </Navbar.Offcanvas>
