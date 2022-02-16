@@ -2,9 +2,10 @@ import React, { useEffect,useState} from 'react';
 import styled from "styled-components";
 import axios from 'axios';
 import useForm from './useForm_studyCreate';
+import {Form,Button} from 'react-bootstrap';
 
 const Container = styled.div`
-  margin-top: 100px;
+  margin-top: 10px;
   padding: 20px;
 `;
 
@@ -20,26 +21,26 @@ const Input = styled.input`
   box-sizing: border-box;
 `;
 
-const Button = styled.div`
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 49px;
-  display: block;
-  width: 100%;
-  height: 49px;
-  margin: 16px 0 7px;
-  cursor: pointer;
-  text-align: center;
-  color: #fff;
-  border: none;
-  border-radius: 0;
-  background-color: #ff8c00;
-  ${({ disabled }) =>
-    disabled &&
-    `
-    background-color: #efefef;
-  `}
-`;
+// const Button = styled.div`
+//   font-size: 18px;
+//   font-weight: 700;
+//   line-height: 49px;
+//   display: block;
+//   width: 100%;
+//   height: 49px;
+//   margin: 16px 0 7px;
+//   cursor: pointer;
+//   text-align: center;
+//   color: #fff;
+//   border: none;
+//   border-radius: 0;
+//   background-color: #ff8c00;
+//   ${({ disabled }) =>
+//     disabled &&
+//     `
+//     background-color: #efefef;
+//   `}
+// `;
 
 const StudyCreate = (props) => {
     const URL = '/api/studies';
@@ -72,47 +73,66 @@ const StudyCreate = (props) => {
       
     return (
       <>
-      
       <Container>
-        <form onSubmit={handleSubmit}>        
-          <Input  
+        <Form onSubmit={handleSubmit}>
+
+          <Form.Group className="mb-3" >
+            <Form.Label>study_id</Form.Label>
+            <Form.Control 
             name="study_id" 
             value = {inputs.study_id}
             onChange={handleChange}
-            placeholder="study_id를 입력해주세요" 
-          />
-          <Input  
+            placeholder="study_id를 입력해주세요"  />
+          </Form.Group>
+
+          <Form.Group className="mb-3" >
+            <Form.Label>title</Form.Label>
+            <Form.Control 
             name="title" 
-            value = {inputs.title}
+            value = {inputs.title} 
             onChange={handleChange}
-            placeholder="title을 입력해주세요" 
-          />
-          <Input  
-            name="topic" 
+            placeholder="title을 입력해주세요" />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>topic</Form.Label>
+            <Form.Control name="topic" 
             value = {inputs.topic}
             onChange={handleChange}
-            placeholder="topic을 입력해주세요" 
-          />
-          <Input  
-            name="target_time" 
+            placeholder="topic을 입력해주세요"  />
+          </Form.Group>
+
+          <Form.Group className="mb-3" >
+            <Form.Label>target_time</Form.Label>
+            <Form.Control name="target_time" 
             value = {inputs.target_time}
             onChange={handleChange}
-            placeholder="target_time을 입력해주세요" 
-          />
-          <Input  
-            name="penalty" 
+            placeholder="target_time을 입력해주세요"  />
+          </Form.Group>
+
+          <Form.Group className="mb-3" >
+            <Form.Label>penalty</Form.Label>
+            <Form.Control name="penalty" 
             value = {inputs.penalty}
             onChange={handleChange}
-            placeholder="penalty를 입력해주세요" 
-          />
-          <Input
-            name="info"
+            placeholder="penalty를 입력해주세요"  />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>info</Form.Label>
+            <Form.Control name="info"
             value = {inputs.info}
             onChange={handleChange}
-            placeholder="info를 입력해주세요"
-          />
-          <button type ="submit" disabled={submitting}>스터디 생성하기</button>        
-        </form>
+            placeholder="info를 입력해주세요" />
+          </Form.Group>
+
+          <div className="d-grid gap-2">
+          <Button variant="primary" size="lg" type ="submit" disabled={submitting}>
+            Submit
+          </Button>
+          </div>
+          
+        </Form>
       </Container>
       </>
     );
