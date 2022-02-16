@@ -58,8 +58,8 @@ const MyStudy = (props) => {
                     {
                         (localStorage.getItem('user')===mystudy.leader)?
                         <>
-                            <Button size="sm" onClick={() => {recruited()}}>모집 완료</Button>&nbsp;
-                            <Button size="sm" onClick={() => {deleteStudy()}}>삭제</Button>
+                            <Button size="sm" variant="warning" onClick={() => {recruited()}}>모집 완료</Button>&nbsp;
+                            <Button size="sm" variant="warning" onClick={() => {deleteStudy()}}>삭제</Button>
                         </>
                         :
                         null
