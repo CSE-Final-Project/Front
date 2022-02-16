@@ -33,7 +33,7 @@ const Attendance = (props) => {
         }
     }
     weekInfo.reverse();
-    console.log("weekInfo: ", weekInfo);
+    //console.log("weekInfo: ", weekInfo);
     
     var resultlist = []; //{}에서 배열로 바꿈
     console.log('5. resultlist: -> {}이어야 정상' ,resultlist);
@@ -58,7 +58,7 @@ const Attendance = (props) => {
     //리팩토링, 인자로 넘겨주고 changeDate로 합치기
     const changeBefore = () => {
             var new_date = new Date(new Date().setDate(today.getDate() - 7))
-            console.log('날짜 바꾸기')
+            //console.log('날짜 바꾸기')
             month = new_date.getMonth()+1; 
             date = new_date.getDate(); 
             dayLabel = new_date.getDay();
@@ -80,7 +80,7 @@ const Attendance = (props) => {
 
     const changeAfter = () => {
             var new_date = new Date(new Date().setDate(today.getDate() + 7))
-            console.log('날짜 바꾸기')
+            //console.log('날짜 바꾸기')
             month = new_date.getMonth()+1; 
             date = new_date.getDate(); 
             dayLabel = new_date.getDay();
@@ -144,15 +144,17 @@ const Attendance = (props) => {
     //    }, 2000);
     },[]); 
 
+    
     //문제: atten, mate set 되고 나면 바로 resultlist 초기화 되어버림..if문 수행하지도 않았는데.. 어떻게..??
         if(atten&&mate){
         console.log('5. if 블록 렌더링')
         console.log('5. resultlist: -> {}이어야 정상' ,resultlist);
-        var attendlist=[null, null, null, null, null, null, null];
+        
        // weekInfo.reverse();
         var list = Object.values(atten)
 
         for(var i=0; i< Object.keys(mate).length; i++){
+            var attendlist=[null, null, null, null, null, null, null];
             console.log('5. i for문: ' ,i, "번째");
             var matename = mate[i];  //mate 이름 추출
             console.log('5. mate[i]: ' , mate[i], ' i: ',i);
@@ -195,6 +197,7 @@ const Attendance = (props) => {
             } 
         console.log('5. for문 이후 resultlist:' ,resultlist);
    }  
+   
 
 
    const weekTabParentStyle = {
@@ -252,7 +255,7 @@ const Attendance = (props) => {
 
 
     /*
-    //var resultlist = {};
+    var resultlist =[];
     var attendlist=[null, null, null, null, null, null, null];
     weekInfo.reverse();
 
@@ -264,10 +267,12 @@ const Attendance = (props) => {
             //var obj = list.filter(data => data.user_id == mate[i]) 여기까지 한다면?
             var obj = list.filter(data => data.user_id == mate[i]).map(data => data.attendance);
             console.log('추출 결과:' ,obj);
-            resultlist[matename] = obj;
+            //resultlist[matename] = obj;
+            resultlist.push(obj);
     } 
     console.log('resultlist:' ,resultlist);
     } */
+
 
 
     if(loading) return <div>loading...</div>;
@@ -307,10 +312,10 @@ const Attendance = (props) => {
                     }
                 </div>
                 
-                <div>
+               <div>
                     {resultlist.map((x,i) =>{
-                        console.log('in JSX: ', x);
-                        console.log('in JSX: ', x[0]);
+                        //console.log('in JSX: ', x);
+                        //console.log('in JSX: ', x[0]);
                          return (
                             <div key={i}>
                                 <ul>
@@ -319,7 +324,7 @@ const Attendance = (props) => {
                             </div>  
                         )
                     })} 
-          </div>
+                </div>
             </div>
             {/*{
                 atten&&atten.map(function(atten,i){
