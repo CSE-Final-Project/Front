@@ -2,6 +2,11 @@ import React, { useEffect, useState } from 'react';
 import AllStudy from '../components/AllStudy';
 import axios from 'axios';
 import { Button } from 'react-bootstrap';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  padding: 20px;
+`;
 
 const StudiesPage = () => {
     const URL = '/api/studies';
@@ -36,7 +41,7 @@ const StudiesPage = () => {
     if(!studies) return null;
 
     return (
-        <div>
+        <Container>
             <Button variant="warning" 
             style={{position: 'absolute', right: 0, marginRight: "30px"}}
             href="/studyCreate"
@@ -50,7 +55,7 @@ const StudiesPage = () => {
                 )
             }
     
-        </div>
+        </Container>
     );
 };
 
