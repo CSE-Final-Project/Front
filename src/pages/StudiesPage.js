@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import AllStudy from '../components/AllStudy';
 import axios from 'axios';
+import { Button } from 'react-bootstrap';
 
 const StudiesPage = () => {
     const URL = '/api/studies';
@@ -36,6 +37,10 @@ const StudiesPage = () => {
 
     return (
         <div>
+            <Button variant="warning" 
+            style={{position: 'absolute', right: 0, marginRight: "30px"}}
+            href="/studyCreate"
+            >+</Button><br/>
             {
                 studies.map(function(study,i){
                         return(
@@ -44,7 +49,6 @@ const StudiesPage = () => {
                     }       
                 )
             }
-            {/* <button onClick={fetchStudies}>다시 불러오기</button> */}
     
         </div>
     );
