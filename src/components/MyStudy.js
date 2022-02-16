@@ -28,6 +28,10 @@ const MyStudy = (props) => {
           });
     }
 
+    const recruited = () => {
+        console.log('모집완료');
+    }
+
     return (
         <div>
             <br/>
@@ -46,6 +50,13 @@ const MyStudy = (props) => {
                     <Button onClick={() => {fetchRoom()}}>공부 시작</Button>
                     &nbsp;
                     <Button onClick={() => {enterManage()}}>관리</Button>
+                    &nbsp;
+                    {
+                        (localStorage.getItem('user')===mystudy.leader)?
+                        <Button onClick={() => {recruited()}}>모집 완료</Button>
+                        :
+                        null
+                    }
                 </Card.Body>
             </Card>
         </div>
