@@ -28,6 +28,14 @@ const MyStudy = (props) => {
           });
     }
 
+    const recruited = () => {
+        console.log('모집완료');
+    }
+
+    const deleteStudy = () => {
+        console.log('스터디 삭제');
+    }
+
     return (
         <div>
             <br/>
@@ -43,9 +51,19 @@ const MyStudy = (props) => {
                         방장이름: {mystudy.leader} <br/>
                         스터디 아이디: {mystudy.id} <br/>
                     </Card.Text>
-                    <Button onClick={() => {fetchRoom()}}>공부 시작</Button>
+                    <Button size="sm" onClick={() => {fetchRoom()}}>공부 시작</Button>
                     &nbsp;
-                    <Button onClick={() => {enterManage()}}>관리</Button>
+                    <Button size="sm" onClick={() => {enterManage()}}>관리</Button>
+                    &nbsp; 
+                    {
+                        (localStorage.getItem('user')===mystudy.leader)?
+                        <>
+                            <Button size="sm" variant="warning" onClick={() => {recruited()}}>모집 완료</Button>&nbsp;
+                            <Button size="sm" variant="warning" onClick={() => {deleteStudy()}}>삭제</Button>
+                        </>
+                        :
+                        null
+                    }
                 </Card.Body>
             </Card>
         </div>
