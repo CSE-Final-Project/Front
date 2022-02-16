@@ -1,7 +1,11 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import PenaltyCard from './PenaltyCard';
+import styled from 'styled-components';
 
+const Container = styled.div`
+  padding: 20px;
+`;
 const Penalty = (props) => {
     const studyID = props.studyID;
     const URL ='/api/studies/penalty/'+studyID;
@@ -28,7 +32,7 @@ const Penalty = (props) => {
     if(!penalty) return null;
 
     return (
-        <div>
+        <Container>
             {
                 penalty.map(function(penalty,i){
                     return(
@@ -36,7 +40,7 @@ const Penalty = (props) => {
                     )
                 })
             }
-        </div>
+        </Container>
     );
 };
 
