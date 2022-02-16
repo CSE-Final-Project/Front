@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import axios from 'axios';
+import {Card,Button} from 'react-bootstrap';
 
 const MyStudy = (props) => {
     const mystudy = props.mystudy;
@@ -29,15 +30,24 @@ const MyStudy = (props) => {
 
     return (
         <div>
-            <h3>title: {mystudy.title}</h3>
-            스터디아이디: {mystudy.id} <br/>
-            방장: {mystudy.leader} <br/>
-            목표시간: {mystudy.target_time} <br/>
-            벌금: {mystudy.penalty} <br/>
-            정보: {mystudy.info} <br/>
-            <button onClick={()=>{fetchRoom()}}>공부 시작</button>
-            <button onClick={()=>{enterManage()}}>관리</button>
-            <hr/>
+            <br/>
+            <Card>
+                <Card.Header>{mystudy.topic}</Card.Header>
+                <Card.Body>
+                    <Card.Title>{mystudy.title}</Card.Title>
+                    <Card.Text>
+                        목표 시간: {mystudy.target_time} <br/>
+                        멤버 수: {mystudy.member_number} <br/>
+                        하루 벌금: {mystudy.penalty} <br/>
+                        스터디 정보: {mystudy.info} <br/>
+                        방장이름: {mystudy.leader} <br/>
+                        스터디 아이디: {mystudy.id} <br/>
+                    </Card.Text>
+                    <Button onClick={() => {fetchRoom()}}>공부 시작</Button>
+                    &nbsp;
+                    <Button onClick={() => {enterManage()}}>관리</Button>
+                </Card.Body>
+            </Card>
         </div>
     );
 };

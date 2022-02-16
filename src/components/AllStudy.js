@@ -1,6 +1,7 @@
 import React,{useState, useEffect} from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import {Card,Button} from 'react-bootstrap';
 
 const StudiesComp = (props) => {
     const study = props.study;
@@ -38,16 +39,23 @@ const StudiesComp = (props) => {
 
     return (
         <div>
-            <h1>{study.title}</h1>
-            스터디 아이디: {study.id} <br/>
-            방장이름: {study.leader} <br/>
-            주제: {study.topic} <br/>
-            목표 시간: {study.target_time} <br/>
-            멤버 수: {study.member_number} <br/>
-            하루 벌금: {study.penalty} <br/>
-            스터디 정보: {study.info} <br/>
-            <button onClick={() => {fetchJoin()}}>가입</button>
-            <hr/>
+            <br/>
+            <Card>
+                <Card.Header>{study.topic}</Card.Header>
+                <Card.Body>
+                    <Card.Title>{study.title}</Card.Title>
+                    <Card.Text>
+                        목표 시간: {study.target_time} <br/>
+                        멤버 수: {study.member_number} <br/>
+                        하루 벌금: {study.penalty} <br/>
+                        스터디 정보: {study.info} <br/>
+                        방장이름: {study.leader} <br/>
+                        스터디 아이디: {study.id} <br/>
+                    </Card.Text>
+                    <Button onClick={() => {fetchJoin()}}>JOIN</Button>
+                </Card.Body>
+            </Card>
+            
         </div>
     );
 };
