@@ -42,10 +42,15 @@ const StudiesPage = () => {
 
     return (
         <Container>
-            <Button variant="warning" 
+            <div className="d-grid gap-2">
+            <Button variant="warning" size="lg" href="/studyCreate" >
+                +
+            </Button>
+            </div>
+            {/* <Button variant="warning" 
             style={{position: 'absolute', right: 0, marginRight: "30px"}}
             href="/studyCreate"
-            >+</Button><br/>
+            >+</Button><br/> */}
             {
                 studies.map(function(study,i){
                         return(
