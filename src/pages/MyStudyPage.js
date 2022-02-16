@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import MyStudy from '../components/MyStudy';
 import { withRouter } from 'react-router';
+import { Button } from 'react-bootstrap';
 
 const MyStudyPage = () => {
     const URL = '/api/users/studies';
@@ -41,6 +42,11 @@ const MyStudyPage = () => {
                     )
                 })
             }
+            <Button variant="warning" 
+            style={{position: 'absolute', right: 0, marginRight: "30px"}}
+            href="/studyCreate"
+            >+</Button>
+            
         </div>
     );
 };

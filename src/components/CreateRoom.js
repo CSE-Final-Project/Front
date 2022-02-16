@@ -19,9 +19,9 @@ const CreateRoom = (props) => {
         <>
 		<div className="container" >
 			<div className="item_5">
-				<div>
+				{/* <div>
 					<button type='button' className="button_style" onClick={studyCreate}>스터디 생성하기</button>	
-				</div>
+				</div> */}
 				<div>
 					<button type='button' className="button_style" onClick={create}>방 새로 만들기</button>	
 				</div>
