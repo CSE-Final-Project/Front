@@ -24,7 +24,7 @@ const MyStudy = (props) => {
     const enterManage = () =>{
         props.history.push({ //import {useHistory} from "react-router";
             pathname: '/manage/'+ mystudy_id,
-            state: {studyTitle: mystudy.title}
+            state: {studyTitle: mystudy.title, startDate: mystudy.date_start}
           });
     }
 

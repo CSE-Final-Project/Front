@@ -34,10 +34,10 @@ const Attendance = (props) => {
     
     var resultlist = {};
 
-    var startday = "2022-02-09"
+   var startday = props.startdate;
     var isInclude = false;
-    var startdate = Number(startday.slice(-2)); 
-    var startmonth = Number(startday.slice(5,7)); 
+    var startdate = Number(startday.slice(8,10)); 
+    var startmonth = Number(startday.slice(5,7));
     if(weekInfo.findIndex(i => i.date == startdate) > -1 && startmonth==month){
          isInclude = true;
     }

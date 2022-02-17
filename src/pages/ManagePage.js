@@ -9,6 +9,7 @@ const ManagePage = (props) => {
     let [tab, setTab] = useState(1);
 
     const title = props.location.state.studyTitle; 
+    const startdate = props.location.state.startDate; 
 
     const titleStyle = {
         position: 'relative',
@@ -39,9 +40,9 @@ const ManagePage = (props) => {
             </Nav>
             {
                 (tab===1)?
-                <Attendance studyID={studyID}/>
+                <Attendance studyID={studyID} startdate={startdate}/>
                 :
-                <Penalty studyID={studyID}/>
+                <Penalty studyID={studyID} startdate={startdate}/>
             }
         </div>
     );
