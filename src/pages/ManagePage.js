@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { Nav } from 'react-bootstrap';
 import Attendance from '../components/manage/Attendance';
 import Penalty from '../components/manage/Penalty';
+import TimeRecord from '../components/manage/TimeRecord';
 
 const ManagePage = (props) => {
     const studyID = props.match.params.studyID;
     // console.log(studyID);
-    let [tab, setTab] = useState(1);
+    let [tab, setTab] = useState(1); //let -> const
 
     const title = props.location.state.studyTitle; 
     const startdate = props.location.state.startDate; 
@@ -37,13 +38,18 @@ const ManagePage = (props) => {
                 <Nav.Item>
                     <Nav.Link eventKey="link-2" onClick={()=>{setTab(2)}}>벌금 정산</Nav.Link>
                 </Nav.Item>
+                <Nav.Item>
+                    <Nav.Link eventKey="link-3" onClick={()=>{setTab(3)}}>공부 시간</Nav.Link>
+                </Nav.Item>
             </Nav>
-            {
-                (tab===1)?
-                <Attendance studyID={studyID} startdate={startdate}/>
-                :
-                <Penalty studyID={studyID} startdate={startdate}/>
-            }
+            {(() => {
+                switch (tab) {
+                    case 1: return <Attendance studyID={studyID} startdate={startdate}/>;
+                    case 2: return <Penalty studyID={studyID} startdate={startdate}/>;
+                    case 3: return <TimeRecord studyID={studyID} startdate={startdate}/>
+                    default: return <Attendance studyID={studyID} startdate={startdate}/>
+                }
+            })()}
         </div>
     );
 };
