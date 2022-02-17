@@ -14,6 +14,8 @@ import RegisterPage from '../pages/RegisterPage';
 import StudiesPage from '../pages/StudiesPage';
 import MyStudyPage from '../pages/MyStudyPage';
 import ManagePage from '../pages/ManagePage';
+import LoginTruePage from '../pages/LoginTruePage';
+import LoginFalsePage from '../pages/LoginFalsePage';
 
 import styled from 'styled-components';
 import HeaderContainer from '../containers/common/HeaderContainer';
@@ -41,12 +43,12 @@ const Router = () => {
             <Wrapper>
                 <HeaderContainer/>
                 <Switch>    
-                    {/* {isLogin ? (
-                        <Route path="/" exact component={CreateRoom} />
+                    {isLogin ? (
+                        <Route path="/" exact component={LoginTruePage} />
                     ):(
-                        <Route path="/" exact component={LoginPage} />
-                    )} */}
-                    <Route path="/" exact component={CreateRoom} />
+                        <Route path="/" exact component={LoginFalsePage} />
+                    )}
+                    {/* <Route path="/" exact component={CreateRoom} /> */}
                     <Route path="/room/:roomID" component={Room} />
                     <Route path="/studyCreate" component={StudyCreate} />
 

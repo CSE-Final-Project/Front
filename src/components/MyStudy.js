@@ -37,6 +37,7 @@ const MyStudy = (props) => {
             console.log(response.data);
             if(response.data.code==="200"){
                 console.log('모집완료 확인');
+                window.location.replace('/studies/my');
             }
         }catch(e){
             console.log(e);
@@ -50,6 +51,7 @@ const MyStudy = (props) => {
             console.log(response.data);
             if(response.data.code === 200 ){
                 console.log('삭제 확인');
+                window.location.replace('/studies/my');
             }
         }catch(e){
             console.log(e);
@@ -71,14 +73,28 @@ const MyStudy = (props) => {
                         방장이름: {mystudy.leader} <br/>
                         스터디 아이디: {mystudy.id} <br/>
                     </Card.Text>
-                    <Button size="sm" onClick={() => {fetchRoom()}}>공부 시작</Button>
-                    &nbsp;
-                    <Button size="sm" onClick={() => {enterManage()}}>관리</Button>
-                    &nbsp; 
+                    {
+                        (mystudy.is_recruit===false)?
+                        <>
+                            <Button size="sm" onClick={() => {fetchRoom()}}>공부 시작</Button>
+                            &nbsp;
+                            <Button size="sm" onClick={() => {enterManage()}}>관리</Button>
+                            &nbsp; 
+                        </>
+                        :
+                        null
+                    }
+                    {
+                        (mystudy.is_recruit===true && localStorage.getItem('user')===mystudy.leader)?
+                        <>
+                            <Button size="sm" variant="warning" onClick={() => {recruited()}}>모집 완료</Button>&nbsp;
+                        </>
+                        :
+                        null
+                    }
                     {
                         (localStorage.getItem('user')===mystudy.leader)?
                         <>
-                            <Button size="sm" variant="warning" onClick={() => {recruited()}}>모집 완료</Button>&nbsp;
                             <Button size="sm" variant="warning" onClick={() => {deleteStudy()}}>삭제</Button>
                         </>
                         :
