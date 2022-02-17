@@ -37,6 +37,7 @@ const MyStudy = (props) => {
             console.log(response.data);
             if(response.data.code==="200"){
                 console.log('모집완료 확인');
+                window.location.replace('/studies/my');
             }
         }catch(e){
             console.log(e);
@@ -50,6 +51,7 @@ const MyStudy = (props) => {
             console.log(response.data);
             if(response.data.code === 200 ){
                 console.log('삭제 확인');
+                window.location.replace('/studies/my');
             }
         }catch(e){
             console.log(e);
