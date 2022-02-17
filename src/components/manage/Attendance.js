@@ -44,7 +44,7 @@ const Attendance = (props) => {
 
     const studyId = props.studyID;
     const URL1 = '/api/studies/attendance/'+studyId;
-    const URL2 = '/api/studies//mates/'+studyId;
+    const URL2 = '/api/studies/mates/'+studyId; //url 중간에 //있었는데 에러 x
     const [atten,setAtten]=useState(null); 
     const [mate,setMate]=useState(null);
     const [loading, setLoading] = useState(false);
@@ -161,7 +161,8 @@ const Attendance = (props) => {
     }
 
     const weekTabChildStyle = {
-        width: '10%'
+        width: '10%',
+        textAlign: 'center'
     }
 
     const weekTabMonthStyle = {
@@ -175,7 +176,7 @@ const Attendance = (props) => {
     const weekTabLeftButtonStyle = {
         visibility: isInclude ? 'hidden' : 'visible',
         width: '10%',
-        textAlign: 'left',
+        textAlign: 'center',
         paddingTop: '1.5%' //세로 정렬
     }
 
@@ -183,7 +184,7 @@ const Attendance = (props) => {
     const weekTabRightButtonStyle = {
         visibility: JSON.stringify(compare1)===JSON.stringify(compare2) ? 'hidden' : 'visible',
         width: '10%',
-        textAlign: 'left',
+        textAlign: 'center',
         paddingTop: '1.5%'
     }
 
@@ -203,7 +204,7 @@ const Attendance = (props) => {
 
     const onecheckStyle = {
         width: '10%',
-        paddingLeft: '4.7%', //간격
+        paddingLeft: '9%', //간격
         paddingBottom: '2%'  //세로 위치
     }
 
@@ -211,7 +212,7 @@ const Attendance = (props) => {
         width: '15.5%',
         textAlign: 'right',
         fontSize: 'large', 
-        paddingRight: '3%',
+       // paddingRight: '3%',
     }
 
     const nullStyle = {
