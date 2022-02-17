@@ -336,7 +336,7 @@ const Room = (props) => {
         try{
             const roomID = props.match.params.roomID;
             console.log('roomID:',roomID);
-            const response = await axios.post('/api/studies/time/'+roomID,{study_time:studyTime_total/1000});
+            const response = await axios.patch('/api/studies/time/'+roomID,{study_time:studyTime_total/1000});
             console.log(response.data);
             if(response.data.code==="200"){
                 window.location.replace('/');
