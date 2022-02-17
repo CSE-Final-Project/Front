@@ -2,6 +2,11 @@ import React, { useEffect, useState } from 'react';
 import AllStudy from '../components/AllStudy';
 import axios from 'axios';
 import { Button } from 'react-bootstrap';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  padding: 20px;
+`;
 
 const StudiesPage = () => {
     const URL = '/api/studies';
@@ -36,11 +41,16 @@ const StudiesPage = () => {
     if(!studies) return null;
 
     return (
-        <div>
-            <Button variant="warning" 
+        <Container>
+            <div className="d-grid gap-2">
+            <Button variant="warning" size="lg" href="/studyCreate" >
+                +
+            </Button>
+            </div>
+            {/* <Button variant="warning" 
             style={{position: 'absolute', right: 0, marginRight: "30px"}}
             href="/studyCreate"
-            >+</Button><br/>
+            >+</Button><br/> */}
             {
                 studies.map(function(study,i){
                         return(
@@ -50,7 +60,7 @@ const StudiesPage = () => {
                 )
             }
     
-        </div>
+        </Container>
     );
 };
 

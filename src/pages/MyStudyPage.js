@@ -2,6 +2,11 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import MyStudy from '../components/MyStudy';
 import { withRouter } from 'react-router';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  padding: 20px;
+`;
 
 const MyStudyPage = () => {
     const URL = '/api/users/studies';
@@ -33,7 +38,7 @@ const MyStudyPage = () => {
     if(!myStudy) return null;
 
     return (
-        <div>
+        <Container>
             {
                 myStudy.map(function(mystudy, i){
                     return(
@@ -41,7 +46,7 @@ const MyStudyPage = () => {
                     )
                 })
             }
-        </div>
+        </Container>
     );
 };
 
