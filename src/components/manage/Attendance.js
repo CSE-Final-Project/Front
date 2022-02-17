@@ -34,7 +34,7 @@ const Attendance = (props) => {
     
     var resultlist = {};
 
-   var startday = props.startdate;
+    var startday = props.startdate;
     var isInclude = false;
     var startdate = Number(startday.slice(8,10)); 
     var startmonth = Number(startday.slice(5,7));
