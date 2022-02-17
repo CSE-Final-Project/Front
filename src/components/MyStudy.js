@@ -7,11 +7,13 @@ const MyStudy = (props) => {
     const mystudy = props.mystudy;
     const mystudy_id = mystudy.id;
 
-    const URL = '/api/studies/do/'+mystudy_id;
+    const URL_room = '/api/studies/do/'+mystudy_id;
+    const URL_recruit = '/api/studies/completed/'+mystudy_id;
+    const URL_delete = '/api/studies/setting/'+mystudy_id;
 
     const fetchRoom = async () => {
         try{
-            const response = await axios.get(URL);
+            const response = await axios.get(URL_room);
             console.log(response.data);
             if(response.data.code==="200"){
                 props.history.push('/room/'+response.data.addr);
@@ -28,12 +30,30 @@ const MyStudy = (props) => {
           });
     }
 
-    const recruited = () => {
+    const recruited = async () => {
         console.log('모집완료');
+        try{
+            const response = await axios.get(URL_recruit);
+            console.log(response.data);
+            if(response.data.code==="200"){
+                console.log('모집완료 확인');
+            }
+        }catch(e){
+            console.log(e);
+        }
     }
 
-    const deleteStudy = () => {
+    const deleteStudy = async () => {
         console.log('스터디 삭제');
+        try{
+            const response = await axios.delete(URL_delete);
+            console.log(response.data);
+            if(response.data.code === 200 ){
+                console.log('삭제 확인');
+            }
+        }catch(e){
+            console.log(e);
+        }
     }
 
     return (
