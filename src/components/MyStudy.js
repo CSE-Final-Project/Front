@@ -1,5 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router';
+import {createBrowserHistory} from 'history';
 import axios from 'axios';
 import {Card,Button} from 'react-bootstrap';
 
@@ -16,7 +17,7 @@ const MyStudy = (props) => {
             const response = await axios.get(URL_room);
             console.log(response.data);
             if(response.data.code==="200"){
-                props.history.push('/room/'+response.data.addr);
+                 window.location.assign('/room/'+response.data.addr); //새로고침 
             }
         }catch(e){
             console.log(e);
