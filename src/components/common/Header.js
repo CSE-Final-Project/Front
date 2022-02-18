@@ -27,7 +27,8 @@ const Header2 = ({user, onLogout}) => {
                                 <>
                                     <Nav.Link onClick={onLogout}>로그아웃</Nav.Link>
                                     <Nav.Link href="/studies/my">참여 중인 스터디</Nav.Link>
-                            <Nav.Link href="/studies">스터디 목록</Nav.Link>
+                                    <Nav.Link href="/studies">스터디 목록</Nav.Link>
+                                    <Nav.Link href="/studies/ranking">스터디 랭킹</Nav.Link>
                                 </>
                             ) : (
                                 <Nav.Link href="/login">로그인</Nav.Link>
