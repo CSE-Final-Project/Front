@@ -52,7 +52,13 @@ const StudiesComp = (props) => {
                         방장이름: {study.leader} <br/>
                         스터디 아이디: {study.id} <br/>
                     </Card.Text>
-                    <Button onClick={() => {fetchJoin()}}>JOIN</Button>
+                    {
+                        (study.is_recruit === true)?
+                        <>
+                            <Button onClick={() => {fetchJoin()}}>JOIN</Button>
+                        </>
+                        : null
+                    }
                 </Card.Body>
             </Card>
             
