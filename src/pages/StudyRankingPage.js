@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 import StudyRanking from '../components/StudyRanking';
 
@@ -44,13 +45,36 @@ const Content3 = styled.div`
 `;
 
 const StudyRankingPage = () => {
+    const URL = '/api/rankings/studies';
+    const [studies, setStudies] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
-    const [studies, setStudies] = useState([{id:1,title:"study1",studytime:500},
-        {id:2,title:"study2",studytime:400},
-        {id:3,title:"study3",studytime:300},
-        {id:4,title:"study4",studytime:200},
-        {id:5,title:"study5",studytime:100},
-    ]);
+    const fetchRanking = async () => {
+        try{
+            setError(null);
+            setStudies(null);
+            setLoading(true);
+
+            const response = await axios.get(URL);
+            if(response.data.code === 200){
+                setStudies(response.data.ranking);
+                console.log('ranking:',response.data.ranking);
+                console.log('studies:',studies);
+            }
+        }catch(e){
+            setError(e);
+        }
+        setLoading(false);
+    }
+
+    useEffect(()=>{
+        fetchRanking();
+    },[]);
+
+    if(loading) return <div>loading...</div>;
+    if(error) return <div>Error...</div>;
+    if(!studies) return null;
 
     var dt = new Date();
     dt.setDate(dt.getDate()-1);
@@ -59,11 +83,6 @@ const StudyRankingPage = () => {
     return (
         <Container>
             <Date_font>{str1}</Date_font><hr/>
-            {/* <ContentBox>
-                <Content1>순위</Content1>
-                <Content2>이름</Content2>
-                <Content3>평균 공부시간</Content3>
-            </ContentBox> */}
             {
                 studies.map(function(study,i){
                         return(
