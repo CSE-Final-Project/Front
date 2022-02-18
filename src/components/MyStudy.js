@@ -60,7 +60,6 @@ const MyStudy = (props) => {
 
     return (
         <div>
-            <br/>
             <Card>
                 <Card.Header>{mystudy.topic}</Card.Header>
                 <Card.Body>
@@ -102,6 +101,7 @@ const MyStudy = (props) => {
                     }
                 </Card.Body>
             </Card>
+            <br/>
         </div>
     );
 };
