@@ -9,6 +9,9 @@ const HeaderContainer = () => {
   const onLogout = () => {
     dispatch(logout());
   };
+
+  if (window.location.pathname.includes('room')) return null; 
+
   return (
     <> 
       <Header user={user} onLogout={onLogout} />
