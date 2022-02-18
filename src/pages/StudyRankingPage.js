@@ -12,6 +12,37 @@ const Date_font = styled.div`
     text-align: center; 
 `;
 
+const ContentBox = styled.div`
+    display: flex;
+    gap: 0.25rem;
+    padding: 0.25rem;
+    align-items: center;
+    grid-area: content;
+    justify-content: center;
+`;
+const Content1 = styled.div`
+    padding: 0.25rem;
+    // background: yellow;
+    text-align: center;
+    width: 30%;
+    height: 100%;
+`;
+const Content2 = styled.div`
+    padding: 0.25rem;
+    // background: yellow;
+    text-align: center;
+    width: 50%;
+    height: 100%;
+    font-size: large;
+`;
+const Content3 = styled.div`
+    padding: 0.25rem;
+    // background: yellow;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+`;
+
 const StudyRankingPage = () => {
 
     const [studies, setStudies] = useState([{id:1,title:"study1",studytime:500},
@@ -27,7 +58,12 @@ const StudyRankingPage = () => {
 
     return (
         <Container>
-            <Date_font>{str1}</Date_font><br/>
+            <Date_font>{str1}</Date_font><hr/>
+            {/* <ContentBox>
+                <Content1>순위</Content1>
+                <Content2>이름</Content2>
+                <Content3>평균 공부시간</Content3>
+            </ContentBox> */}
             {
                 studies.map(function(study,i){
                         return(
