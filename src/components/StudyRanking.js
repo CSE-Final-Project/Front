@@ -41,14 +41,14 @@ const Content3 = styled.div`
 const StudyRanking = (props) => {
     const study = props.study;
     let medal='';
-    if(study.id===1){
+    if(study.rank===1){
         medal = "🥇";
-    }else if(study.id === 2) {
+    }else if(study.rank === 2) {
         medal = "🥈";
-    }else if(study.id === 3) {
+    }else if(study.rank === 3) {
         medal = "🥉";
     }else{
-        medal =study.id;
+        medal =study.rank;
     }
     return (
         <>
@@ -56,8 +56,8 @@ const StudyRanking = (props) => {
                 <ContentBox>
                     <Content1>
                         <Ranking_font>{medal}</Ranking_font></Content1>
-                    <Content2>{study.title}</Content2>
-                    <Content3>{study.studytime} </Content3>
+                    <Content2>{study.study_id}</Content2>
+                    <Content3>{study.avg_time} </Content3>
                 </ContentBox>
             </Card>
             <br/>
