@@ -90,37 +90,17 @@ const TimeRecord = (props) => {
 
    const [time, setTime] = useState(null);
    
-   const clickDate = async (e, index) => {
-       console.log('clickDate 인자 전달 확인) index: ', index);
+   const clickDate = (props) => {
+       console.log('clickDate 인자 전달 확인) index: ', props.index);
        console.log('clickDate의 today:',today );
        //server가 요구하는 date 형식으로 맞추기
-       var clickdate  = new Date(new Date().setDate(today.getDate()-6+index));
-       var URL = '/api/studies/time/'+studyId;
-       //const response = axios.post(URL,{date:clickdate});
+       var clickdate  = new Date(new Date().setDate(today.getDate()-6+props.index));
+       var URL = '/api/studies/attendance/'+studyId;
+      // const response = axios.post(URL,{date:clickdate});
       // setTime(response.data); 
-
-        try{
-            //setLoading(true);
-            //setPenalty(null);
-            const response = await axios.post(URL,{date:clickdate});
-            console.log('스터디 타임 set 이전')
-            setTime(response.data);
-            console.log('스터디 타임 response.data:',response.data )
-            console.log('스터디 타임 set 이후 반환결과: ', response.data);
-            console.log('스터디 타임 set 이후: ', time);
-        }catch (e){
-            console.log(e);
-        }
-
       // setLoading(true);
     
    }
-
-//    const onClick = (e, index) => {
-//     e.persist()
-//     console.log(e, index)
-//     //handleImageClick(productObjects[index])
-// }
    
    const weekTabParentStyle = {
     display: 'flex',
@@ -169,18 +149,18 @@ const TimeRecord = (props) => {
                 <div style={weekTabLeftButtonStyle}><FaChevronLeft onClick={()=>changeBefore()}/></div>
                 {weekInfo&&weekInfo.map((day, index) => {
               return (
-                  <div className="clickStyle" style={weekTabChildStyle} key={index} onClick={(e)=>clickDate(e,index)}>{day.weekday}<br/>{day.date}</div>
+                  <div className="clickStyle" style={weekTabChildStyle} key={index} onClick={()=>clickDate(index)}>{day.weekday}<br/>{day.date}</div>
               )
           })}   
                 <div style={weekTabRightButtonStyle}><FaChevronRight onClick={()=>changeAfter()}/> </div>   
             </div>
-           {
-                time&&time.map(function(time,i){
+           {/* {
+                time.map(function(time,i){
                     return(
                         <TimeRecordCard timeInfo={time} i={i} key={i}/>
                     )
                 })
-            }  
+            } */}
         </div> 
     );
 };
