@@ -16,6 +16,7 @@ import MyStudyPage from '../pages/MyStudyPage';
 import ManagePage from '../pages/ManagePage';
 import LoginTruePage from '../pages/LoginTruePage';
 import LoginFalsePage from '../pages/LoginFalsePage';
+import StudyRankingPage from '../pages/StudyRankingPage';
 
 import styled from 'styled-components';
 import HeaderContainer from '../containers/common/HeaderContainer';
@@ -60,6 +61,7 @@ const Router = () => {
                     <Route component={StudiesPage} path={'/studies'} exact />
                     <Route component={MyStudyPage} path={'/studies/my'} exact />
                     <Route component={ManagePage} path={'/manage/:studyID'} exact />
+                    <Route component={StudyRankingPage} path={'/studies/ranking'} exact />
                 </Switch>
             </Wrapper>
             <Footer />
