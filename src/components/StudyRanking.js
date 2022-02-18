@@ -25,6 +25,7 @@ const Content1 = styled.div`
 const Content2 = styled.div`
     padding: 0.25rem;
     // background: yellow;
+    text-align: center;
     width: 50%;
     height: 100%;
     font-size: large;
@@ -32,6 +33,7 @@ const Content2 = styled.div`
 const Content3 = styled.div`
     padding: 0.25rem;
     // background: yellow;
+    text-align: center;
     width: 100%;
     height: 100%;
 `;
@@ -55,7 +57,7 @@ const StudyRanking = (props) => {
                     <Content1>
                         <Ranking_font>{medal}</Ranking_font></Content1>
                     <Content2>{study.title}</Content2>
-                    <Content3>총 공부시간 : {study.studytime} </Content3>
+                    <Content3>{study.studytime} </Content3>
                 </ContentBox>
             </Card>
             <br/>
