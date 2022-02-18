@@ -6,6 +6,12 @@ const Container = styled.div`
   padding: 20px;
 `;
 
+const Date_font = styled.div`
+    font-size: large;
+    font-weight: bold;
+    text-align: center; 
+`;
+
 const StudyRankingPage = () => {
 
     const [studies, setStudies] = useState([{id:1,title:"study1",studytime:500},
@@ -15,8 +21,13 @@ const StudyRankingPage = () => {
         {id:5,title:"study5",studytime:100},
     ]);
 
+    var dt = new Date();
+    dt.setDate(dt.getDate()-1);
+    var str1 = dt.getFullYear()+'년 '+(dt.getMonth()+1)+'월 '+dt.getDate()+'일';
+
     return (
         <Container>
+            <Date_font>{str1}</Date_font><br/>
             {
                 studies.map(function(study,i){
                         return(
