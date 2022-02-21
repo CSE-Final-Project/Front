@@ -20,23 +20,23 @@ const Container = styled.div`
     padding: 20px;
     display: flex;
     height: 100vh;
-    width: 90%;
+    width: 100%;
     margin: auto;
     flex-wrap: wrap;
 `;
 
-
 const StyledVideo = styled.video`
-    height: 90%; width: 100%; 
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    height: 100%;
     filter:  ${props => props.color==="false" ? 'grayscale(100%)' : 'brightness(1)'}; 
 `;
-
 
 const StyledCanvas = styled.canvas`
     height: 40%;
     width: 50%;
 `;
-
 
 let videoColor; 
 let detect;
@@ -51,7 +51,6 @@ const videoConstraints = {
 
 
 const Room = (props) => {
-    
     const videolistRef = useRef(); 
     videolistRef.current = [];
 
@@ -68,7 +67,7 @@ const Room = (props) => {
 
 
     const [result, setResult] = useState("");
-    const [watch, setWatch] =useState('true');
+    const [watch, setWatch] =useState('false');
     // setWatch(!watch);
     const getWatchValue = (text) => {
         setWatch(text);
@@ -86,12 +85,12 @@ const Room = (props) => {
                 videolistRef.current[index].srcObject = stream; 
         }) })}
         console.log("렌더링2: videolistRef.current[0] stream 정의 후: ", videolistRef.current[0]);
-    })//,[peers]); <-문제 생기면 추가..
+    })//,[peers]); <-문제 생기면 추가
 
     useEffect(() => { //렌더링 될 때마다 실행, peers 값 변할 때마다 렌더링
         console.log("렌더링3:  useEffect 실행 -> 소켓 통신, 디텍션 "); 
         console.log("렌더링3: videolistRef.current[0] : ", videolistRef.current[0]);
-        socketRef.current = io.connect("https://172.30.1.50:8000"); //현재 커넥트 정보 저장 
+        socketRef.current = io.connect("https://10.200.150.87:8000"); //현재 커넥트 정보 저장 
         console.log(socketRef.current) 
         
         navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: false })
@@ -100,7 +99,7 @@ const Room = (props) => {
             socketRef.current.emit("join room", roomID); 
             socketRef.current.on("all users", users => { //"all users"  이벤트 듣고 있다가 실행, 첫 접속 시 본인 제외 다른 피어들 정보 받아옴
                 console.log("all users 이벤트")
-                const peers = []; //위에 peers 있는데? 
+                const peers = []; //위에 peers와 구분됨 
                 users.forEach(userID => { //타 피어 정보 받아와서 peer 객체로 peersRef, peers 에 저장
                     const peer = createPeer(userID, socketRef.current.id, stream);
                     console.log("socketRef.current.id: ", socketRef.current.id);
@@ -152,7 +151,7 @@ const Room = (props) => {
                     console.log("5. video state 변수: 1. " , data.peer_tf, " 2. ", data.tf_state); 
                     console.log("5. 현재 peer:", peers); 
                     console.log("5. 현재 peersRef: ", peersRef.current)
-                    var index = peersRef.current.findIndex(i => i.peerID === data.peer_tf); //, peerVideo useState 객체써먹기
+                    var index = peersRef.current.findIndex(i => i.peerID === data.peer_tf);
                     console.log("5. index->", index); 
                     console.log("5. videolistRef.current[index] : ", videolistRef.current[index]);
                     if(data.tf_state === 'false'){
@@ -208,7 +207,7 @@ const Room = (props) => {
                 const formData = new FormData();
                 formData.append('image', imageRef.current);
 
-                const response = await fetch('https://172.30.1.50:5000/image', { 
+                const response = await fetch('https://10.200.150.87:5000/image', { 
                 method: "POST",
                 body: formData,
                 }).then().catch(err => console.log(err));
@@ -219,7 +218,6 @@ const Room = (props) => {
                 
 
                     const text = await response.text();
-
                     detect = JSON.parse(text); 
                     videoColor = detect.result; 
                     console.log('2>(Room)실제 detect: ',detect.result);
@@ -360,26 +358,49 @@ const Room = (props) => {
         // window.location.replace('/');
     }
 
+    const videodivStyle = {
+        position: 'relative', 
+        height: '45%', 
+        //width + margin = 50%
+        width: '47%', 
+        margin: '0.3%', 
+        border: '2pt solid black',
+        backgroundColor: 'black'
+    }
+
+    const peervideoStyle = {
+        height: '100%' ,
+        width: '100%', 
+        filter: 'brightness(1)',
+        objectFit: 'cover'
+    }
+
+    const outbuttonStyle = {
+        position: 'absolute', 
+        left: '0px', 
+        top: '0px',
+        fontSize: '0.7rem',
+        color: 'white',
+        backgroundColor: 'rgba(255, 0, 0, 0.7)',
+    }
+
     return (
-        <>
            <Container>
-            <div style = {{position: 'relative', height: '45%', width: '45%', margin: '0.5%', border: '2pt solid black'}}>
+            <div style = {videodivStyle}>
                 <StyledVideo  color={videoColor} muted ref={userVideo} autoPlay playsInline > 
                 <StyledCanvas ref={canvasRef} hidden></StyledCanvas>
-                </StyledVideo>
+                </StyledVideo> 
                 <StopWatch myID={myID} roomID={roomID} socket={socketRef.current} detect={result} watch={watch} getWatchValue={getWatchValue} />
+                <button style={outbuttonStyle} onClick={()=>{enterHome()}}>나가기</button>
             </div>
                 {peers.map((peer, index) => {
                     return(
-                        <div style = {{position: 'relative', height: '45%', width: '45%', margin: '0.5%', border: '2pt solid black'}} >
-                        <video  key={index} peer={peer} style={{height: '90%' ,width: '100%', filter: 'brightness(1)'}} playsInline autoPlay ref={ ref => {videolistRef.current[index] = ref} }></video>
+                        <div style = {videodivStyle} >
+                        <video  key={index} peer={peer} style={peervideoStyle} playsInline autoPlay ref={ ref => {videolistRef.current[index] = ref} }></video>
                         </div>
                         )
-               
                 })}
             </Container>
-            <button onClick={()=>{enterHome()}}>나가기</button>
-        </>
     );
 };
 
