@@ -8,9 +8,9 @@ const MyStudy = (props) => {
     const mystudy = props.mystudy;
     const mystudy_id = mystudy.id;
 
-    const URL_room = '/api/studies/do/'+mystudy_id;
-    const URL_recruit = '/api/studies/completed/'+mystudy_id;
-    const URL_delete = '/api/studies/setting/'+mystudy_id;
+    const URL_room = 'https://nudo-study.cf/api/studies/do/'+mystudy_id;
+    const URL_recruit = 'https://nudo-study.cf/api/studies/completed/'+mystudy_id;
+    const URL_delete = 'https://nudo-study.cf/api/studies/setting/'+mystudy_id;
 
     const fetchRoom = async () => {
         try{

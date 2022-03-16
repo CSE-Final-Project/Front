@@ -6,7 +6,7 @@ import {Card,Button} from 'react-bootstrap';
 const StudiesComp = (props) => {
     const study = props.study;
 
-    const URL = '/api/studies/join';
+    const URL = 'https://nudo-study.cf/api/studies/join';
 
     const [join, setJoin] = useState(null);
     // const [click, setClick] = useState(false);
@@ -19,7 +19,7 @@ const StudiesComp = (props) => {
             // setError(null);
             // setJoin(null);
             // setLoading(true);
-
+            console.log('process:',process.env);
             const response = await axios.post(URL,{study_id: study.id});
             // const response = await axios.post(URL,{study_id:'asd'});
             // setJoin(response);

@@ -9,7 +9,7 @@ const Container = styled.div`
 `;
 
 const StudiesPage = () => {
-    const URL = '/api/studies';
+    const URL = 'https://nudo-study.cf/api/studies';
 
     const [studies, setStudies] = useState(null);
     const [loading, setLoading] = useState(false);

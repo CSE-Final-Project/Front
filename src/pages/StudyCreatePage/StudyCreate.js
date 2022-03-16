@@ -43,18 +43,19 @@ const Input = styled.input`
 // `;
 
 const StudyCreate = (props) => {
-    const URL = '/api/studies';
+    const URL = 'https://nudo-study.cf/api/studies';
 
     const {inputs,submitting,handleChange,handleSubmit} = useForm({
       initialValues: {study_id: "",title:"",topic:"",target_time:"",penalty:"",info:""},
       onSubmit: (inputs) => {
         // alert(JSON.stringify(inputs,null,2));
-  
+        console.log('inpusts:',inputs);
         const fetchData = async()=>{
           try{
             // const response = await axios.post(URL,JSON.stringify(inputs));
             const response = await axios.post(URL,inputs);
             console.log(response.data.result);
+            console.log(response.data);
             if(response.data.code === "200"){
               console.log('study_id:',inputs.study_id);
               // sessionStorage.setItem('user',inputs.id);

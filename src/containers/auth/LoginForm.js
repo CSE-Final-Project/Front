@@ -30,6 +30,7 @@ const LoginForm = ({history}) => {
 
     const onSubmit = e =>{
         e.preventDefault();
+        console.log('Submit');
         const { id, password } = form;
         dispatch(login({ id, password }));
     }

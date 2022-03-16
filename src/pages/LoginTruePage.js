@@ -7,7 +7,7 @@ const Container = styled.div`
 const LoginTruePage = () => {
     return (
         <Container>
-            로그인했을 때 페이지
+            로그인했을 때 페이지 수정수정
         </Container>
     );
 };
