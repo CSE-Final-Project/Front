@@ -3,6 +3,7 @@ import { Nav } from 'react-bootstrap';
 import Attendance from '../components/manage/Attendance';
 import Penalty from '../components/manage/Penalty';
 import TimeRecord from '../components/manage/TimeRecord';
+import Board from '../components/manage/Board';
 
 const ManagePage = (props) => {
     const studyID = props.match.params.studyID;
@@ -41,12 +42,16 @@ const ManagePage = (props) => {
                 <Nav.Item>
                     <Nav.Link eventKey="link-3" onClick={()=>{setTab(3)}}>공부 시간</Nav.Link>
                 </Nav.Item>
+                <Nav.Item>
+                    <Nav.Link eventKey="link-4" onClick={()=>{setTab(4)}}>자유게시판</Nav.Link>
+                </Nav.Item>
             </Nav>
             {(() => {
                 switch (tab) {
                     case 1: return <Attendance studyID={studyID} startdate={startdate}/>;
                     case 2: return <Penalty studyID={studyID} startdate={startdate}/>;
                     case 3: return <TimeRecord studyID={studyID} startdate={startdate}/>
+                    case 4: return <Board studyID={studyID} startdate={startdate}/>
                     default: return <Attendance studyID={studyID} startdate={startdate}/>
                 }
             })()}
