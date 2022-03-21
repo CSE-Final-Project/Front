@@ -10,7 +10,6 @@ const Container = styled.div`
 
 const Board = (props) => {
     const studyID = props.studyID
-    // const URL = '/api/studies/board/'+studyID;
     const URL = '/api/studies/'+studyID+'/board/';
     const write_URL = '/manage/'+studyID+'/write';
 

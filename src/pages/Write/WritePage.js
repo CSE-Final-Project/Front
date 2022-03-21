@@ -8,8 +8,10 @@ import {Form,Button} from 'react-bootstrap';
 const Container = styled.div`
   padding: 20px;
 `;
-const WritePage = () => {
-    const URL = '/api/studies/write';
+const WritePage = (props) => {
+    const studyID = props.match.params.studyID
+    console.log(props.match.params.studyID)
+    const URL = '/api/studies/'+studyID+'/board';
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
 

@@ -20,7 +20,7 @@ const BoardCard = (props) => {
     const post = props.post;
     return (
         <Container>
-            <Writer>{post.name}</Writer> <br/>
+            <Writer onClick={()=>{enterComment(props.studyID,post.name)}}>{post.name}</Writer> <br/>
             {post.content} <br/>
             <Div2 onClick={()=>{enterComment(props.studyID,post.name)}}>🗨️</Div2> <br/>
             

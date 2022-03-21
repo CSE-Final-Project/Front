@@ -15,8 +15,11 @@ const Writer = styled.div`
 const CommentPage = ({ match } ) => {
     const studyID =match.params.studyID;
     const postID = match.params.postID;
+    
     const URL1 = '/api/studies/board/comment/'+studyID+'/'+postID;
-    const URL2 = '/api/studies/board/'+studyID+'/'+postID;
+
+    //게시글 상세 화면 /api/studeis/{:studyId}/board/{:idx}
+    const URL2 = '/api/studies/'+studyID+'/board/'+postID;
 
     const [post, setPost] = useState(null);
     const [comment, setComment] = useState(null);
