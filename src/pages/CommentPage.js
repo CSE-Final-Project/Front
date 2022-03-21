@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useParams, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import Comment from '../components/manage/Comment';
+import WriteComment from '../components/manage/WriteComment';
 
 const Container = styled.div`
   padding: 20px;
@@ -76,13 +77,16 @@ const CommentPage = ({ match } ) => {
                 comment.map(function(comment,i){
                         return(
                             <>
+                            <br/>
                                 <Comment comment={comment} i={i} key={i}/>
-                                <br/>
                             </>
                         )
                     }       
                 )
             }
+            <br/>
+            <hr/>
+            <WriteComment/>
 
 
         </Container>

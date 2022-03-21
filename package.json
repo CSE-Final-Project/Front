@@ -2,7 +2,7 @@
   "name": "nd-front",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://172.30.52.222:8000",
+  "proxy": "https://172.30.53.214:8000",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-brands-svg-icons": "^5.15.4",

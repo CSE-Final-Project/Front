@@ -18,6 +18,7 @@ import LoginTruePage from '../pages/LoginTruePage';
 import LoginFalsePage from '../pages/LoginFalsePage';
 import StudyRankingPage from '../pages/StudyRankingPage';
 import CommentPage from '../pages/CommentPage';
+import WritePage from '../pages/Write/WritePage';
 
 import styled from 'styled-components';
 import HeaderContainer from '../containers/common/HeaderContainer';
@@ -64,6 +65,7 @@ const Router = () => {
                     <Route component={ManagePage} path={'/manage/:studyID'} exact />
                     <Route component={StudyRankingPage} path={'/studies/ranking'} exact />
                     <Route component={CommentPage} path={'/manage/:studyID/:postID/comment'} exact />
+                    <Route component={WritePage} path={'/manage/:studyID/write'} exact />
                     
                 </Switch>
             </Wrapper>

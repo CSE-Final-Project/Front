@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import BoardCard from './BoardCard';
+import { Button } from 'react-bootstrap';
 
 const Container = styled.div`
   padding: 20px;
@@ -9,7 +10,9 @@ const Container = styled.div`
 
 const Board = (props) => {
     const studyID = props.studyID
-    const URL = '/api/studies/board/'+studyID;
+    // const URL = '/api/studies/board/'+studyID;
+    const URL = '/api/studies/'+studyID+'/board/';
+    const write_URL = '/manage/'+studyID+'/write';
 
     const [post, setPost] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -41,6 +44,12 @@ const Board = (props) => {
     if(!post) return null;
     return (
         <Container>
+            <div className="d-grid gap-2">
+            <Button variant="warning" size="lg" href={write_URL}>
+                +
+            </Button>
+            </div>
+            <br/>
             {
                 post.map(function(post,i){
                     return(
