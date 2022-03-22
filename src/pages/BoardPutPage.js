@@ -1,29 +1,30 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import useForm from './useForm';
 import axios from 'axios';
 import {Form,Button} from 'react-bootstrap';
 
 const Container = styled.div`
   padding: 20px;
 `;
-const WritePage = (props) => {
+
+const BoardPutPage = (props) => {
     const studyID = props.match.params.studyID
-    console.log(props.match.params.studyID)
-    const URL = '/api/studies/'+studyID+'/board';
+    const postID = props.match.params.postID
+
+    ///api/studeis/{:studyId}/board/{:idx} [PUT]
+    const URL = '/api/studies/'+studyID+'/board/'+postID;
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault()
         try {
-            let res = await axios.post(URL,{
+            let res = await axios.put(URL,{
                 title: title,
                 content: content,
             })
-            console.log(res.data.code)
-            if(res.data.code===200){
-                alert('글쓰기 완료');
+            if(res.data.code === 200){
+                alert('글쓰기 수정')
                 window.history.back();
             }
         } catch (error) {
@@ -31,7 +32,6 @@ const WritePage = (props) => {
         }
     }
 
-    
     return (
         <Container>
             <Form onSubmit={handleSubmit}>
@@ -64,4 +64,4 @@ const WritePage = (props) => {
     );
 };
 
-export default WritePage;
+export default BoardPutPage;

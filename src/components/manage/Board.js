@@ -53,7 +53,7 @@ const Board = (props) => {
                 post.map(function(post,i){
                     return(
                         <>
-                        <BoardCard studyID={studyID} post={post} key={i}/>
+                        <BoardCard studyID={studyID} post={post} key={post.idx}/>
                         <hr/>
                         </>
                     )

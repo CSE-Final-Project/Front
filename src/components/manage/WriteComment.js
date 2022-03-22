@@ -16,7 +16,7 @@ const WriteComment = () => {
         e.preventDefault();
         try {
             let res = await axios.post(URL,{
-                comment: comment,
+                content: comment,
             })
             console.log(res.data.code);
             if(res.data.code === 200){

@@ -4,6 +4,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import Comment from '../components/manage/Comment';
 import WriteComment from '../components/manage/WriteComment';
+import { Button } from 'react-bootstrap';
 
 const Container = styled.div`
   padding: 20px;
@@ -16,52 +17,41 @@ const CommentPage = ({ match } ) => {
     const studyID =match.params.studyID;
     const postID = match.params.postID;
     
-    const URL1 = '/api/studies/board/comment/'+studyID+'/'+postID;
-
     //게시글 상세 화면 /api/studeis/{:studyId}/board/{:idx}
-    const URL2 = '/api/studies/'+studyID+'/board/'+postID;
+    const URL = '/api/studies/'+studyID+'/board/'+postID;
 
     const [post, setPost] = useState(null);
     const [comment, setComment] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const fetchPost = async () => {
-        try{
-            //request 시작하면 error, studies 초기화
+    const fetchAll = async () => {
+        try {
             setError(null);
+            setLoading(true);
             setPost(null);
-            setLoading(true); //loading중이니까 true
-            
-            const response = await axios.get(URL2);
-            setPost(response.data.post);
-            console.log('post:',post);
-            console.log('post2:',response.data.post);
-        } catch(e){
-            setError(e);
+            setComment(null);
+
+            const response = await axios.get(URL);
+            // setPost(response.data.get_data)
+            // console.log('<>1:',response.data.get_data);
+            // console.log('<2>:',response.data.get_data.post);
+            // console.log('<2>:',response.data.get_data.post.user_id);
+            // console.log('<3>>:',response.data.get_data.comments);
+            // console.log('<4>>:',response.data.get_data.comments[0].idx);
+
+            setPost(response.data.get_data.post);
+            setComment(response.data.get_data.comments);
+        } catch (error) {
+            setError(error);
         }
         setLoading(false);
     }
 
-    const fetchComment = async () => {
-        try{
-            //request 시작하면 error, studies 초기화
-            setError(null);
-            setComment(null);
-            setLoading(true); //loading중이니까 true
-            
-            const response = await axios.get(URL1);
-            setComment(response.data.comment);
-            console.log('comment:',comment);
-        } catch(e){
-            setError(e);
-        }
-        setLoading(false);
-    };
-
     useEffect(()=>{
-        fetchComment();
-        fetchPost();
+        // fetchComment();
+        // fetchPost();
+        fetchAll();
         console.log('comment:',comment);
     },[]);
 
@@ -72,8 +62,8 @@ const CommentPage = ({ match } ) => {
 
     return (
         <Container>
-            <Writer>{post[0].name}</Writer> <br/>
-            {post[0].content} <br/><br/>
+            <Writer>{post.user_id}</Writer> <br/>
+            {post.content} <br/><br/>
             <hr/>
 
             {
@@ -81,7 +71,7 @@ const CommentPage = ({ match } ) => {
                         return(
                             <>
                             <br/>
-                                <Comment comment={comment} i={i} key={i}/>
+                                <Comment comment={comment} studyID={studyID} postID={postID} i={i} key={i}/>
                             </>
                         )
                     }       
@@ -90,8 +80,6 @@ const CommentPage = ({ match } ) => {
             <br/>
             <hr/>
             <WriteComment/>
-
-
         </Container>
     );
 };
