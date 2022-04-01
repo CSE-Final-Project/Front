@@ -4,6 +4,7 @@ import axios from 'axios';
 import {Card,Button} from 'react-bootstrap';
 
 const StudiesComp = (props) => {
+    axios.defaults.withCredentials = true;
     const study = props.study;
 
     const URL = 'https://nudo-study.cf/api/studies/join';

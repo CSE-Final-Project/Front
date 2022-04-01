@@ -7,7 +7,8 @@ import { FaRegSquare } from "react-icons/fa";
 import { FaRegWindowMinimize } from "react-icons/fa";
 
 const Attendance = (props) => {
-
+    axios.defaults.withCredentials = true;
+    
     var fix_today = new Date();
     var fix_month = fix_today.getMonth()+1; 
     var fix_date = fix_today.getDate(); 
