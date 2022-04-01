@@ -21,7 +21,7 @@ const MyStudyPage = () => {
             setMyStudy(null);
             setLoading(true);
 
-            const response = await axios.get(URL);
+            const response = await axios.get(URL,{ withCredentials: true });
             setMyStudy(response.data);
         }catch(e){
             setError(e);

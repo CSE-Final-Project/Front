@@ -14,7 +14,7 @@ const MyStudy = (props) => {
 
     const fetchRoom = async () => {
         try{
-            const response = await axios.get(URL_room);
+            const response = await axios.get(URL_room,{ withCredentials: true });
             console.log(response.data);
             if(response.data.code==="200"){
                  window.location.assign('/room/'+response.data.addr); //새로고침 
@@ -34,7 +34,7 @@ const MyStudy = (props) => {
     const recruited = async () => {
         console.log('모집완료');
         try{
-            const response = await axios.get(URL_recruit);
+            const response = await axios.get(URL_recruit,{ withCredentials: true });
             console.log(response.data);
             if(response.data.code==="200"){
                 console.log('모집완료 확인');
@@ -48,7 +48,7 @@ const MyStudy = (props) => {
     const deleteStudy = async () => {
         console.log('스터디 삭제');
         try{
-            const response = await axios.delete(URL_delete);
+            const response = await axios.delete(URL_delete,{ withCredentials: true });
             console.log(response.data);
             if(response.data.code === 200 ){
                 console.log('삭제 확인');

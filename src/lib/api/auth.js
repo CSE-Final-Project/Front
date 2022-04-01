@@ -2,7 +2,7 @@ import client from "./client";
 
 /* login */
 export const login = ({id,password}) =>
-    client.post( 'https://nudo-study.cf/api/users/login',{id,password});
+    client.post('https://nudo-study.cf/api/users/login',{id,password});
 
 /* register */
 export const register = ({id,password})=>
