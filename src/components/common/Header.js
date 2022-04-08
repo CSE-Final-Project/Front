@@ -1,12 +1,13 @@
 import React from 'react';
 import Button from './Button';
+import font from '../../css/font.css'
 import { Nav, Navbar,Container,Offcanvas,NavDropdown,Form,FormControl } from 'react-bootstrap';
 const Header2 = ({user, onLogout}) => {
     return (
         <div>
             <Navbar bg="light" expand={false}>
                 <Container fluid>
-                    <Navbar.Brand href="/">STUDY.DO</Navbar.Brand>
+                    <Navbar.Brand href="/" ><div >STUDY.DO</div></Navbar.Brand>
                     <Navbar.Toggle aria-controls="offcanvasNavbar" />
                     <Navbar.Offcanvas
                     id="offcanvasNavbar"

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
 import MyStudy from '../components/MyStudy';
 import { withRouter } from 'react-router';
@@ -32,6 +32,8 @@ const MyStudyPage = () => {
     useEffect(()=>{
         fetchMyStudy();
     },[]);
+
+    
 
     if(loading) return <div>loading...</div>;
     if(error) return <div>Error...</div>;
