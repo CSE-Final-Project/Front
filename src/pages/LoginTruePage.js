@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {Card,Button} from 'react-bootstrap';
+import {Card,Button,ListGroup} from 'react-bootstrap';
 
 const Container = styled.div`
   padding: 20px;
@@ -13,22 +13,37 @@ const LoginTruePage = () => {
         <Container>
             <Card >
                 <Card.Header className="text-center">
-                    {localStorage.getItem('user')}님의 공부 시간✏️
+                📚{localStorage.getItem('user')}님✏️
                 </Card.Header>
                 <Card.Body>
-                    <Card.Title> {str1}  </Card.Title> <br/>
+                    <Card.Title> {str1}  </Card.Title> 
+                    <hr/> 
                     <Card.Text>
-                        <Card style={{ width: '18rem' }}>
-                            <Card.Body>
-                                <Card.Title>Card Title</Card.Title>
-                                <Card.Text>
-                                Some quick example text to build on the card title and make up the bulk of
-                                the card's content.
-                                </Card.Text>
-                                <Button variant="primary">Go somewhere</Button>
-                            </Card.Body>
-                        </Card>
-                  
+
+                    <Card>
+                        <Card.Header>Algorithm study</Card.Header>
+                        <Card.Body>
+                            <Card.Title></Card.Title>
+                            <Card.Text>
+                            공부 시간 : 3시간 20분 <br/>
+                            출석 : O <br/>
+                            벌금 : 0원 <br/>
+                            </Card.Text>
+                        </Card.Body>
+                    </Card>
+                    <br/>
+                    <Card>
+                        <Card.Header>Midterm Exam study</Card.Header>
+                        <Card.Body>
+                            <Card.Title></Card.Title>
+                            <Card.Text>
+                            공부 시간 : 1시간 20분 <br/>
+                            출석 : X <br/>
+                            벌금 : 3000원 <br/>
+                            </Card.Text>
+                        </Card.Body>
+                    </Card>
+
                     </Card.Text>
                 </Card.Body>
             </Card>
