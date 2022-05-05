@@ -10,12 +10,8 @@ const StopWatch = (props) => {
    // const [delay, setDelay] = React.useState(1000); 
     //const [isRunning, toggleIsRunning] = useBoolean(true); 
     
-    let stop_val = true;
+    let stop_val = false;
 
-<<<<<<< Updated upstream
-    const sendWatchValue= () =>{
-        if(props.watch === 'false'){
-=======
     //함수로 바꿔서 const StopWatch 밖으로 내보내기, 
     //stopwatch에서 useInterval 함수 사용하기
     //useEffect 부분 조건 따라 isRunning 값 바꾸기 
@@ -55,13 +51,12 @@ const StopWatch = (props) => {
             }
         }else{ //mode on
             props.getClickValue(true);
->>>>>>> Stashed changes
-            props.getWatchValue('true');
-            socket.emit('false-event', { peer_tf: props.myID, dst_room: props.roomID, tf_state: 'true'})
-        }else{
-            props.getWatchValue('false');
+            props.getWatchValue('false'); //0505 true -> false로 바꿈, 처음에는 false로 시작해야하지 않나..
             socket.emit('false-event', { peer_tf: props.myID, dst_room: props.roomID, tf_state: 'false'})
-        }
+        } //else{
+        //     props.getWatchValue('false');
+        //     socket.emit('false-event', { peer_tf: props.myID, dst_room: props.roomID, tf_state: 'false'})
+        // }
     }
 
     // console.log('wow: ',props.detect);
@@ -76,16 +71,6 @@ const StopWatch = (props) => {
         let interval = null
 
         setStop(stop_val);
-<<<<<<< Updated upstream
-        // console.log('aaa: ',stop);
-        
-        if(click & stop){
-            interval = setInterval(()=>{
-                setTime(prevTime => prevTime+10)
-            },10)
-        } else {
-             clearInterval(interval);
-=======
         console.log('aaa: ',stop);
         //console.log("시간 측정 기준 변수 상태: click->", props.click, " stop->", stop," props.watch->", props.watch)
         // mode on: stop만 true 면 됨
@@ -106,7 +91,6 @@ const StopWatch = (props) => {
                 clearInterval(interval);
             }
 
->>>>>>> Stashed changes
         }
 
         return () => clearInterval(interval);
@@ -138,16 +122,10 @@ const StopWatch = (props) => {
             else if(document.msExitFullscreen){ document.msExitFullscreen(); }
         }
     }
-<<<<<<< Updated upstream
-
-    return (
-            <button style = {buttonStyle} onClick={()=>{ fullChange(); setClick(!click); sendWatchValue();}}>
-=======
    // fullChange();
     //setClick(!click);
     return (
             <button style = {buttonStyle} onClick={()=>{  sendWatchValue();  fullChange();}}>
->>>>>>> Stashed changes
                 <span>{("0" + Math.floor((time/3600000)%24)).slice(-2)}:</span>
                 <span>{("0" + Math.floor((time/60000)%60)).slice(-2)}:</span>
                 <span>{("0" + Math.floor((time/1000)%60)).slice(-2)}:</span>
