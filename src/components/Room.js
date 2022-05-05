@@ -6,17 +6,17 @@ import StopWatch from './StopWatch';
 import axios from 'axios';
 import "../css/ModeToggle.css";
 
-console.log("렌더링0"); 
 
 let now_yes; //계속 NO HAND! 나오다가 HAND DETECT! 나온 시점
 let now_no; //계속 HAND DETECT! 나오다가 NO HAND! 나온 시점
 let studyTime =0;
 let studyTime_total=0;
 let num=0;
-let yn_arr = [0,0];
+let yn_arr = [1,1]; //0505 [0,0] -> [1,1]로 변경 (false가 기본값이므로)
 let start =0;
 let watch_test = true;
-let mode = false; 
+let mode = false;
+var abortController = new AbortController();
 
 const Container = styled.div`
     padding: 20px;
@@ -56,7 +56,6 @@ const Room = (props) => {
     const videolistRef = useRef(); 
     videolistRef.current = [];
 
-    console.log("렌더링1 : Room");  
 
     const [peers, setPeers] = useState([]); //peers: 상태 바뀌면 재렌더링되는 value, setPeers: peers 변경 함수
     const socketRef = useRef(); //socket.io 통신용, 값 변화 감지, 재렌더링 x
@@ -85,73 +84,47 @@ const Room = (props) => {
         videoColor=text; 
     }
 
-    console.log("1>(Room)스탑워치 상태: ",watch);
-
-    console.log("렌더링1의 peers:", peers);
 
     useEffect(() => { //호출 되면 실행? 
-        console.log("렌더링2:  useEffect 실행 -> 피어 비디오 on/off 용");
-        console.log("렌더링2: videolistRef.current[0] stream 정의 전: ", videolistRef.current[0]);
         {peers.map((peer, index) => {
             peer.on("stream", stream => { 
                 videolistRef.current[index].srcObject = stream; 
         }) })}
-        console.log("렌더링2: videolistRef.current[0] stream 정의 후: ", videolistRef.current[0]);
     })//,[peers]); <-문제 생기면 추가
 
     useEffect(() => { //렌더링 될 때마다 실행, peers 값 변할 때마다 렌더링
-        console.log("렌더링3:  useEffect 실행 -> 소켓 통신, 디텍션 "); 
-        console.log("렌더링3: videolistRef.current[0] : ", videolistRef.current[0]);
-<<<<<<< Updated upstream
-        socketRef.current = io.connect("https://10.200.129.177:8000"); //현재 커넥트 정보 저장 
-=======
-        socketRef.current = io.connect("https://192.168.0.28:8000"); //현재 커넥트 정보 저장 
->>>>>>> Stashed changes
-        console.log(socketRef.current) 
+        socketRef.current = io.connect("https://192.168.0.28:8000"); //현재 커넥트 정보 저장  
         
         navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: false })
         .then(stream => {
             userVideo.current.srcObject = stream; // 내 비디오 추가
             socketRef.current.emit("join room", roomID); 
             socketRef.current.on("all users", users => { //"all users"  이벤트 듣고 있다가 실행, 첫 접속 시 본인 제외 다른 피어들 정보 받아옴
-                console.log("all users 이벤트")
                 const peers = []; //위에 peers와 구분됨 
                 users.forEach(userID => { //타 피어 정보 받아와서 peer 객체로 peersRef, peers 에 저장
                     const peer = createPeer(userID, socketRef.current.id, stream);
-                    console.log("socketRef.current.id: ", socketRef.current.id);
-                    console.log(JSON.stringify(peer.userID)); 
+
                     peersRef.current.push({ //peerRef 업데이트 
                         peerID: userID,
                         peer
                     })
                     peers.push(peer);
-                    
-                    console.log("추가된 peers:", peers);
-                    console.log("peers[0]: " , peers[0]); 
-             
-                    // console.log(JSON.stringify(peers)); 
-                    console.log(JSON.stringify(peersRef.current)); 
                 })
                 setPeers(peers); //peers 업데이트 -> 재렌더링
                  
-                console.log("peer목록 업데이트 후: " ,peers);  //첫 접속자는 null, forEach  실행 안함
-                // console.log(JSON.stringify(peersRef.current)); 
             })
 
 
             socketRef.current.on("user joined", payload => {
-                console.log("user joined 이벤트")
                 const peer = addPeer(payload.signal, payload.callerID, stream);
                 peersRef.current.push({
                     peerID: payload.callerID,
                     peer
                 })
                 setPeers(users => [...users, peer]);
-                console.log("user join 이후 peers: " ,peers);
             });
 
             socketRef.current.on("receiving returned signal", payload => {
-                console.log("receiving returned signal 이벤트")
                 const item = peersRef.current.find(p => p.peerID === payload.id);
                 item.peer.signal(payload.signal);
             });
@@ -163,32 +136,19 @@ const Room = (props) => {
                 if(data.peer_tf === myID){ //서버에서 broadcast로 emit 못함
                     console.log ("5. 내 tf 상태 emit") //필요없음, 지워야
                 }else{
-                    console.log("5. video state 이벤트 실행"); 
-                    console.log("5. video state 변수: 1. " , data.peer_tf, " 2. ", data.tf_state); 
-                    console.log("5. 현재 peer:", peers); 
-                    console.log("5. 현재 peersRef: ", peersRef.current)
                     var index = peersRef.current.findIndex(i => i.peerID === data.peer_tf);
-                    console.log("5. index->", index); 
-                    console.log("5. videolistRef.current[index] : ", videolistRef.current[index]);
                     if(data.tf_state === 'false'){
-                        console.log("5. 블랙 비디오 스타일 설정")
                         videolistRef.current[index].style.filter = 'brightness(0)'
-
                         watch_test=false;
-                        console.log('watch_test: ',watch_test);
                     }else{
-                        console.log("5. 비디오 스타일 None")
                         videolistRef.current[index].style.filter = 'brightness(1)' 
-
                         watch_test=true;
-                        console.log('watch_test: ',watch_test);
                     }
                 }
             })
             
              socketRef.current.on("my peer id", myPeerID => {
                 myID = myPeerID;
-                console.log("my peer id 이벤트 성공", myID);
             })
 
             //6. disconncet 이벤트
@@ -198,87 +158,39 @@ const Room = (props) => {
                 -> peersRef에서 인덱스 추출하고 peers에서는 해당 인덱스 삭제
                 */
             socketRef.current.on("user-disconnected", disconnect_peer => {
-                console.log("6. user-disconnected 이벤트 발생, 나가는 peer:" , disconnect_peer); 
-                console.log("6. disconnected peersRef 추출 전: ", peersRef); 
                 var idx = peersRef.current.findIndex(i => i.peerID === disconnect_peer); //peersRef에서 인덱스 추출
                 peersRef.current.splice(idx,1); //peersRef에서 삭제
-                console.log("6. disconnected peersRef 추출 후: ", peersRef); 
-                console.log("6. disconnected peers 변경 전: ", peers); 
-                setPeers(peers.filter((value,index) => index !== idx)); //peers 삭제
-                console.log("6. disconnected peers 변경 후: ", peers);
-            
+                setPeers(peers.filter((value,index) => index !== idx)); //peers 삭제            
             })
         })
     },[]);
 
     useEffect(()=>{
         const interval = setInterval(async () => {
-            console.log('[interval 실행]');
- 
-
             captureImageFromCamera();
 
             if (imageRef.current && mode) {
                 const formData = new FormData();
                 formData.append('image', imageRef.current);
-<<<<<<< Updated upstream
-
-                const response = await fetch('https://10.200.129.177:5000/image', { 
-                method: "POST",
-                body: formData,
-                }).then().catch(err => console.log(err));
-
-                console.log("0. 디텍트 실행");
-
-                if (response.status === 200) {
-                
-
-                    const text = await response.text();
-                    detect = JSON.parse(text); 
-                    videoColor = detect.result; 
-                    console.log('2>(Room)실제 detect: ',detect.result);
-                    setResult(detect.result);
-                    console.log("3>(Room)useEffect안의 스탑워치: ",watch);
-
-                    if(watch === 'false'){
-                        detect.result = 'false';
-                        console.log('4>(Room)detect 변경: ',detect.result);
-                    }
-
-                    console.log('5>(Room)두번째 detect: ',detect.result);
-
-                    if(detect.result === 'true'){
-
-                        num++;
-                        yn_arr[num%2]=0;
-
-                        if((yn_arr[0]+yn_arr[1])%2!=0 | start == 0){
-                            now_yes=new Date();
-                            console.log('NOW_YES: ',now_yes.getTime());                 
-=======
                 var response; 
                 if(mode) { //자동 측정 on 모드
                     response = await fetch('https://192.168.0.28:5000/image', { //https://223.131.223.239:5000/image
                     method: "POST",
                     body: formData,
+                    signal: abortController.signal,
                     }).then().catch(err => console.log(err)); 
                    
-                    console.log("0. 디텍트 실행");
-
                     if (response.status === 200) {
 
                         const text = await response.text();
                         detect = JSON.parse(text); 
                         videoColor = detect.result; 
-                        console.log('2>(Room)실제 detect: ',detect.result);
                         setResult(detect.result);
-                        console.log("3>(Room)useEffect안의 스탑워치: ",watch);
-                        console.log('5>(Room)두번째 detect: ',detect.result);
 
                         if(detect.result === 'true'){
                             num++;
                             yn_arr[num%2]=0;
-                            if((yn_arr[0]+yn_arr[1])%2!=0 | start == 0){
+                            if(start == 0 | (yn_arr[0]+yn_arr[1])%2!=0){
                                 timeStart();                 
                             }
                             start++;
@@ -288,7 +200,6 @@ const Room = (props) => {
                             if((yn_arr[0]+yn_arr[1])%2!=0){
                                 timeEnd();              
                             }
->>>>>>> Stashed changes
                         }
                     
                         //위 코드랑 합치기 필요
@@ -301,13 +212,9 @@ const Room = (props) => {
                         }
                         if((flag[0]+flag[1]) %2 != 0){
                             socketRef.current.emit('false-event', { peer_tf: myID, dst_room: roomID, tf_state: detect.result})// roomID 여기서 쓸 수 있나
-                            console.log('false-event 발생: 내아이디 -> ', myID , '  룸 아이디-> ', roomID, ' 보낸 tf 값-> ' , detect.result); 
-                            console.log('false-event 발생 시 peers: ', peers);
                         }
-                        console.log("3. 보냄: " + text);
 
                     } else {
-                        console.log("Error from API."); 
                     }
                 }
             } 
@@ -323,7 +230,6 @@ const Room = (props) => {
         });
 
         peer.on("signal", signal => {
-            console.log("signal 이벤트 - sending")
             socketRef.current.emit("sending signal", { userToSignal, callerID, signal })
         })
 
@@ -338,7 +244,6 @@ const Room = (props) => {
         })
 
         peer.on("signal", signal => {
-            console.log("signal 이벤트 -returning")
             socketRef.current.emit("returning signal", { signal, callerID })
         })
 
@@ -364,7 +269,6 @@ const Room = (props) => {
     const fetchStudyTime = async () => {
         try{
             const roomID = props.match.params.roomID;
-            console.log('roomID:',roomID);
             const response = await axios.patch('/api/studies/time/'+roomID,{study_time:studyTime_total/1000});
             console.log(response.data);
             if(response.data.code==="200"){
@@ -390,25 +294,28 @@ const Room = (props) => {
         //window.location.replace('/');
     }
 
+    
+
     let modecount = 0;
 
     const timeStart = () => {
         now_yes=new Date();
-        console.log('@@@@@NOW_YES: ',now_yes.getTime());
+        console.log('@@@@@timeStart: NOW_YES: ',now_yes.getTime());
     }
 
     const timeEnd = () => {
-                now_no=new Date();
-                console.log('@@@@@NOW_NO(2): ',now_no.getTime());
-                console.log('@@@@@NOW_YES(2): ',now_yes.getTime());    
-                studyTime=now_no.getTime()-now_yes.getTime();
-                console.log('@@@@@[studyTime(sec)] : '+studyTime/1000); 
+                now_no=new Date(); //0505 수정
+                studyTime=now_no.getTime()-now_yes.getTime(); 
+                console.log('@@@@@timeend: [studyTime(sec)] : '+studyTime/1000); 
                 studyTime_total+=studyTime;
-                console.log('@@@@@[studyTime_Total]: ',studyTime_total/1000); 
+                console.log('@@@@@timeEnd: [studyTime_Total]: ',studyTime_total/1000); 
     }
 
     const modeClick = () =>{ //false : 자동모드 off , true: 자동모드 on
-        //스탑워치가 작동 중이었다면, 스탑워치 멈출 때 시간 갱신 
+        console.log("모드 바꿈");
+        const socket=socketRef.current;
+        //스탑워치가 작동 중이었다면, 스탑워치 멈출 때 시간 갱신
+        console.log("watch 상태 (작동중 클릭이면 true, 끊고 클릭이면 false여야", watch)
         if(mode && watch === 'true' && detect.result === 'true'){ //mode on -> off 클릭일 때
                 num=0; //시간 측정 flag 초기화
                 yn_arr = [0,0]; 
@@ -419,19 +326,25 @@ const Room = (props) => {
                 //num=0;
                 //yn_arr = [0,0]; //flag 초기화 
                 timeEnd();
-                timeStart(); //off 측정 중인 상태에서 on으로 갈 때 필요
+                //timeStart(); //off 측정 중인 상태에서 on으로 갈 때 필요 //0505 삭제 (true, false인지도 모르는데 바로 시작하면 x)
         }
 
         setClick(!click)
         mode = !mode;      //true인 경우 : fetch x
-        console.log("mode 상태:" , mode, "modecount: ", modecount);
-
         //watch false로 바꾸기
        if(!mode){ //off 모드면 
+        abortController.abort(); //0325
         getWatchValue('false'); 
+        videoColor = 'false'
+        socket.emit('false-event', { peer_tf: myID, dst_room: roomID, tf_state: 'false'}) //0325: 처음 상태 black 
     }else{ //on 모드
+            abortController = new AbortController();
             setClick(true)
-            getWatchValue('true'); //삭제
+           // getWatchValue('true'); //삭제
+           n++; 
+           flag[n%2] = 0;
+           videoColor = 'false'
+           socket.emit('false-event', { peer_tf: myID, dst_room: roomID, tf_state: 'false'}) //0325: 처음 상태 black
         }
         //socket.emit : off -> stopwatch.js 에서, on -> Room.js에서 수행
     }
