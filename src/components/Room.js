@@ -198,7 +198,6 @@ const Room = (props) => {
                             num++;
                             yn_arr[num%2]=1;
                             if((yn_arr[0]+yn_arr[1])%2!=0){
-                                console.log("여기선가?");
                                 timeEnd();              
                             }
                         }
@@ -326,7 +325,6 @@ const Room = (props) => {
         }else if(!mode && watch === 'true'){ //mode off -> on 클릭일 때
                 //num=0;
                 //yn_arr = [0,0]; //flag 초기화 
-                console.log("이 밑으로 실행되면 안되는데");
                 timeEnd();
                 //timeStart(); //off 측정 중인 상태에서 on으로 갈 때 필요 //0505 삭제 (true, false인지도 모르는데 바로 시작하면 x)
         }
