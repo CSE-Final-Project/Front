@@ -25,9 +25,9 @@ const LoginTruePage = () => {
                         <Card.Body>
                             <Card.Title></Card.Title>
                             <Card.Text>
-                            공부 시간 : 3시간 20분 <br/>
-                            출석 : O <br/>
-                            벌금 : 0원 <br/>
+                            공부 시간 : 1시간 20분 <br/>
+                            출석 : X <br/>
+                         
                             </Card.Text>
                         </Card.Body>
                     </Card>
@@ -37,9 +37,9 @@ const LoginTruePage = () => {
                         <Card.Body>
                             <Card.Title></Card.Title>
                             <Card.Text>
-                            공부 시간 : 1시간 20분 <br/>
-                            출석 : X <br/>
-                            벌금 : 3000원 <br/>
+                            공부 시간 : 3시간 <br/>
+                            출석 : O <br/>
+                           
                             </Card.Text>
                         </Card.Body>
                     </Card>

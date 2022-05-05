@@ -19,7 +19,7 @@ const WriteComment = () => {
                 content: comment,
             })
             console.log(res.data.code);
-            if(res.data.code === 200){
+            if(res.data.code === "200"){
                 alert("댓글 입력");
                 window.location.reload();
 

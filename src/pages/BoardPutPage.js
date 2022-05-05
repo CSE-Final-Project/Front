@@ -19,11 +19,11 @@ const BoardPutPage = (props) => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            let res = await axios.put(URL,{
+            let res = await axios.patch(URL,{
                 title: title,
                 content: content,
             })
-            if(res.data.code === 200){
+            if(res.data.code === "200"){
                 alert('글쓰기 수정')
                 window.history.back();
             }

@@ -32,8 +32,9 @@ const BoardCard = (props) => {
     const fetchDelete = async () => {
         try {
             const response = await axios.delete(URL_delete);
-            if(response.data.code === 200){
+            if(response.data.code === "200"){
                 alert('성공')
+                window.location.reload();
             }
         } catch (error) {
             console.log(error)

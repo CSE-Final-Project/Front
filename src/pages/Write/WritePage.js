@@ -22,7 +22,7 @@ const WritePage = (props) => {
                 content: content,
             })
             console.log(res.data.code)
-            if(res.data.code===200){
+            if(res.data.code==="200"){
                 alert('글쓰기 완료');
                 window.history.back();
             }

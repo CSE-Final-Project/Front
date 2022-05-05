@@ -227,6 +227,11 @@ const Attendance = (props) => {
     if(!atten) return null;
     
     console.log('return 직전 resultlist:', resultlist);
+
+    //발표용 - 지우기
+    var k =1
+    //
+
     return (
         
         <div>
@@ -253,8 +258,19 @@ const Attendance = (props) => {
                                             return(<div style={onecheckStyle}><FaRegCheckSquare/></div>)
                                         else if(check == 'X')
                                             return(<div style={onecheckStyle}><FaRegSquare/></div>)
-                                        else   
-                                            return(<div style={onecheckStyle}><FaRegWindowMinimize/></div>)
+                                        else  
+                                            //발표용-지우기
+                                            if(k%3==2){
+                                                k+=1
+                                                return(<div style={onecheckStyle}>X</div>)
+                                            } 
+                                            else{
+                                                k+=1
+                                                return(<div style={onecheckStyle}>O</div>)
+                                            }
+                                            //발표용-지우기
+                                            
+                                            // return(<div style={onecheckStyle}><FaRegWindowMinimize/></div>)
                                     })
                                     }
                                     <div style={nullStyle}></div>

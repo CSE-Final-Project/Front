@@ -24,9 +24,11 @@ const Board = (props) => {
             setPost(null);
 
             const response = await axios.get(URL);
-            console.log(response.data.code);
-            console.log(response.data.board);
-            setPost(response.data.board);
+            // console.log(response.data.code);
+            // console.log(response.data.board);
+            console.log(response.data.posts);
+            // setPost(response.data.board);
+            setPost(response.data.posts);
             console.log('post:',post);
         }catch(e){
             setError(e);

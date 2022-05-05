@@ -13,7 +13,7 @@ const Writer = styled.div`
     font-size: large; 
     font-weight: bold;
 `
-const CommentPage = ({ match } ) => {
+const CommentPage = ({ match }) => {
     const studyID =match.params.studyID;
     const postID = match.params.postID;
     
@@ -40,8 +40,12 @@ const CommentPage = ({ match } ) => {
             // console.log('<3>>:',response.data.get_data.comments);
             // console.log('<4>>:',response.data.get_data.comments[0].idx);
 
-            setPost(response.data.get_data.post);
-            setComment(response.data.get_data.comments);
+            // setPost(response.data.get_data.post);
+            // setComment(response.data.get_data.comments);
+            console.log(response.data.post);
+            console.log(response.data.comment);
+            setPost(response.data.post);
+            setComment(response.data.comment);
         } catch (error) {
             setError(error);
         }
@@ -80,6 +84,7 @@ const CommentPage = ({ match } ) => {
             <br/>
             <hr/>
             <WriteComment/>
+            {/* <button onClick={()=>{window.location.replace("/manage/study1")}}>뒤</button> */}
         </Container>
     );
 };

@@ -27,6 +27,8 @@ const Comment = (props) => {
 
     const URL= '/api/studies/'+studyID+'/board/'+postID+'/comment/'+comment.idx;
 
+    console.log(comment);
+
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -38,6 +40,7 @@ const Comment = (props) => {
             const response = await axios.delete(URL);
             if(response.data.code==="200"){
                 alert('성공')
+                window.location.reload();
             }
         } catch (error) {
             setError(error);
@@ -57,7 +60,7 @@ const Comment = (props) => {
                 {
                 localStorage.getItem('user')===comment.user_id? (
                     <Div2>
-                        <Button size="sm">수정</Button> &nbsp;
+                        {/* <Button size="sm">수정</Button> &nbsp; */}
                         <Button size="sm" onClick = {()=>{fetchDelete()}}>삭제</Button> &nbsp;
                     </Div2>
                 ) : null

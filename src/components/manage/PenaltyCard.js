@@ -48,7 +48,7 @@ const PenaltyCard = (props) => {
                         {
                             (localStorage.getItem('user')===penalty.user_id)?
                             <>
-                                <Content3><Button variant="primary">정산하기</Button></Content3>
+                                <Content3><Button variant="primary">정산</Button></Content3>
                             </>
                             : 
                             <>
