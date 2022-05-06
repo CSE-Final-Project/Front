@@ -99,7 +99,7 @@ const Room = (props) => {
 //         socketRef.current = io.connect("https://10.200.11.221:8000"); //현재 커넥트 정보 저장 
 //         console.log(socketRef.current) 
 // =======
-        socketRef.current = io.connect("https://192.168.0.28:8000"); //현재 커넥트 정보 저장  
+        socketRef.current = io.connect("https://10.200.11.221:8000"); //현재 커넥트 정보 저장  
 // >>>>>>> main
         
         navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: false })
@@ -216,7 +216,7 @@ const Room = (props) => {
 // =======
                 var response; 
                 if(mode) { //자동 측정 on 모드
-                    response = await fetch('https://192.168.0.28:5000/image', { //https://223.131.223.239:5000/image
+                    response = await fetch('https://10.200.11.221:5000/image', { //https://223.131.223.239:5000/image
                     method: "POST",
                     body: formData,
                     signal: abortController.signal,
