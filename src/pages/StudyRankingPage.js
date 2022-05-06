@@ -2,10 +2,20 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import StudyRanking from '../components/StudyRanking';
+//
+import {Card} from 'react-bootstrap';
+//
 
 const Container = styled.div`
   padding: 20px;
 `;
+
+//
+const Ranking_font = styled.div`
+    font-size: xx-large;
+    font-weight: bold;
+`;
+//
 
 const Date_font = styled.div`
     font-size: large;
@@ -91,6 +101,50 @@ const StudyRankingPage = () => {
                     }       
                 )
             }
+
+
+            <Card body>
+                <ContentBox>
+                    <Content1>
+                        <Ranking_font>🥇</Ranking_font></Content1>
+                    <Content2>study_1</Content2>
+                    <Content3>6시간 20분</Content3>
+                </ContentBox>
+            </Card> <br/>
+            <Card body>
+                <ContentBox>
+                    <Content1>
+                        <Ranking_font>🥈</Ranking_font></Content1>
+                    <Content2>study_AI</Content2>
+                    <Content3>5시간 30분</Content3>
+                </ContentBox>
+            </Card> <br/>
+            <Card body>
+                <ContentBox>
+                    <Content1>
+                        <Ranking_font>🥉</Ranking_font></Content1>
+                    <Content2>study_co</Content2>
+                    <Content3>4시간 50분</Content3>
+                </ContentBox>
+            </Card> <br/>
+            <Card body>
+                <ContentBox>
+                    <Content1>
+                        <Ranking_font>4</Ranking_font></Content1>
+                    <Content2>study_22</Content2>
+                    <Content3>2시간 20분</Content3>
+                </ContentBox>
+            </Card> <br/>
+            <Card body>
+                <ContentBox>
+                    <Content1>
+                        <Ranking_font>5</Ranking_font></Content1>
+                    <Content2>study_00</Content2>
+                    <Content3>1시간 00분</Content3>
+                </ContentBox>
+            </Card>
+            
+
         </Container>
     );
 };

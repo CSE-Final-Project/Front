@@ -172,13 +172,29 @@ const changeAfter = () => {
                                 <div style={weekTabChildStyle_unact} key={index}>{day.weekday}<br/>{day.date}</div>
                             )
                             }
-          })}   
+                })}   
                 <div style={weekTabRightButtonStyle}><FaChevronRight onClick={()=>changeAfter()}/> </div>   
             </div>
+
+            {/* 발표용-지우기 */}
+            &nbsp;&nbsp;&nbsp;&nbsp; 시간
+            &nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            3
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            3.5
+            {/* 발표용-지우기 */}
+
            {
                 time&&time.map(function(time,i){
                     return(
-                        <TimeRecordCard timeInfo={time} i={i} key={i}/>
+                        <>
+                            <TimeRecordCard timeInfo={time} i={i} key={i}/>
+                        </>
                     )
                 })
             }  

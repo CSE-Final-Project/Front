@@ -8,6 +8,7 @@ const Manage = (props) => {
 
     return (
         <div>
+            <br/>
             <Nav variant="tabs" defaultActiveKey="/home">
                 <Nav.Item>
                     <Nav.Link eventKey="link-1">출석 체크</Nav.Link>

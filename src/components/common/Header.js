@@ -1,12 +1,15 @@
 import React from 'react';
 import Button from './Button';
+import font from '../../css/font.css'
 import { Nav, Navbar,Container,Offcanvas,NavDropdown,Form,FormControl } from 'react-bootstrap';
+import '../../App.css'
+
 const Header2 = ({user, onLogout}) => {
     return (
         <div>
             <Navbar bg="light" expand={false}>
                 <Container fluid>
-                    <Navbar.Brand href="/">STUDY.DO</Navbar.Brand>
+                    <Navbar.Brand href="/" ><div >STUDY.DO</div></Navbar.Brand>
                     <Navbar.Toggle aria-controls="offcanvasNavbar" />
                     <Navbar.Offcanvas
                     id="offcanvasNavbar"
@@ -16,7 +19,9 @@ const Header2 = ({user, onLogout}) => {
                     <Offcanvas.Header closeButton>
                     {
                         user ? (
-                            <Offcanvas.Title id="offcanvasNavbarLabel">{user}</Offcanvas.Title>
+                            <div className='App'>
+                                <Offcanvas.Title id="offcanvasNavbarLabel">{user}</Offcanvas.Title>
+                            </div>
                         ) : null
                     }
                     </Offcanvas.Header>
@@ -24,14 +29,16 @@ const Header2 = ({user, onLogout}) => {
                         <Nav className="justify-content-end flex-grow-1 pe-3">
                         {
                             user? (
-                                <>
+                                <div className='App'>
                                     <Nav.Link onClick={onLogout}>로그아웃</Nav.Link>
                                     <Nav.Link href="/studies/my">참여 중인 스터디</Nav.Link>
                                     <Nav.Link href="/studies">스터디 목록</Nav.Link>
                                     <Nav.Link href="/studies/ranking">스터디 랭킹</Nav.Link>
-                                </>
+                                </div>
                             ) : (
-                                <Nav.Link href="/login">로그인</Nav.Link>
+                                <div className='App'>
+                                    <Nav.Link href="/login">로그인</Nav.Link>
+                                </div>
                             )
                         }
                         

@@ -5,7 +5,7 @@ const Footer = () => {
     if (window.location.pathname.includes('room')) return null; 
     return (
             <div className="footer">
-                     @Neodu
+                     @Neodo
             </div>
     )
 }
