@@ -9,6 +9,7 @@ const Container = styled.div`
 const LoginFalsePage = () => {
     return (
         <Container>
+            [배포]
             STUDY.DO <br/><br/>
 
             공부만 하세요.  <br/>
