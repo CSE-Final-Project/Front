@@ -9,7 +9,8 @@ const Container = styled.div`
 `;
 
 const MyStudyPage = () => {
-    const URL = '/api/users/studies';
+    axios.defaults.withCredentials = true;
+    const URL = 'https://nudo-study.cf/api/users/studies';
 
     const [myStudy, setMyStudy] = useState(null);
     const [loading, setLoading] = useState(false);

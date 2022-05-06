@@ -24,10 +24,11 @@ const enterBoardPut = (studyID,postID) =>{
 }
 
 const BoardCard = (props) => {
+    axios.defaults.withCredentials = true;
     const post = props.post;
     const studyID = props.studyID;
 
-    const URL_delete = '/api/studies/'+studyID+'/board/'+post.idx;
+    const URL_delete = 'https://nudo-study.cf/api/studies/'+studyID+'/board/'+post.idx;
 
     const fetchDelete = async () => {
         try {

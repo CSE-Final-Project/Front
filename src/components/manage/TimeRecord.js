@@ -6,6 +6,7 @@ import TimeRecordCard from './TimeRecordCard';
 import '../../css/TimeRecord.css';
 
 const TimeRecord = (props) => {
+    axios.defaults.withCredentials = true;
 
     const studyId = props.studyID;
 
@@ -99,7 +100,7 @@ const changeAfter = () => {
    
    const clickDate = async (e, index) => {
        var clickdate  = new Date(new Date().setDate(today.getDate()-6+index));
-       var URL = '/api/studies/time/'+studyId; 
+       var URL = 'https://nudo-study.cf/api/studies/time/'+studyId; 
 
         try{
             const response = await axios.post(URL,{date:clickdate});

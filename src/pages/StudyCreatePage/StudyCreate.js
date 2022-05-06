@@ -43,7 +43,8 @@ const Input = styled.input`
 // `;
 
 const StudyCreate = (props) => {
-    const URL = '/api/studies';
+    axios.defaults.withCredentials = true;
+    const URL = 'https://nudo-study.cf/api/studies';
 
     const {inputs,submitting,handleChange,handleSubmit} = useForm({
       initialValues: {study_id: "",title:"",topic:"",target_time:"",penalty:"",info:""},

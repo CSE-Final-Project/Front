@@ -3,13 +3,14 @@ import React, { useState } from 'react';
 import {Form,Button} from 'react-bootstrap';
 
 const WriteComment = () => {
+    axios.defaults.withCredentials = true;
     const studyID = window.location.href.split("/").reverse()[2];
     const postID = window.location.href.split("/").reverse()[1];
     console.log(studyID,'|',postID);
 
     //게시글 댓글 작성 /api/studeis/{:studyId}/board/{:idx}/comment [POST]
     // const URL = '/api/studies/board/comment/write/'+studyID+'/'+postID;
-    const URL = '/api/studies/'+studyID+'/board/'+postID+'/comment';
+    const URL = 'https://nudo-study.cf/api/studies/'+studyID+'/board/'+postID+'/comment';
     const [comment, setComment] = useState("");
 
     const handleSubmit = async (e) => {

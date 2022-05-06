@@ -53,6 +53,7 @@ const videoConstraints = {
 
 
 const Room = (props) => {
+    axios.defaults.withCredentials = true;
     const videolistRef = useRef(); 
     videolistRef.current = [];
 
@@ -99,7 +100,7 @@ const Room = (props) => {
 //         socketRef.current = io.connect("https://10.200.11.221:8000"); //현재 커넥트 정보 저장 
 //         console.log(socketRef.current) 
 // =======
-        socketRef.current = io.connect("https://192.168.0.28:8000"); //현재 커넥트 정보 저장  
+        socketRef.current = io.connect("https://nudo-study.cf/"); //현재 커넥트 정보 저장  
 // >>>>>>> main
         
         navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: false })
@@ -216,7 +217,7 @@ const Room = (props) => {
 // =======
                 var response; 
                 if(mode) { //자동 측정 on 모드
-                    response = await fetch('https://192.168.0.28:5000/image', { //https://223.131.223.239:5000/image
+                    response = await fetch('https://223.131.223.239:5000/image', { //https://223.131.223.239:5000/image
                     method: "POST",
                     body: formData,
                     signal: abortController.signal,
@@ -312,7 +313,7 @@ const Room = (props) => {
     const fetchStudyTime = async () => {
         try{
             const roomID = props.match.params.roomID;
-            const response = await axios.patch('/api/studies/time/'+roomID,{study_time:studyTime_total/1000});
+            const response = await axios.patch('https://nudo-study.cf/api/studies/time/'+roomID,{study_time:studyTime_total/1000});
             console.log(response.data);
             if(response.data.code==="200"){
                 window.location.replace('/');

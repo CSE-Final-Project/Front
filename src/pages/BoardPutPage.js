@@ -8,11 +8,12 @@ const Container = styled.div`
 `;
 
 const BoardPutPage = (props) => {
+    axios.defaults.withCredentials = true;
     const studyID = props.match.params.studyID
     const postID = props.match.params.postID
 
     ///api/studeis/{:studyId}/board/{:idx} [PUT]
-    const URL = '/api/studies/'+studyID+'/board/'+postID;
+    const URL = 'https://nudo-study.cf/api/studies/'+studyID+'/board/'+postID;
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
 

@@ -55,7 +55,8 @@ const Content3 = styled.div`
 `;
 
 const StudyRankingPage = () => {
-    const URL = '/api/rankings/studies';
+    axios.defaults.withCredentials = true;
+    const URL = 'https://nudo-study.cf/api/rankings/studies';
     const [studies, setStudies] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);

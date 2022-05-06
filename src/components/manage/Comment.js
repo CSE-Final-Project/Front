@@ -21,11 +21,12 @@ const Div3 = styled.div`
     font-size: small;
 `
 const Comment = (props) => {
+    axios.defaults.withCredentials = true;
     const comment = props.comment;
     const studyID = props.studyID;
     const postID = props.postID;
 
-    const URL= '/api/studies/'+studyID+'/board/'+postID+'/comment/'+comment.idx;
+    const URL= 'https://nudo-study.cf/api/studies/'+studyID+'/board/'+postID+'/comment/'+comment.idx;
 
     console.log(comment);
 

@@ -9,8 +9,9 @@ const Container = styled.div`
 `;
 
 const Board = (props) => {
+    axios.defaults.withCredentials = true;
     const studyID = props.studyID
-    const URL = '/api/studies/'+studyID+'/board/';
+    const URL = 'https://nudo-study.cf/api/studies/'+studyID+'/board/';
     const write_URL = '/manage/'+studyID+'/write';
 
     const [post, setPost] = useState(null);

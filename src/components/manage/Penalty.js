@@ -7,8 +7,9 @@ const Container = styled.div`
   padding: 20px;
 `;
 const Penalty = (props) => {
+    axios.defaults.withCredentials = true;
     const studyID = props.studyID;
-    const URL ='/api/studies/penalty/'+studyID;
+    const URL ='https://nudo-study.cf/api/studies/penalty/'+studyID;
     const [penalty, setPenalty] = useState(null);
     const [loading,setLoading] = useState(false);
 

@@ -8,9 +8,10 @@ const Container = styled.div`
   padding: 20px;
 `;
 const WritePage = (props) => {
+    axios.defaults.withCredentials = true;
     const studyID = props.match.params.studyID
     console.log(props.match.params.studyID)
-    const URL = '/api/studies/'+studyID+'/board';
+    const URL = 'https://nudo-study.cf/api/studies/'+studyID+'/board';
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
 

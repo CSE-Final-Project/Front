@@ -14,11 +14,12 @@ const Writer = styled.div`
     font-weight: bold;
 `
 const CommentPage = ({ match }) => {
+    axios.defaults.withCredentials = true;
     const studyID =match.params.studyID;
     const postID = match.params.postID;
     
     //게시글 상세 화면 /api/studeis/{:studyId}/board/{:idx}
-    const URL = '/api/studies/'+studyID+'/board/'+postID;
+    const URL = 'https://nudo-study.cf/api/studies/'+studyID+'/board/'+postID;
 
     const [post, setPost] = useState(null);
     const [comment, setComment] = useState(null);

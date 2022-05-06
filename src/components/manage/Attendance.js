@@ -7,6 +7,7 @@ import { FaRegSquare } from "react-icons/fa";
 import { FaRegWindowMinimize } from "react-icons/fa";
 
 const Attendance = (props) => {
+    axios.defaults.withCredentials = true;
 
     var fix_today = new Date();
     var fix_month = fix_today.getMonth()+1; 
@@ -53,8 +54,8 @@ const Attendance = (props) => {
     }
 
     const studyId = props.studyID;
-    const URL1 = '/api/studies/attendance/'+studyId;
-    const URL2 = '/api/studies/mates/'+studyId; //url 중간에 //있었는데 에러 x
+    const URL1 = 'https://nudo-study.cf/api/studies/attendance/'+studyId;
+    const URL2 = 'https://nudo-study.cf/api/studies/mates/'+studyId; //url 중간에 //있었는데 에러 x
     const [atten,setAtten]=useState(null); 
     const [mate,setMate]=useState(null);
     const [loading, setLoading] = useState(false);
