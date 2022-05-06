@@ -93,7 +93,14 @@ const Room = (props) => {
     })//,[peers]); <-문제 생기면 추가
 
     useEffect(() => { //렌더링 될 때마다 실행, peers 값 변할 때마다 렌더링
-        socketRef.current = io.connect("https://192.168.0.28:8000"); //현재 커넥트 정보 저장  
+// <<<<<<< HEAD
+//         console.log("렌더링3:  useEffect 실행 -> 소켓 통신, 디텍션 "); 
+//         console.log("렌더링3: videolistRef.current[0] : ", videolistRef.current[0]);
+//         socketRef.current = io.connect("https://10.200.11.221:8000"); //현재 커넥트 정보 저장 
+//         console.log(socketRef.current) 
+// =======
+        socketRef.current = io.connect("https://10.200.30.19:8000"); //현재 커넥트 정보 저장  
+// >>>>>>> main
         
         navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: false })
         .then(stream => {
@@ -174,7 +181,7 @@ const Room = (props) => {
                 formData.append('image', imageRef.current);
                 var response; 
                 if(mode) { //자동 측정 on 모드
-                    response = await fetch('https://192.168.0.28:5000/image', { //https://223.131.223.239:5000/image
+                    response = await fetch('https://223.131.223.239:5000/image', { //https://223.131.223.239:5000/image
                     method: "POST",
                     body: formData,
                     signal: abortController.signal,
