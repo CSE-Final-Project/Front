@@ -21,8 +21,18 @@ const Attendance = (props) => {
     var dayLabel = today.getDay();
     var compare2 = [month,date]
     var num = dayLabel; 
-    for(var i = 0; i < 7; i++,num--){
-        var dateNum = date-i; 
+    var dateNum = date; 
+    for(var i = 0; i < 7; i++,num--,dateNum--){
+        if(dateNum == 0 ){
+                if((month-1)%2 == 0){
+                    if((month-1)==2) dateNum = 28;
+                    else dateNum = ((month-1)==8) ? 31 : 30; 
+                    //윤년 2월 예외처리 추가
+                }else{
+                    dateNum = 31;
+                }
+            console.log("month , dateNum: ", month, dateNum);
+        } 
         var weekday = week[num];
         var set = { date: dateNum, weekday: weekday};
         weekInfo.push(set);
@@ -51,15 +61,29 @@ const Attendance = (props) => {
     const [render, setRender] = useState(true);
     //const [today, setToday] = useState(today);
 
-    //리팩토링, 인자로 넘겨주고 changeDate로 합치기
+    //var update_date = today;
+
+    //리팩토링: 인자로 넘겨주고 changeDate로 합치기
     const changeBefore = () => {
-            var new_date = new Date(new Date().setDate(today.getDate() - 7))
+            weekInfo = []; //7일씩만 들어가도록, 비워줘야
+            console.log("1. today:" ,today); 
+            var new_date = new Date(today.setDate(today.getDate() - 7));
+            console.log("2. new_date:" , new_date); 
             month = new_date.getMonth()+1; 
             date = new_date.getDate(); 
             dayLabel = new_date.getDay();
             num = dayLabel; 
-                for(var i = 0; i < 7; i++,num--){
-                     var dateNum = date-i; 
+            dateNum = date;
+                for(var i = 0; i < 7; i++,num--,dateNum--){
+                     //var dateNum = date-i; 
+                     if(dateNum == 0 ){
+                        if(month%2 == 0){ 
+                            dateNum = (month==8) ? 31 : 30 
+                            //윤년 2월 예외처리 추가
+                        }else{
+                            dateNum = 31;
+                        }
+                    } 
                      var weekday = week[num]; 
                      var set = { date: dateNum, weekday: weekday}; 
                      weekInfo.push(set);
@@ -68,19 +92,33 @@ const Attendance = (props) => {
                      }
             }
             weekInfo.reverse();
-            setToday(new_date)
+           // setToday(new_date)
+           console.log("weekInfo: ", weekInfo);
             fetchAttendance(new_date);
    
     }
 
     const changeAfter = () => {
-            var new_date = new Date(new Date().setDate(today.getDate() + 7))
+            weekInfo = []; //7일씩만 들어가도록, 비워줘야
+           // var new_date = new Date(new Date().setDate(today.getDate() + 7))
+            console.log("1. today:" ,today); 
+            var new_date = new Date(today.setDate(today.getDate() + 7));
+            console.log("2. new_date:" , new_date); 
             month = new_date.getMonth()+1; 
             date = new_date.getDate(); 
             dayLabel = new_date.getDay();
             num = dayLabel; 
-                for(var i = 0; i < 7; i++,num--){
-                     var dateNum = date-i; 
+            dateNum = date;
+                for(var i = 0; i < 7; i++,num--,dateNum--){
+                    // var dateNum = date-i; 
+                    if(dateNum == 0 ){
+                        if((month-1)%2 == 0){ 
+                            dateNum = ((month-1)==8) ? 31 : 30 
+                            //윤년 2월 예외처리 추가
+                        }else{
+                            dateNum = 31;
+                        }
+                    } 
                      var weekday = week[num];
                      var set = { date: dateNum, weekday: weekday};
                      weekInfo.push(set);
@@ -88,8 +126,9 @@ const Attendance = (props) => {
                          num = 7; 
                      }
             }
+
             weekInfo.reverse();
-            setToday(new_date)
+           // setToday(new_date)
             fetchAttendance(new_date);
  
     }
@@ -120,8 +159,7 @@ const Attendance = (props) => {
        fetchMateInfo();
     },[]); 
 
-    
-    //문제: atten, mate set 되고 나면 바로 resultlist 초기화 되어버림..if문 수행하지도 않았는데.. 어떻게..??
+
         if(atten&&mate){
         var list = Object.values(atten)
         for(var i=0; i< Object.keys(mate).length; i++){

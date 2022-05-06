@@ -2,52 +2,84 @@ import React, {useEffect, useState} from 'react';
 
 const StopWatch = (props) => {
     const [time, setTime] = useState(0);
+    //mode off -> on 으로 클릭 시 stop 기본 false 상태로 바꿔줘야 함
     const [stop, setStop] = useState(false);
-    const [click, setClick] = useState(false);
+    //mode off -> on 으로 클릭 시 click 도 false로 바꿔줘야 함, click const Room.js로 이동
+        //const [click, setClick] = useState(false);
     const socket = props.socket;
-    
-    let stop_val = true;
+    let stop_val = false;
 
     const sendWatchValue= () =>{
-        if(props.watch === 'false'){
-            props.getWatchValue('true');
-            socket.emit('false-event', { peer_tf: props.myID, dst_room: props.roomID, tf_state: 'true'})
-        }else{
-            props.getWatchValue('false');
+        props.getClickValue(!props.click);
+        if(!props.mode){ //자동 측정 mode off 일 때만 watch 수동 조작 이벤트 실행
+            if(props.watch === 'false'){
+                props.getWatchValue('true');
+                props.timeStart();
+                props.getVideoColorValue('true')
+                socket.emit('false-event', { peer_tf: props.myID, dst_room: props.roomID, tf_state: 'true'})
+            }else{
+                props.getWatchValue('false');
+                props.timeEnd();
+                props.getVideoColorValue('false') //흑백 - 블랙 타이밍 확인용
+                socket.emit('false-event', { peer_tf: props.myID, dst_room: props.roomID, tf_state: 'false'})
+            }
+        }else{ //mode on
+            props.getClickValue(true);
+            props.getWatchValue('false'); //0505 true -> false로 바꿈
             socket.emit('false-event', { peer_tf: props.myID, dst_room: props.roomID, tf_state: 'false'})
-        }
+        } //else{
+        //     props.getWatchValue('false');
+        //     socket.emit('false-event', { peer_tf: props.myID, dst_room: props.roomID, tf_state: 'false'})
+        // }
     }
 
     // console.log('wow: ',props.detect);
-    if(props.detect === 'false'){  //Room.js의 result를 props.detect로 받아옴
-        stop_val = false;
-    }else if(props.detect === 'true'){
-        stop_val = true;
+    if(props.mode){
+        if(props.detect === 'false'){  //Room.js의 result를 props.detect로 받아옴
+            stop_val = false;
+        }else if(props.detect === 'true'){
+            stop_val = true;
+        }
     }
     // console.log('stop: ',stop);
-
     useEffect(()=>{
         let interval = null
 
         setStop(stop_val);
-        // console.log('aaa: ',stop);
-        
-        if(click & stop){
-            interval = setInterval(()=>{
-                setTime(prevTime => prevTime+10)
-            },10)
-        } else {
-             clearInterval(interval);
+        console.log('aaa: ',stop);
+
+        //console.log("시간 측정 기준 변수 상태: click->", props.click, " stop->", stop," props.watch->", props.watch)
+        // mode on: stop만 true 면 됨
+        if(props.mode){  
+            if(stop){//mode on, running -> true
+                interval = setInterval(()=>{
+                    setTime(prevTime => prevTime+10)
+                },10)
+            } else { //mode off, not running -> false
+                clearInterval(interval);
+            }
+        }else{ //mode off: watch 만 true 면 됨 (코드 나중에 정리)
+            if(props.click &  props.watch === 'true' ){  //mode off, running -> true
+                interval = setInterval(()=>{
+                    setTime(prevTime => prevTime+10)
+                },10)
+            } else { //mode off , running -> false
+                clearInterval(interval);
+            }
+
         }
 
+
+        }
         return () => clearInterval(interval);
     },)
 
+    
     const buttonStyle = {
         position: 'absolute', 
         right: '0px', 
         bottom: '0px',
-        fontSize: '0.7rem',
+        fontSize: '1.5rem', //원래 0.7 (발표용)
         color: 'white',
         backgroundColor: 'rgba(0, 0, 0, 0.7)',
         fontWeight: 'bold',
@@ -69,8 +101,10 @@ const StopWatch = (props) => {
         }
     }
 
+   // fullChange();
+    //setClick(!click);
     return (
-            <button style = {buttonStyle} onClick={()=>{ fullChange(); setClick(!click); sendWatchValue();}}>
+                <button style = {buttonStyle} onClick={()=>{  sendWatchValue();  fullChange();}}>
                 <span>{("0" + Math.floor((time/3600000)%24)).slice(-2)}:</span>
                 <span>{("0" + Math.floor((time/60000)%60)).slice(-2)}:</span>
                 <span>{("0" + Math.floor((time/1000)%60)).slice(-2)}:</span>

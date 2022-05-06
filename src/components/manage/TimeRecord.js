@@ -23,8 +23,19 @@ const TimeRecord = (props) => {
     var dayLabel = today.getDay();
     var compare2 = [month,date]
     var num = dayLabel; 
-    for(var i = 0; i < 7; i++,num--){
-        var dateNum = date-i; 
+    var dateNum = date; 
+
+    for(var i = 0; i < 7; i++,num--,dateNum--){
+        if(dateNum == 0 ){
+                if((month-1)%2 == 0){ 
+                    if((month-1)==2) dateNum = 28;
+                    else dateNum = ((month-1)==8) ? 31 : 30;  
+                    //윤년 2월 예외처리 추가
+                }else{
+                    dateNum = 31;
+                }
+            console.log("month , dateNum: ", month, dateNum);
+        } 
         var weekday = week[num];
         var set = { date: dateNum, weekday: weekday};
         weekInfo.push(set);
@@ -32,6 +43,7 @@ const TimeRecord = (props) => {
             num = 7; 
         }
     }
+
     weekInfo.reverse();
 
    var startday = props.startdate;
@@ -42,46 +54,47 @@ const TimeRecord = (props) => {
          isInclude = true;
     }
 
-    //리팩토링, 인자로 넘겨주고 changeDate로 합치기
-    const changeBefore = () => {
-            var new_date = new Date(new Date().setDate(today.getDate() - 7))
-            month = new_date.getMonth()+1; 
-            date = new_date.getDate(); 
-            dayLabel = new_date.getDay();
-            num = dayLabel; 
-                for(var i = 0; i < 7; i++,num--){
-                     var dateNum = date-i; 
-                     var weekday = week[num]; 
-                     var set = { date: dateNum, weekday: weekday}; 
-                     weekInfo.push(set);
-                     if(num == 0){
-                         num = 7; 
-                     }
-            }
-            weekInfo.reverse();
-            setToday(new_date)
-   
-    }
+     //리팩토링, 인자로 넘겨주고 changeDate로 합치기
+     const changeBefore = () => {
+        weekInfo = [];
+        var new_date = new Date(today.setDate(today.getDate() - 7))
+        month = new_date.getMonth()+1; 
+        date = new_date.getDate(); 
+        dayLabel = new_date.getDay();
+        num = dayLabel; 
+            for(var i = 0; i < 7; i++,num--){
+                 var dateNum = date-i; 
+                 var weekday = week[num]; 
+                 var set = { date: dateNum, weekday: weekday}; 
+                 weekInfo.push(set);
+                 if(num == 0){
+                     num = 7; 
+                 }
+        }
+        weekInfo.reverse();
+        setToday(new_date)
 
-    const changeAfter = () => {
-            var new_date = new Date(new Date().setDate(today.getDate() + 7))
-            month = new_date.getMonth()+1; 
-            date = new_date.getDate(); 
-            dayLabel = new_date.getDay();
-            num = dayLabel; 
-                for(var i = 0; i < 7; i++,num--){
-                     var dateNum = date-i; 
-                     var weekday = week[num];
-                     var set = { date: dateNum, weekday: weekday};
-                     weekInfo.push(set);
-                     if(num == 0){
-                         num = 7; 
-                     }
-            }
-            weekInfo.reverse();
-            setToday(new_date)
-    }
+}
 
+const changeAfter = () => {
+        weekInfo = [];
+        var new_date = new Date(today.setDate(today.getDate() + 7))
+        month = new_date.getMonth()+1; 
+        date = new_date.getDate(); 
+        dayLabel = new_date.getDay();
+        num = dayLabel; 
+            for(var i = 0; i < 7; i++,num--){
+                 var dateNum = date-i; 
+                 var weekday = week[num];
+                 var set = { date: dateNum, weekday: weekday};
+                 weekInfo.push(set);
+                 if(num == 0){
+                     num = 7; 
+                 }
+        }
+        weekInfo.reverse();
+        setToday(new_date)
+}
    const [time, setTime] = useState(null);
    
    const clickDate = async (e, index) => {
