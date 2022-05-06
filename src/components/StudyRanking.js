@@ -58,6 +58,7 @@ const StudyRanking = (props) => {
                         <Ranking_font>{medal}</Ranking_font></Content1>
                     <Content2>{study.study_id}</Content2>
                     <Content3>{study.avg_time} </Content3>
+                    
                 </ContentBox>
             </Card>
             <br/>

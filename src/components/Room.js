@@ -93,7 +93,14 @@ const Room = (props) => {
     })//,[peers]); <-문제 생기면 추가
 
     useEffect(() => { //렌더링 될 때마다 실행, peers 값 변할 때마다 렌더링
+// <<<<<<< HEAD
+//         console.log("렌더링3:  useEffect 실행 -> 소켓 통신, 디텍션 "); 
+//         console.log("렌더링3: videolistRef.current[0] : ", videolistRef.current[0]);
+//         socketRef.current = io.connect("https://10.200.11.221:8000"); //현재 커넥트 정보 저장 
+//         console.log(socketRef.current) 
+// =======
         socketRef.current = io.connect("https://192.168.0.28:8000"); //현재 커넥트 정보 저장  
+// >>>>>>> main
         
         navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: false })
         .then(stream => {
@@ -172,6 +179,41 @@ const Room = (props) => {
             if (imageRef.current && mode) {
                 const formData = new FormData();
                 formData.append('image', imageRef.current);
+// <<<<<<< HEAD
+
+//                 const response = await fetch('https://10.200.11.221:5000/image', { 
+//                 method: "POST",
+//                 body: formData,
+//                 }).then().catch(err => console.log(err));
+
+//                 console.log("0. 디텍트 실행");
+
+//                 if (response.status === 200) {
+                
+
+//                     const text = await response.text();
+//                     detect = JSON.parse(text); 
+//                     videoColor = detect.result; 
+//                     console.log('2>(Room)실제 detect: ',detect.result);
+//                     setResult(detect.result);
+//                     console.log("3>(Room)useEffect안의 스탑워치: ",watch);
+
+//                     if(watch === 'false'){
+//                         detect.result = 'false';
+//                         console.log('4>(Room)detect 변경: ',detect.result);
+//                     }
+
+//                     console.log('5>(Room)두번째 detect: ',detect.result);
+
+//                     if(detect.result === 'true'){
+
+//                         num++;
+//                         yn_arr[num%2]=0;
+
+//                         if((yn_arr[0]+yn_arr[1])%2!=0 | start == 0){
+//                             now_yes=new Date();
+//                             console.log('NOW_YES: ',now_yes.getTime());                 
+// =======
                 var response; 
                 if(mode) { //자동 측정 on 모드
                     response = await fetch('https://192.168.0.28:5000/image', { //https://223.131.223.239:5000/image
@@ -200,6 +242,7 @@ const Room = (props) => {
                             if((yn_arr[0]+yn_arr[1])%2!=0){
                                 timeEnd();              
                             }
+// >>>>>>> main
                         }
                     
                         //위 코드랑 합치기 필요
