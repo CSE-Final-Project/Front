@@ -3,13 +3,16 @@ import Button from './Button';
 import font from '../../css/font.css'
 import { Nav, Navbar,Container,Offcanvas,NavDropdown,Form,FormControl } from 'react-bootstrap';
 import '../../App.css'
+import styled from 'styled-components';
 
 const Header2 = ({user, onLogout}) => {
     return (
         <div>
             <Navbar bg="light" expand={false}>
                 <Container fluid>
-                    <Navbar.Brand href="/" ><div >STUDY.DO</div></Navbar.Brand>
+                    <Navbar.Brand href="/" ><div >
+                    <img src="img/studydo.png" width="130px" height="40px"/>
+                        </div></Navbar.Brand>
                     <Navbar.Toggle aria-controls="offcanvasNavbar" />
                     <Navbar.Offcanvas
                     id="offcanvasNavbar"
