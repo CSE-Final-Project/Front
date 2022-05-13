@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, forwardRef, useCallback } from "react";
+import React, { useEffect, useRef, useState} from "react";
 import io from "socket.io-client";
 import Peer from "simple-peer";
 import styled, {css} from "styled-components";
@@ -8,8 +8,6 @@ import axios from 'axios';
 import "../css/ModeToggle.css";
 import "../css/Room.css";
 import text from "./text.png"; 
-import { setUseProxies } from "immer";
-
 
 let now_yes; //계속 NO HAND! 나오다가 HAND DETECT! 나온 시점
 let now_no; //계속 HAND DETECT! 나오다가 NO HAND! 나온 시점
@@ -50,15 +48,6 @@ const imagedivStyle = {
     border: '2pt solid black',
     backgroundColor: 'black'
 }
-
-
-/*const imageStyle = {
-    position: 'relative', 
-    height: '100%', 
-    //width + margin = 50%
-    width: '100%', 
-    visibility: JSON.stringify(compare1)===JSON.stringify(compare2) ? 'hidden' : 'visible',
-} */
 
 
 const Container = styled.div`
@@ -129,17 +118,9 @@ const Video = (props) => {
         })
     }, []);
 
-    //style={ isSpecial ? { color:'blue'} : {color : 'red'} }
-    //   style = { state ? {visibility : 'visible'} : {visibility : 'hidden'} }
-    //<img src={rest} style = {imageStyle}/>
-    //수정: peervideoStyle 삭제, PeerVideo 정의에 동일설정 작성
-    //peervideo 밑에 위치 : <VacantImage src= {rest} state = {state}/> 
-    //style = {imageStyle}
-    //style="position:absolute;  height: 100%; weight: 100%"
     return (
         <div style = {videodivStyle} >
         <PeerVideo playsInline autoPlay  ref={ref} style= {peervideoStyle} state = {state} />
-         {/*<VacantImage src= {rest} state = {state}/> */}
         <img src={text} className="imageStyle" style = { state ? {display: 'none'}  : {visibility : 'visible'}  } />
         </div>
     );
@@ -147,7 +128,6 @@ const Video = (props) => {
 
 
 const Room = (props) => {
-    const [, updateState] = useState(); //강제 렌더링
     console.log("---------------------------재실행----------")
     const videolistRef = useRef(); 
     videolistRef.current = [];
@@ -166,11 +146,6 @@ const Room = (props) => {
     const [result, setResult] = useState("");
     const [watch, setWatch] =useState('false');
     const [click, setClick] = useState(false);
-    const [out, setOut] = useState(false);
-
-    function someMethod() {
-        setPeers(users => [...users]);
-    }
 
     // setWatch(!watch);
     const getWatchValue = (text) => {
@@ -253,37 +228,18 @@ const Room = (props) => {
                     var index = peersRef.current.findIndex(i => i.peerID === data.peer_tf);
                     if(data.tf_state === 'false'){
                         const uniquePeers = peersRef.current; 
-                        //주의: peers로 접근하면 빈 배열
-                        //peerRef랑 peers 구성 동일해야함.. peerRef로 peer 정보 백업해서 다시 set 하니까 다르면 중간에 데이터 구성 달라짐
-                        console.log("#video-state > index:", index); 
-                        console.log("#video-state >peers:", peers); 
-                        console.log("#video-state >uniquePeers:", uniquePeers); 
-                        console.log("#video-state >uniquePeers[index] :", uniquePeers[index]);
                         uniquePeers[index].videoState = false; 
                         peersRef.current[index].videoState = false;
                         watch_test=false;
                         setPeers(uniquePeers);
-                        console.log("#video-state > false setPeers 이후 (아래와 동일해야)> peers[index]", peers[index] )
-                        console.log("#video-state > false setPeers 이후 (위와 동일해야)> peersRef[index]", peersRef[index] )
-                        //setOut(!out)//재렌더링이 안돼서 추가
-                        
-                        
+                        setPeers(users => [...users]); //강제로 렌더링 
                     }else{
                         const uniquePeers = peersRef.current;
-                        console.log("#video-state > index:", index); 
-                        console.log("#video-state >peers:", peers); 
-                        console.log("#video-state >uniquePeers:", uniquePeers); 
-                        console.log("#video-state >uniquePeers[index] :", uniquePeers[index]);
                         uniquePeers[index].videoState = true; 
                         peersRef.current[index].videoState = true;
                         watch_test=true;
                         setPeers(uniquePeers);
-                        setPeers(users => [...users]); //강제로 렌더링 시도
-                        //const forceUpdate = useCallback(() => updateState({}), []); //렌더링 강제 : callback 안에 callback 에러
-                        console.log("#video-state > false setPeers 이후 (아래와 동일해야)> peers[index]", peers[index] )
-                        console.log("#video-state > false setPeers 이후 (위와 동일해야)> peersRef[index]", peersRef[index] )
-                        //setOut(!out) //재렌더링이 안돼서 추가
-                       
+                        setPeers(users => [...users]); //강제로 렌더링 
                     }
                 }
             })
@@ -299,7 +255,6 @@ const Room = (props) => {
                 2. peers에서 삭제해야 (문제: peers에 socket.id 없음) 
                 -> peersRef에서 인덱스 추출하고 peers에서는 해당 인덱스 삭제
                 */
-
                 socketRef.current.on("user-disconnected", id => {
                     const peerObj = peersRef.current.find(p=>p.peerID === id);
                     if(peerObj){
@@ -308,7 +263,7 @@ const Room = (props) => {
                     const peers = peersRef.current.filter(p=> p.peerID != id);
                     peersRef.current = peers;
         
-                    const uniquePeers = peers.filter(p=> p.peerID != id); //수정: 이미 filter 처리 한거니까 그냥 peer만 넣어도 될듯..
+                    const uniquePeers = peers.filter(p=> p.peerID != id); //수정: 이미 filter 처리 한거니까 그냥 peer만 넣기
                     setPeers(uniquePeers);
                 })
             })
@@ -540,27 +495,10 @@ const Room = (props) => {
                     </label>
                 </div>
             </div>
-                {/*{peers.map((peer, index) => {
-                    return(
-                        <div style = {videodivStyle} >
-                        <video  key={peer.peerID} peer={peer.peer} style={peervideoStyle} playsInline autoPlay ref={ ref => {videolistRef.current[index] = ref} }></video>
-                        </div>
-                        )
-                })} */}
                  {peers.map((peer, index) => {
-                     console.log("-------------JSX실행---------- ")
-                     console.log("#JSX peer.videoState: ", peer.videoState);
-                    // if(peer.videoState == true){
-                       // return(
-                          //  <div style = {imagedivStyle} >
-                          //  <img src={rest} style = {imageStyle}/>
-                         //</div>
-                        //)
-                     //}else{
                         return (
                             <Video key={peer.peerID} peer={peer.peer} idx = {index} state = {peer.videoState}/>
                         );
-                    // }
             })} 
                
             </Container>
