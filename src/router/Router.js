@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import CreateRoom from "../components/CreateRoom";
 import Room from "../components/Room";
 
+
 import StudyCreate from '../pages/StudyCreatePage/StudyCreate';
 
 import PostListPage from '../pages/PostListPage';
