@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import CreateRoom from "../components/CreateRoom";
 import Room from "../components/Room";
+import RoomTest from "../components/RoomTest";
+
 
 import StudyCreate from '../pages/StudyCreatePage/StudyCreate';
 
@@ -54,6 +56,7 @@ const Router = () => {
                     )}
                     {/* <Route path="/" exact component={CreateRoom} /> */}
                     <Route path="/room/:roomID" component={Room} />
+                    <Route path="/roomtest/:roomID" component={RoomTest} />
                     <Route path="/studyCreate" component={StudyCreate} />
 
                     {/* path에 배열을 넣어 한 라우트 컴포넌트에 여러개 경로 설정 */}

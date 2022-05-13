@@ -1,10 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, forwardRef, useCallback } from "react";
 import io from "socket.io-client";
 import Peer from "simple-peer";
 import styled, {css} from "styled-components";
 import StopWatch from './StopWatch';
+import SimpleStopWatch from './SimpleStopWatch';
 import axios from 'axios';
 import "../css/ModeToggle.css";
+import "../css/Room.css";
+import text from "./text.png"; 
+import { setUseProxies } from "immer";
 
 
 let now_yes; //계속 NO HAND! 나오다가 HAND DETECT! 나온 시점
@@ -17,6 +21,45 @@ let start =0;
 let watch_test = true;
 let mode = false;
 var abortController = new AbortController();
+var disconnect_idx; 
+var disconnect_flag = false; 
+
+const peervideoStyle = {
+    height: '100%' ,
+    width: '100%', 
+    filter: 'brightness(1)',
+    objectFit: 'cover'
+}
+
+const videodivStyle = {
+    position: 'relative', 
+    height: '45%', 
+    //width + margin = 50%
+    width: '47%', 
+    margin: '0.3%', 
+    border: '2pt solid black',
+    backgroundColor: 'black'
+}
+
+const imagedivStyle = {
+    position: 'relative', 
+    height: '45%', 
+    //width + margin = 50%
+    width: '47%', 
+    margin: '0.3%', 
+    border: '2pt solid black',
+    backgroundColor: 'black'
+}
+
+
+/*const imageStyle = {
+    position: 'relative', 
+    height: '100%', 
+    //width + margin = 50%
+    width: '100%', 
+    visibility: JSON.stringify(compare1)===JSON.stringify(compare2) ? 'hidden' : 'visible',
+} */
+
 
 const Container = styled.div`
     padding: 20px;
@@ -35,6 +78,23 @@ const StyledVideo = styled.video`
     filter:  ${props => props.color==="false" ? 'grayscale(100%)' : 'brightness(1)'}; 
 `;
 
+const VacantImage = styled.div`
+    position: absolute;
+    height: 100%; 
+    width: 100%;
+    visibility: ${props => props.state===false ? 'visible' : 'hidden'};
+    `;
+
+const PeerVideo = styled.video`
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    filter: brightness(1);
+    objectFit: cover;
+    visibility: ${props => props.state===false ? 'hidden' : 'visible'};
+    `;
+
+
 const StyledCanvas = styled.canvas`
     height: 40%;
     width: 50%;
@@ -52,7 +112,43 @@ const videoConstraints = {
 };
 
 
+const imageStyle = {
+    position: 'absolute', 
+    height: '100%', 
+    //width + margin = 50%
+    width: '100%', 
+} 
+
+const Video = (props) => {
+    const ref = useRef();
+    var state = props.state;
+
+    useEffect(() => {
+        props.peer.on("stream", stream => {
+            ref.current.srcObject = stream;
+        })
+    }, []);
+
+    //style={ isSpecial ? { color:'blue'} : {color : 'red'} }
+    //   style = { state ? {visibility : 'visible'} : {visibility : 'hidden'} }
+    //<img src={rest} style = {imageStyle}/>
+    //수정: peervideoStyle 삭제, PeerVideo 정의에 동일설정 작성
+    //peervideo 밑에 위치 : <VacantImage src= {rest} state = {state}/> 
+    //style = {imageStyle}
+    //style="position:absolute;  height: 100%; weight: 100%"
+    return (
+        <div style = {videodivStyle} >
+        <PeerVideo playsInline autoPlay  ref={ref} style= {peervideoStyle} state = {state} />
+         {/*<VacantImage src= {rest} state = {state}/> */}
+        <img src={text} className="imageStyle" style = { state ? {display: 'none'}  : {visibility : 'visible'}  } />
+        </div>
+    );
+};
+
+
 const Room = (props) => {
+    const [, updateState] = useState(); //강제 렌더링
+    console.log("---------------------------재실행----------")
     const videolistRef = useRef(); 
     videolistRef.current = [];
 
@@ -70,6 +166,11 @@ const Room = (props) => {
     const [result, setResult] = useState("");
     const [watch, setWatch] =useState('false');
     const [click, setClick] = useState(false);
+    const [out, setOut] = useState(false);
+
+    function someMethod() {
+        setPeers(users => [...users]);
+    }
 
     // setWatch(!watch);
     const getWatchValue = (text) => {
@@ -84,51 +185,59 @@ const Room = (props) => {
         videoColor=text; 
     }
 
+    function getPeerlist(){
+        console.log("function getPeerlist: ", peers);
+        console.log("function getPeerRef: ", peersRef);
+    }
 
-    useEffect(() => { //호출 되면 실행? 
-        {peers.map((peer, index) => {
-            peer.on("stream", stream => { 
-                videolistRef.current[index].srcObject = stream; 
-        }) })}
-    })//,[peers]); <-문제 생기면 추가
+    getPeerlist(); 
+
 
     useEffect(() => { //렌더링 될 때마다 실행, peers 값 변할 때마다 렌더링
-// <<<<<<< HEAD
-//         console.log("렌더링3:  useEffect 실행 -> 소켓 통신, 디텍션 "); 
-//         console.log("렌더링3: videolistRef.current[0] : ", videolistRef.current[0]);
-//         socketRef.current = io.connect("https://10.200.11.221:8000"); //현재 커넥트 정보 저장 
-//         console.log(socketRef.current) 
-// =======
-        socketRef.current = io.connect("https://10.200.30.19:8000"); //현재 커넥트 정보 저장  
-// >>>>>>> main
-        
+
+
+        socketRef.current = io.connect("https://192.168.0.28:8000"); //현재 커넥트 정보 저장  
+        console.log("내 peer id: ", socketRef.current); 
         navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: false })
         .then(stream => {
             userVideo.current.srcObject = stream; // 내 비디오 추가
+
             socketRef.current.emit("join room", roomID); 
+
             socketRef.current.on("all users", users => { //"all users"  이벤트 듣고 있다가 실행, 첫 접속 시 본인 제외 다른 피어들 정보 받아옴
-                const peers = []; //위에 peers와 구분됨 
+                console.log("#all users");
+                const peers = []; 
                 users.forEach(userID => { //타 피어 정보 받아와서 peer 객체로 peersRef, peers 에 저장
                     const peer = createPeer(userID, socketRef.current.id, stream);
-
                     peersRef.current.push({ //peerRef 업데이트 
                         peerID: userID,
-                        peer
+                        peer,
+                        videoState: false
                     })
-                    peers.push(peer);
+                    peers.push({
+                        peerID: userID,
+                        peer,
+                        videoState: false
+                    });
                 })
                 setPeers(peers); //peers 업데이트 -> 재렌더링
-                 
+                console.log("0-2. peers: ", peers);
             })
-
 
             socketRef.current.on("user joined", payload => {
                 const peer = addPeer(payload.signal, payload.callerID, stream);
                 peersRef.current.push({
                     peerID: payload.callerID,
-                    peer
+                    peer,
+                    videoState: false
                 })
-                setPeers(users => [...users, peer]);
+                
+                const peerObj = {
+                    peerID: payload.callerID,
+                    peer,
+                    videoState: false
+                }
+                setPeers(users => [...users, peerObj]);
             });
 
             socketRef.current.on("receiving returned signal", payload => {
@@ -136,25 +245,51 @@ const Room = (props) => {
                 item.peer.signal(payload.signal);
             });
 
-
-            //5. video-state 이벤트
             socketRef.current.on("video-state", data => { //data: peer_tf, tf_state (<-반대로 바꿔주기만 하면 됨)
-
+                console.log("#video-state > data: ", data);
                 if(data.peer_tf === myID){ //서버에서 broadcast로 emit 못함
                     console.log ("5. 내 tf 상태 emit") //필요없음, 지워야
                 }else{
                     var index = peersRef.current.findIndex(i => i.peerID === data.peer_tf);
                     if(data.tf_state === 'false'){
-                        videolistRef.current[index].style.filter = 'brightness(0)'
+                        const uniquePeers = peersRef.current; 
+                        //주의: peers로 접근하면 빈 배열
+                        //peerRef랑 peers 구성 동일해야함.. peerRef로 peer 정보 백업해서 다시 set 하니까 다르면 중간에 데이터 구성 달라짐
+                        console.log("#video-state > index:", index); 
+                        console.log("#video-state >peers:", peers); 
+                        console.log("#video-state >uniquePeers:", uniquePeers); 
+                        console.log("#video-state >uniquePeers[index] :", uniquePeers[index]);
+                        uniquePeers[index].videoState = false; 
+                        peersRef.current[index].videoState = false;
                         watch_test=false;
+                        setPeers(uniquePeers);
+                        console.log("#video-state > false setPeers 이후 (아래와 동일해야)> peers[index]", peers[index] )
+                        console.log("#video-state > false setPeers 이후 (위와 동일해야)> peersRef[index]", peersRef[index] )
+                        //setOut(!out)//재렌더링이 안돼서 추가
+                        
+                        
                     }else{
-                        videolistRef.current[index].style.filter = 'brightness(1)' 
+                        const uniquePeers = peersRef.current;
+                        console.log("#video-state > index:", index); 
+                        console.log("#video-state >peers:", peers); 
+                        console.log("#video-state >uniquePeers:", uniquePeers); 
+                        console.log("#video-state >uniquePeers[index] :", uniquePeers[index]);
+                        uniquePeers[index].videoState = true; 
+                        peersRef.current[index].videoState = true;
                         watch_test=true;
+                        setPeers(uniquePeers);
+                        setPeers(users => [...users]); //강제로 렌더링 시도
+                        //const forceUpdate = useCallback(() => updateState({}), []); //렌더링 강제 : callback 안에 callback 에러
+                        console.log("#video-state > false setPeers 이후 (아래와 동일해야)> peers[index]", peers[index] )
+                        console.log("#video-state > false setPeers 이후 (위와 동일해야)> peersRef[index]", peersRef[index] )
+                        //setOut(!out) //재렌더링이 안돼서 추가
+                       
                     }
                 }
             })
             
              socketRef.current.on("my peer id", myPeerID => {
+                console.log("#my peer id");
                 myID = myPeerID;
             })
 
@@ -164,13 +299,22 @@ const Room = (props) => {
                 2. peers에서 삭제해야 (문제: peers에 socket.id 없음) 
                 -> peersRef에서 인덱스 추출하고 peers에서는 해당 인덱스 삭제
                 */
-            socketRef.current.on("user-disconnected", disconnect_peer => {
-                var idx = peersRef.current.findIndex(i => i.peerID === disconnect_peer); //peersRef에서 인덱스 추출
-                peersRef.current.splice(idx,1); //peersRef에서 삭제
-                setPeers(peers.filter((value,index) => index !== idx)); //peers 삭제            
+
+                socketRef.current.on("user-disconnected", id => {
+                    const peerObj = peersRef.current.find(p=>p.peerID === id);
+                    if(peerObj){
+                        peerObj.peer.destroy();
+                    }
+                    const peers = peersRef.current.filter(p=> p.peerID != id);
+                    peersRef.current = peers;
+        
+                    const uniquePeers = peers.filter(p=> p.peerID != id); //수정: 이미 filter 처리 한거니까 그냥 peer만 넣어도 될듯..
+                    setPeers(uniquePeers);
+                })
             })
-        })
+
     },[]);
+
 
     useEffect(()=>{
         const interval = setInterval(async () => {
@@ -179,41 +323,7 @@ const Room = (props) => {
             if (imageRef.current && mode) {
                 const formData = new FormData();
                 formData.append('image', imageRef.current);
-// <<<<<<< HEAD
 
-//                 const response = await fetch('https://10.200.11.221:5000/image', { 
-//                 method: "POST",
-//                 body: formData,
-//                 }).then().catch(err => console.log(err));
-
-//                 console.log("0. 디텍트 실행");
-
-//                 if (response.status === 200) {
-                
-
-//                     const text = await response.text();
-//                     detect = JSON.parse(text); 
-//                     videoColor = detect.result; 
-//                     console.log('2>(Room)실제 detect: ',detect.result);
-//                     setResult(detect.result);
-//                     console.log("3>(Room)useEffect안의 스탑워치: ",watch);
-
-//                     if(watch === 'false'){
-//                         detect.result = 'false';
-//                         console.log('4>(Room)detect 변경: ',detect.result);
-//                     }
-
-//                     console.log('5>(Room)두번째 detect: ',detect.result);
-
-//                     if(detect.result === 'true'){
-
-//                         num++;
-//                         yn_arr[num%2]=0;
-
-//                         if((yn_arr[0]+yn_arr[1])%2!=0 | start == 0){
-//                             now_yes=new Date();
-//                             console.log('NOW_YES: ',now_yes.getTime());                 
-// =======
                 var response; 
                 if(mode) { //자동 측정 on 모드
                     response = await fetch('https://223.131.223.239:5000/image', { //https://223.131.223.239:5000/image
@@ -242,7 +352,6 @@ const Room = (props) => {
                             if((yn_arr[0]+yn_arr[1])%2!=0){
                                 timeEnd();              
                             }
-// >>>>>>> main
                         }
                     
                         //위 코드랑 합치기 필요
@@ -357,6 +466,7 @@ const Room = (props) => {
     const modeClick = () =>{ //false : 자동모드 off , true: 자동모드 on
         console.log("모드 바꿈");
         const socket=socketRef.current;
+
         //스탑워치가 작동 중이었다면, 스탑워치 멈출 때 시간 갱신
         console.log("watch 상태 (작동중 클릭이면 true, 끊고 클릭이면 false여야", watch)
         if(mode && watch === 'true' && detect.result === 'true'){ //mode on -> off 클릭일 때
@@ -392,24 +502,6 @@ const Room = (props) => {
         //socket.emit : off -> stopwatch.js 에서, on -> Room.js에서 수행
     }
 
-
-    const videodivStyle = {
-        position: 'relative', 
-        height: '45%', 
-        //width + margin = 50%
-        width: '47%', 
-        margin: '0.3%', 
-        border: '2pt solid black',
-        backgroundColor: 'black'
-    }
-
-    const peervideoStyle = {
-        height: '100%' ,
-        width: '100%', 
-        filter: 'brightness(1)',
-        objectFit: 'cover'
-    }
-
     const outbuttonStyle = {
         position: 'absolute', 
         left: '0px', 
@@ -427,7 +519,9 @@ const Room = (props) => {
     }
 
     return (
+        
            <Container>
+               {console.log("JSX")}
             <div style = {videodivStyle}>
                 <StyledVideo  color={videoColor} muted ref={userVideo} autoPlay playsInline > 
                 <StyledCanvas ref={canvasRef} hidden></StyledCanvas>
@@ -437,6 +531,7 @@ const Room = (props) => {
                 click={click} getClickValue={getClickValue}
                 timeStart={timeStart} timeEnd={timeEnd}
                 color={videoColor} getVideoColorValue={getVideoColorValue}/>
+                <SimpleStopWatch/>
                 <button style={outbuttonStyle} onClick={()=>{enterHome()}}>나가기</button>
                 <div className="toggle-switch" style={ModeToggleStyle} >
                     <input type="checkbox" id="chkTog" onClick={()=>{modeClick()}} />
@@ -445,13 +540,29 @@ const Room = (props) => {
                     </label>
                 </div>
             </div>
-                {peers.map((peer, index) => {
+                {/*{peers.map((peer, index) => {
                     return(
                         <div style = {videodivStyle} >
-                        <video  key={index} peer={peer} style={peervideoStyle} playsInline autoPlay ref={ ref => {videolistRef.current[index] = ref} }></video>
+                        <video  key={peer.peerID} peer={peer.peer} style={peervideoStyle} playsInline autoPlay ref={ ref => {videolistRef.current[index] = ref} }></video>
                         </div>
                         )
-                })}
+                })} */}
+                 {peers.map((peer, index) => {
+                     console.log("-------------JSX실행---------- ")
+                     console.log("#JSX peer.videoState: ", peer.videoState);
+                    // if(peer.videoState == true){
+                       // return(
+                          //  <div style = {imagedivStyle} >
+                          //  <img src={rest} style = {imageStyle}/>
+                         //</div>
+                        //)
+                     //}else{
+                        return (
+                            <Video key={peer.peerID} peer={peer.peer} idx = {index} state = {peer.videoState}/>
+                        );
+                    // }
+            })} 
+               
             </Container>
     );
 };
