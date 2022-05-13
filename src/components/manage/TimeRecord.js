@@ -178,7 +178,7 @@ const changeAfter = () => {
             </div>
 
             {/* 발표용-지우기 */}
-            &nbsp;&nbsp;&nbsp;&nbsp; 시간
+            {/* &nbsp;&nbsp;&nbsp;&nbsp; 시간
             &nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -187,7 +187,7 @@ const changeAfter = () => {
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             3
             &nbsp;&nbsp;&nbsp;&nbsp;
-            3.5
+            3.5 */}
             {/* 발표용-지우기 */}
 
            {
