@@ -375,6 +375,7 @@ const Room = (props) => {
 
     const fetchStudyTime = async () => {
         try{
+            axios.defaults.withCredentials = true;
             const roomID = props.match.params.roomID;
             const response = await axios.patch('https://nudo-study.cf/api/studies/time/'+roomID,{study_time:studyTime_total/1000});
             console.log(response.data);
