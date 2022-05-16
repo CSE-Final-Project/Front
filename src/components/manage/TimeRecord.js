@@ -7,6 +7,7 @@ import '../../css/TimeRecord.css';
 
 const TimeRecord = (props) => {
     axios.defaults.withCredentials = true;
+    console.log('time_reocord');
 
     const studyId = props.studyID;
 

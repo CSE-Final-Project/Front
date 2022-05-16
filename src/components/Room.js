@@ -389,10 +389,12 @@ const Room = (props) => {
     }
 
     const enterHome = () =>{
-        if( ((yn_arr[0]+yn_arr[1])==0 && studyTime_total>0) || (!mode && watch==='true')){ //mode on, off 둘 다 watch 기준으로 수정
+        if( ((yn_arr[0]+yn_arr[1])==0 && studyTime_total>=0) || (!mode && watch==='true')){ //mode on, off 둘 다 watch 기준으로 수정
             timeEnd();
             console.log('YES상태에서 나가기 누름'); //on mode의 측정 중, off mode의 측정 중 상황 모두 포함
         }
+        console.log(yn_arr[0])
+        console.log(yn_arr[1])
     
         console.log('최종 공부시간(초):',studyTime_total/1000);
         fetchStudyTime();
