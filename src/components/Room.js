@@ -298,14 +298,16 @@ const Room = (props) => {
                             num++;
                             yn_arr[num%2]=0;
                             if(start == 0 | (yn_arr[0]+yn_arr[1])%2!=0){
-                                timeStart();                 
+                                timeStart(); //필요
+                                setWatch('true');                 
                             }
                             start++;
                         }else if(detect.result === 'false'){
                             num++;
                             yn_arr[num%2]=1;
                             if((yn_arr[0]+yn_arr[1])%2!=0){
-                                timeEnd();              
+                                timeEnd();     
+                                setWatch('false'); //0516 추가              
                             }
                         }
                     
@@ -389,7 +391,7 @@ const Room = (props) => {
     }
 
     const enterHome = () =>{
-        if( ((yn_arr[0]+yn_arr[1])==0 && studyTime_total>=0) || (!mode && watch==='true')){ //mode on, off 둘 다 watch 기준으로 수정
+        if( watch==='true'){ //mode on, off 둘 다 watch 기준으로 수정
             timeEnd();
             console.log('YES상태에서 나가기 누름'); //on mode의 측정 중, off mode의 측정 중 상황 모두 포함
         }
@@ -430,8 +432,10 @@ const Room = (props) => {
         console.log("watch 상태 (작동중 클릭이면 true, 끊고 클릭이면 false여야", watch)
         if(mode && watch === 'true' && detect.result === 'true'){ //mode on -> off 클릭일 때
                 num=0; //시간 측정 flag 초기화
-                yn_arr = [0,0]; 
-                flag = [1,1]; //socket-event flag 초기화
+                yn_arr = [1,1]; //0516 수정 , [false,false] 
+                flag = [0,0]; //0516 수정, [false,false]
+               // yn_arr = [0,0]; 
+                //flag = [1,1]; //socket-event flag 초기화
                 n = 0;  
                 timeEnd(); 
         }else if(!mode && watch === 'true'){ //mode off -> on 클릭일 때
@@ -441,7 +445,7 @@ const Room = (props) => {
                 //timeStart(); //off 측정 중인 상태에서 on으로 갈 때 필요 //0505 삭제 (true, false인지도 모르는데 바로 시작하면 x)
         }
 
-        setClick(!click)
+        setClick(!click) //0516 왜 있지
         mode = !mode;      //true인 경우 : fetch x
         //watch false로 바꾸기
        if(!mode){ //off 모드면 
@@ -451,8 +455,8 @@ const Room = (props) => {
         socket.emit('false-event', { peer_tf: myID, dst_room: roomID, tf_state: 'false'}) //0325: 처음 상태 black 
     }else{ //on 모드
             abortController = new AbortController();
-            setClick(true)
-           // getWatchValue('true'); //삭제
+            setClick(false) //0516 true-> false로 수정
+            getWatchValue('false'); //삭제 / 0516 다시 부활
            n++; 
            flag[n%2] = 0;
            videoColor = 'false'
