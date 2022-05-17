@@ -85,7 +85,7 @@ const StopWatch = (props) => {
                 clearInterval(interval);
             }
         }else{ //mode off: watch 만 true 면 됨 (코드 나중에 정리)
-            if(props.click &  props.watch === 'true' ){  //mode off, running -> true
+            if(props.watch === 'true' ){  //mode off, running -> true //0516 props.click &  삭제
                 interval = setInterval(()=>{
                     setTime(prevTime => prevTime+10)
                 },10)
