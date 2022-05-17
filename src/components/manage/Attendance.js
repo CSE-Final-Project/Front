@@ -42,6 +42,15 @@ const Attendance = (props) => {
         }
     }
     weekInfo.reverse();
+
+    //시작일 이전 날짜 회색 처리
+    var startday = props.startdate;
+    var isInclude = false;
+    var startdate = Number(startday.slice(8,10)); 
+    var startmonth = Number(startday.slice(5,7));
+    if(weekInfo.findIndex(i => i.date == startdate) > -1 && startmonth==month){
+         isInclude = true;
+    }
     
     var resultlist = {};
 
@@ -180,10 +189,10 @@ const Attendance = (props) => {
                     }else{
                         var num = obj_date.indexOf(weekInfo[j].date);
                          if(obj[num].attendance){
-                             attendlist[j]='O';
+                             attendlist[j]='X';
                             }
                          else{
-                             attendlist[j]='X';
+                             attendlist[j]='O';
                          }
                     }
             } 
@@ -202,6 +211,14 @@ const Attendance = (props) => {
     const weekTabChildStyle = {
         width: '10%',
         textAlign: 'center'
+    }
+
+    const weekTabChildStyle_unact = {
+        width: '10%',
+        border: '1px solid white',
+        borderRadius: '0.5rem',
+        textAlign: 'center',
+        opacity: '0.4'
     }
 
     const weekTabMonthStyle = {
@@ -244,7 +261,7 @@ const Attendance = (props) => {
     const onecheckStyle = {
         width: '10%',
         paddingLeft: '9%', //간격
-        paddingBottom: '2%'  //세로 위치
+        paddingBottom: '2%',  //세로 위치
     }
 
     const idStyle = {
@@ -268,7 +285,7 @@ const Attendance = (props) => {
     console.log('return 직전 resultlist:', resultlist);
 
     //발표용 - 지우기
-    // var k =1
+    var k =1
     //
 
     return (
@@ -278,9 +295,15 @@ const Attendance = (props) => {
                 <span style={weekTabMonthStyle}>{month}월</span>
                 <div style={weekTabLeftButtonStyle}><FaChevronLeft onClick={()=>changeBefore()}/></div>
                 {weekInfo&&weekInfo.map((day, index) => {
+                    if(!isInclude || day.date >= startdate ){
               return (
                   <div style={weekTabChildStyle} key={index}>{day.weekday}<br/>{day.date}</div>
               )
+                    }else{
+                        return (
+                            <div style={weekTabChildStyle_unact} key={index}>{day.weekday}<br/>{day.date}</div>
+                        )
+                    }
           })}   
                 <div style={weekTabRightButtonStyle}><FaChevronRight onClick={()=>changeAfter()}/> </div>   
             </div>
@@ -294,22 +317,12 @@ const Attendance = (props) => {
                                     {
                                     resultlist[id].map(check => {
                                         if(check == 'O')
-                                            return(<div style={onecheckStyle}><FaRegCheckSquare/></div>)
+                                            return(<div style={onecheckStyle}>X</div>)
                                         else if(check == 'X')
-                                            return(<div style={onecheckStyle}><FaRegSquare/></div>)
-                                        // else  
-                                        //     //발표용-지우기
-                                        //     if(k%3==2){
-                                        //         k+=1
-                                        //         return(<div style={onecheckStyle}>X</div>)
-                                        //     } 
-                                        //     else{
-                                        //         k+=1
-                                        //         return(<div style={onecheckStyle}>O</div>)
-                                        //     }
-                                        //     //발표용-지우기
-                                            
-                                            // return(<div style={onecheckStyle}><FaRegWindowMinimize/></div>)
+                                            return(<div style={onecheckStyle}>O</div>)
+                                        else
+                                           // return(<div style={onecheckStyle}>-</div>)
+                                             return(<div style={onecheckStyle}><FaRegWindowMinimize/></div>)
                                     })
                                     }
                                     <div style={nullStyle}></div>

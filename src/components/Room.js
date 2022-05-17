@@ -3,11 +3,14 @@ import io from "socket.io-client";
 import Peer from "simple-peer";
 import styled, {css} from "styled-components";
 import StopWatch from './StopWatch';
-// import SimpleStopWatch from './SimpleStopWatch';
+import SimpleStopWatch from './SimpleStopWatch';
 import axios from 'axios';
 import "../css/ModeToggle.css";
 import "../css/Room.css";
 import text from "./text.png"; 
+
+console.log(new Date());
+console.log(Date.now());
 
 let now_yes; //계속 NO HAND! 나오다가 HAND DETECT! 나온 시점
 let now_no; //계속 HAND DETECT! 나오다가 NO HAND! 나온 시점
@@ -22,12 +25,13 @@ var abortController = new AbortController();
 var disconnect_idx; 
 var disconnect_flag = false; 
 
+/*
 const peervideoStyle = {
     height: '100%' ,
     width: '100%', 
     filter: 'brightness(1)',
-    objectFit: 'cover'
-}
+    //objectFit: 'cover'
+} */
 
 const videodivStyle = {
     position: 'relative', 
@@ -64,7 +68,7 @@ const StyledVideo = styled.video`
     bottom: 0px;
     width: 100%;
     height: 100%;
-    filter:  ${props => props.color==="false" ? 'brightness(1)' : 'brightness(1)'}; 
+    filter:  ${props => props.color==="false" ? 'grayscale(100%)' : 'brightness(1)'}; 
 `;
 
 const VacantImage = styled.div`
@@ -73,6 +77,7 @@ const VacantImage = styled.div`
     width: 100%;
     visibility: ${props => props.state===false ? 'visible' : 'hidden'};
     `;
+
 
 const PeerVideo = styled.video`
     position: absolute;
@@ -89,7 +94,7 @@ const StyledCanvas = styled.canvas`
     width: 50%;
 `;
 
-let videoColor; 
+let videoColor = 'false'; 
 let detect;
 let flag = [1,1];
 let n = 0; 
@@ -117,10 +122,10 @@ const Video = (props) => {
             ref.current.srcObject = stream;
         })
     }, []);
-
+// style= {peervideoStyle} 
     return (
         <div style = {videodivStyle} >
-        <PeerVideo playsInline autoPlay  ref={ref} style= {peervideoStyle} state = {state} />
+        <PeerVideo playsInline autoPlay  ref={ref} state = {state} />
         <img src={text} className="imageStyle" style = { state ? {display: 'none'}  : {visibility : 'visible'}  } />
         </div>
     );
@@ -180,7 +185,7 @@ const Room = (props) => {
             socketRef.current.emit("join room", roomID); 
 
             socketRef.current.on("all users", users => { //"all users"  이벤트 듣고 있다가 실행, 첫 접속 시 본인 제외 다른 피어들 정보 받아옴
-                console.log("#all users");
+                console.log("@all users");
                 const peers = []; 
                 users.forEach(userID => { //타 피어 정보 받아와서 peer 객체로 peersRef, peers 에 저장
                     const peer = createPeer(userID, socketRef.current.id, stream);
@@ -200,6 +205,7 @@ const Room = (props) => {
             })
 
             socketRef.current.on("user joined", payload => {
+                console.log("@user joined");
                 const peer = addPeer(payload.signal, payload.callerID, stream);
                 peersRef.current.push({
                     peerID: payload.callerID,
@@ -213,11 +219,58 @@ const Room = (props) => {
                     videoState: false
                 }
                 setPeers(users => [...users, peerObj]);
+
+                //상태 emit
+                var state; 
+                if(mode){ //mode on
+                    if(props.detect === 'false') state = false; 
+                    else state = true; 
+                }else{ //mode off
+                    if(watch ==='false') state = false;
+                    else state = true; 
+                }
+                //console.log("@give-videostate emit")
+               // socketRef.current.emit('give-videostate', { giver: myID, peerID: payload.callerID, tf_state: state});
             });
 
             socketRef.current.on("receiving returned signal", payload => {
+                console.log("@receiving returned signal");
                 const item = peersRef.current.find(p => p.peerID === payload.id);
                 item.peer.signal(payload.signal);
+                socketRef.current.emit('call-videostate1', {peerID: myID, dst_room: roomID});
+            });
+
+            socketRef.current.on("call-videostate2", data => { 
+                console.log("@call-videostate2");
+                 //상태 emit
+                 var state; 
+                 if(mode){ //mode on
+                     if(props.detect === 'false') state = false; 
+                     else state = true; 
+                 }else{ //mode off
+                    console.log("@call-videostate2 videoColor: ", videoColor); 
+                     if(videoColor ==='false') state = false;
+                     else state = true; 
+                 }
+                socketRef.current.emit('receive-videostate1', {peerID: data.peerID, giver: myID, tf_state: state});
+            });
+
+            socketRef.current.on("receive-videostate2", data => { 
+                console.log("@receive-state2");
+                var index = peersRef.current.findIndex(p => p.peerID === data.peerID);
+                console.log("@receive-state data.peerID: ", data.peerID);
+                console.log("@receive-state data.tf_state: ", typeof(data.tf_state));  
+                console.log("@receive-state index: ", index); 
+                if(data.tf_state){ //주의: boolean 타입
+                    console.log("@receive2에서 true");
+                    const uniquePeers = peersRef.current; 
+                    uniquePeers[index].videoState = true; 
+                    peersRef.current[index].videoState = true;
+                    watch_test=true; //이거 왜 있음?
+                    setPeers(uniquePeers);
+                    setPeers(users => [...users]); //강제로 렌더링 
+                    console.log("@receive2에서 setPEers");
+                }
             });
 
             socketRef.current.on("video-state", data => { //data: peer_tf, tf_state (<-반대로 바꿔주기만 하면 됨)
@@ -299,7 +352,7 @@ const Room = (props) => {
                             yn_arr[num%2]=0;
                             if(start == 0 | (yn_arr[0]+yn_arr[1])%2!=0){
                                 timeStart(); //필요
-                                setWatch('true');                 
+                                setWatch('true');          
                             }
                             start++;
                         }else if(detect.result === 'false'){
@@ -307,7 +360,7 @@ const Room = (props) => {
                             yn_arr[num%2]=1;
                             if((yn_arr[0]+yn_arr[1])%2!=0){
                                 timeEnd();     
-                                setWatch('false'); //0516 추가              
+                                setWatch('false'); //0516 추가         
                             }
                         }
                     
@@ -383,7 +436,6 @@ const Room = (props) => {
             console.log(response.data);
             if(response.data.code==="200"){
                 window.location.replace('/');
-                console.log('시간저장')
             }
         }catch(e){
             console.log(e);
@@ -391,12 +443,13 @@ const Room = (props) => {
     }
 
     const enterHome = () =>{
+        //0516 mode && 추가, && studyTime_total>=0 삭제
+        //console.log("")
+        // ((mode && yn_arr[0]+yn_arr[1])==0) || (!mode && watch==='true') 0516 삭제, 수정
         if( watch==='true'){ //mode on, off 둘 다 watch 기준으로 수정
+            console.log('#######################YES상태에서 나가기 누름'); //on mode의 측정 중, off mode의 측정 중 상황 모두 포함
             timeEnd();
-            console.log('YES상태에서 나가기 누름'); //on mode의 측정 중, off mode의 측정 중 상황 모두 포함
         }
-        console.log(yn_arr[0])
-        console.log(yn_arr[1])
     
         console.log('최종 공부시간(초):',studyTime_total/1000);
         fetchStudyTime();
@@ -489,12 +542,16 @@ const Room = (props) => {
                 <StyledVideo  color={videoColor} muted ref={userVideo} autoPlay playsInline > 
                 <StyledCanvas ref={canvasRef} hidden></StyledCanvas>
                 </StyledVideo> 
-                <StopWatch myID={myID} roomID={roomID} socket={socketRef.current} 
+               {/*} <StopWatch myID={myID} roomID={roomID} socket={socketRef.current} 
+                detect={result} watch={watch} getWatchValue={getWatchValue} mode={mode}
+                click={click} getClickValue={getClickValue}
+                timeStart={timeStart} timeEnd={timeEnd}
+    color={videoColor} getVideoColorValue={getVideoColorValue}/> */}
+                <SimpleStopWatch myID={myID} roomID={roomID} socket={socketRef.current} 
                 detect={result} watch={watch} getWatchValue={getWatchValue} mode={mode}
                 click={click} getClickValue={getClickValue}
                 timeStart={timeStart} timeEnd={timeEnd}
                 color={videoColor} getVideoColorValue={getVideoColorValue}/>
-                {/* <SimpleStopWatch/> */}
                 <button style={outbuttonStyle} onClick={()=>{enterHome()}}>나가기</button>
                 <div className="toggle-switch" style={ModeToggleStyle} >
                     <input type="checkbox" id="chkTog" onClick={()=>{modeClick()}} />
