@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Button from '../components/common/Button';
+// import Button from '../components/common/Button';
 import HeaderContainer from '../containers/common/HeaderContainer';
 
 const PostListPage = () => {

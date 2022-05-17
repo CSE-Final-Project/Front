@@ -127,7 +127,7 @@ const StudyCreate = (props) => {
           </Form.Group>
 
           <div className="d-grid gap-2">
-          <Button variant="primary" size="lg" type ="submit" disabled={submitting}>
+          <Button variant="warning" size="lg" type ="submit" disabled={submitting}>
             Submit
           </Button>
           </div>

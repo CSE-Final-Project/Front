@@ -2,6 +2,7 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import palette from '../../lib/styles/palette';
 import { withRouter } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
 const StyledButton = styled.button`
     border:nond;
@@ -34,7 +35,7 @@ const StyledButton = styled.button`
 `;
 
 //{...props}쓴 이유 : Button이 받아 오는 props를 모두 StyledButton에 전달한다.
-const Button = ({ to, history, ...rest }) => {
+const Button_2 = ({ to, history, ...rest }) => {
     const onClick = e => {
         // to가 있다면 to로 페이지 이동
         if (to) {
@@ -45,8 +46,10 @@ const Button = ({ to, history, ...rest }) => {
         }
     };
     return (
+        <div className="d-grid gap-2">
         <StyledButton {...rest} onClick={onClick} />
+        </div>
     );
 };
 
-export default withRouter(Button);
+export default withRouter(Button_2);

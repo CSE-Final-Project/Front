@@ -3,6 +3,55 @@ import { withRouter } from 'react-router';
 import {createBrowserHistory} from 'history';
 import axios from 'axios';
 import {Card,Button} from 'react-bootstrap';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  padding: 20px;
+`;
+
+//
+const Ranking_font = styled.div`
+    font-size: xx-large;
+    font-weight: bold;
+`;
+//
+
+const Date_font = styled.div`
+    font-size: large;
+    font-weight: bold;
+    text-align: center; 
+`;
+
+const ContentBox = styled.div`
+    display: flex;
+    gap: 0.25rem;
+    
+    align-items: center;
+    grid-area: content;
+    justify-content: center;
+`;
+const Content1 = styled.div`
+    padding: 0.25rem;
+    // background: yellow;
+    text-align: left;
+    width: 30%;
+    height: 100%;
+`;
+const Content2 = styled.div`
+    padding: 0.25rem;
+    // background: yellow;
+    text-align: left;
+    width: 50%;
+    height: 100%;
+    font-size: large;
+`;
+const Content3 = styled.div`
+    padding: 0.25rem;
+    // background: yellow;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+`;
 
 const MyStudy = (props) => {
     const mystudy = props.mystudy;
@@ -65,20 +114,51 @@ const MyStudy = (props) => {
                 <Card.Header>{mystudy.topic}</Card.Header>
                 <Card.Body>
                     <Card.Title>{mystudy.title}</Card.Title>
+                    
                     <Card.Text>
-                        목표 시간: {mystudy.target_time} <br/>
+                    <ContentBox>
+                        <Content1>방장</Content1>
+                        <Content2>{mystudy.leader}</Content2>
+                        <Content3></Content3>
+                    </ContentBox>
+                    <hr/>
+                    <ContentBox>
+                        <Content1>목표 시간</Content1>
+                        <Content2>{mystudy.target_time}</Content2>
+                        <Content3></Content3>
+                    </ContentBox>
+                    <ContentBox>
+                        <Content1>하루 벌금</Content1>
+                        <Content2>{mystudy.penalty}</Content2>
+                        <Content3></Content3>
+                    </ContentBox>
+                    <ContentBox>
+                        <Content1>멤버 수</Content1>
+                        <Content2>{mystudy.member_number}</Content2>
+                        <Content3></Content3>
+                    </ContentBox>
+                    <hr/>
+                    <ContentBox>
+                        <Content1>스터디 정보</Content1>
+                        <Content2>{mystudy.info}</Content2>
+                        <Content3></Content3>
+                    </ContentBox>
+                    <hr/>
+
+                    {/* 목표 시간:  {mystudy.target_time} <br/>
                         멤버 수: {mystudy.member_number} <br/>
                         하루 벌금: {mystudy.penalty} <br/>
                         스터디 정보: {mystudy.info} <br/>
                         방장이름: {mystudy.leader} <br/>
-                        스터디 아이디: {mystudy.id} <br/>
+                        스터디 아이디: {mystudy.id} <br/> */}
                     </Card.Text>
+                   
                     {
                         (mystudy.is_recruit===false)?
                         <>
-                            <Button size="sm" onClick={() => {fetchRoom()}}>공부 시작</Button>
+                            <Button size="sm" variant="dark" onClick={() => {fetchRoom()}}>공부 시작</Button>
                             &nbsp;
-                            <Button size="sm" onClick={() => {enterManage()}}>관리</Button>
+                            <Button size="sm" variant="dark" onClick={() => {enterManage()}}>관리</Button>
                             &nbsp; 
                         </>
                         :
