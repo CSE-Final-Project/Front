@@ -4,6 +4,11 @@ import { FaChevronLeft } from "react-icons/fa";
 import { FaChevronRight } from "react-icons/fa";
 import TimeRecordCard from './TimeRecordCard';
 import '../../css/TimeRecord.css';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  padding: 20px;
+`;
 
 const TimeRecord = (props) => {
     axios.defaults.withCredentials = true;
@@ -190,16 +195,17 @@ const changeAfter = () => {
             &nbsp;&nbsp;&nbsp;&nbsp;
             3.5 */}
             {/* 발표용-지우기 */}
-
+            <Container>
            {
                 time&&time.map(function(time,i){
                     return(
-                        <>
+                        <div>
                             <TimeRecordCard timeInfo={time} i={i} key={i}/>
-                        </>
+                        </div>
                     )
                 })
             }  
+            </Container>
         </div> 
     );
 };

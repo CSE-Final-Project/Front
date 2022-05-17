@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
-import Button from '../common/Button';
+import Button_2 from '../common/Button_2';
 /*
 회원가입, 로그인 폼을 보여주는 component
 */
@@ -87,7 +87,8 @@ const AuthForm = ({type,form,onChange,onSubmit}) => {
                         value={form.passwordConfirm}
                     />
                 )}
-                <Button cyan fullWidth style={{marginTop: '1rem'}}>{text}</Button>
+                <Button_2 >{text}</Button_2>
+                {/* <Button cyan fullWidth style={{marginTop: '1rem'}}>{text}</Button> */}
             </form>
             <Footer>
                 {

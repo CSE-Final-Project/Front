@@ -104,7 +104,7 @@ const StudyRankingPage = () => {
             }
 
 
-            <Card body>
+            {/* <Card body>
                 <ContentBox>
                     <Content1>
                         <Ranking_font>🥇</Ranking_font></Content1>
@@ -144,7 +144,7 @@ const StudyRankingPage = () => {
                     <Content3>1시간 00분</Content3>
                 </ContentBox>
             </Card>
-            
+             */}
 
         </Container>
     );

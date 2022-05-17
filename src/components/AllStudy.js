@@ -3,6 +3,54 @@ import styled from 'styled-components';
 import axios from 'axios';
 import {Card,Button} from 'react-bootstrap';
 
+const Container = styled.div`
+  padding: 20px;
+`;
+
+//
+const Ranking_font = styled.div`
+    font-size: xx-large;
+    font-weight: bold;
+`;
+//
+
+const Date_font = styled.div`
+    font-size: large;
+    font-weight: bold;
+    text-align: center; 
+`;
+
+const ContentBox = styled.div`
+    display: flex;
+    gap: 0.25rem;
+    
+    align-items: center;
+    grid-area: content;
+    justify-content: center;
+`;
+const Content1 = styled.div`
+    padding: 0.25rem;
+    // background: yellow;
+    text-align: left;
+    width: 30%;
+    height: 100%;
+`;
+const Content2 = styled.div`
+    padding: 0.25rem;
+    // background: yellow;
+    text-align: left;
+    width: 70%;
+    height: 100%;
+    font-size: large;
+`;
+const Content3 = styled.div`
+    padding: 0.25rem;
+    // background: yellow;
+    text-align: center;
+    width: 0%;
+    height: 100%;
+`;
+
 const StudiesComp = (props) => {
     axios.defaults.withCredentials = true;
     const study = props.study;
@@ -46,17 +94,39 @@ const StudiesComp = (props) => {
                 <Card.Body>
                     <Card.Title>{study.title}</Card.Title>
                     <Card.Text>
-                        목표 시간: {study.target_time} <br/>
-                        멤버 수: {study.member_number} <br/>
-                        하루 벌금: {study.penalty} <br/>
-                        스터디 정보: {study.info} <br/>
-                        방장이름: {study.leader} <br/>
-                        스터디 아이디: {study.id} <br/>
+                    <ContentBox>
+                        <Content1>방장</Content1>
+                        <Content2>{study.leader}</Content2>
+                        <Content3></Content3>
+                    </ContentBox>
+                    <hr/>
+                    <ContentBox>
+                        <Content1>목표 시간</Content1>
+                        <Content2>{study.target_time}</Content2>
+                        <Content3></Content3>
+                    </ContentBox>
+                    <ContentBox>
+                        <Content1>하루 벌금</Content1>
+                        <Content2>{study.penalty}</Content2>
+                        <Content3></Content3>
+                    </ContentBox>
+                    <ContentBox>
+                        <Content1>멤버 수</Content1>
+                        <Content2>{study.member_number}</Content2>
+                        <Content3></Content3>
+                    </ContentBox>
+                    <hr/>
+                    <ContentBox>
+                        <Content1>스터디 정보</Content1>
+                        <Content2>{study.info}</Content2>
+                        <Content3></Content3>
+                    </ContentBox>
+                    <hr/>
                     </Card.Text>
                     {
                         (study.is_recruit === true)?
                         <>
-                            <Button onClick={() => {fetchJoin()}}>JOIN</Button>
+                            <Button variant="dark" onClick={() => {fetchJoin()}}>JOIN</Button>
                         </>
                         : null
                     }
