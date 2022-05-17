@@ -11,7 +11,9 @@ const Header2 = ({user, onLogout}) => {
             <Navbar bg="light" expand={false}>
                 <Container fluid>
                     <Navbar.Brand href="/" ><div >
-                    <img src="img/studydo.png" width="130px" height="40px"/>
+                    {/* <img src="img/studydo.png" width="130px" height="40px"/> */}
+                    {/* <img src={require("./studydo.png").default} width="130px" height="40px"/> */}
+                    <img src={process.env.PUBLIC_URL + '/img/studydo.png'} width="130px" height="40px"/>
                         </div></Navbar.Brand>
                     <Navbar.Toggle aria-controls="offcanvasNavbar" />
                     <Navbar.Offcanvas
