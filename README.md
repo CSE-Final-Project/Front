@@ -22,9 +22,7 @@
 #여러분은_그저_공부만_하세요
 
 ## Tech Stack
-
 사진
-![image](https://user-images.githubusercontent.com/73633272/169019524-f0d0fcf5-98bc-441f-af02-3819af930a04.png)
 
 ## Flow Chart
 
