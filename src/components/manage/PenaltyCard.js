@@ -40,6 +40,7 @@ const PenaltyCard = (props) => {
     console.log('스터디아이디~',studyID);
 
     const URL_leader = '/api/studies/'+studyID+'/leader';
+    const URL = '/api/studies/'+studyID+'/penalty';
     const [loading,setLoading] = useState(false);
     const [leader ,setLeader] = useState(null);
 
@@ -55,6 +56,23 @@ const PenaltyCard = (props) => {
         }
         setLoading(false);
 
+    }
+
+    const userID = localStorage.getItem('user');
+    console.log('userID:',userID)
+
+    const fetchPen = async () => {
+        try {
+            console.log(URL)
+            const response = await axios.post(URL,{user_id:userID, penalty_user_id:penalty.user_id});
+            if(response.data.code === "200"){
+                alert('정산 완료');
+                var location = window.location;
+                location.reload();
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     useEffect(()=>{
@@ -77,7 +95,7 @@ const PenaltyCard = (props) => {
                         {
                             (localStorage.getItem('user')===leader)?
                             <>
-                                <Content3><Button variant="dark">정산</Button></Content3>
+                                <Content3><Button variant="dark" onClick={()=>{fetchPen()}}>정산</Button></Content3>
                             </>
                             : 
                             <>
