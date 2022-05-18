@@ -11,7 +11,7 @@ const LoginTruePage = () => {
     var str1 = dt.getFullYear()+'년 '+(dt.getMonth()+1)+'월 '+dt.getDate()+'일';
     return (
         <Container>
-            <Card >
+            {/* <Card >
                 <Card.Header className="text-center">
                 📚{localStorage.getItem('user')}님✏️
                 </Card.Header>
@@ -46,7 +46,14 @@ const LoginTruePage = () => {
 
                     </Card.Text>
                 </Card.Body>
-            </Card>
+            </Card> */}
+            STUDY.DO <br/><br/>
+
+            공부만 하세요.  <br/>
+            스터디 관리는 알아서 해드릴게요. 🙂 <br/><br/>
+
+            생산성을 높여주는 캠스터디 서비스 <br/>
+            STUDY.DO 입니다. <br/>
         </Container>
     );
 };
