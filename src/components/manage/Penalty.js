@@ -24,6 +24,7 @@ const Penalty = (props) => {
         setLoading(false);
     }
 
+
     useEffect(()=>{
         fetchPenalty();
     },[]);
@@ -36,7 +37,7 @@ const Penalty = (props) => {
             {
                 penalty.map(function(penalty,i){
                     return(
-                        <PenaltyCard penalty={penalty} i={i} key={i}/>
+                        <PenaltyCard penalty={penalty} studyID={studyID} i={i} key={i}/>
                     )
                 })
             }
