@@ -68,7 +68,7 @@ const StyledVideo = styled.video`
     bottom: 0px;
     width: 100%;
     height: 100%;
-    filter:  ${props => props.color==="false" ? 'grayscale(100%)' : 'brightness(1)'}; 
+    filter:  ${props => props.color==="false" ? 'brightness(1)' : 'brightness(1)'}; 
 `;
 
 const VacantImage = styled.div`
