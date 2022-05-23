@@ -26,17 +26,21 @@
 
 ## Flow Chart
 
-사진!
-[참여중인스터디](https://user-images.githubusercontent.com/73633272/169918283-5739e81f-4e0d-4a30-a17b-f32ae361cbe7.gif)
-![출석체크](https://user-images.githubusercontent.com/73633272/169918299-48471ebd-c6b5-4a8c-9205-7dbc57ec8d23.gif)
-![스터디목록](https://user-images.githubusercontent.com/73633272/169918312-541cfb4b-a477-49f8-ad1c-69128ed94fdc.gif)
-![벌금정산](https://user-images.githubusercontent.com/73633272/169918317-03d45e48-1f77-4c38-aac8-ce7421e16bc0.gif)
-![공부시간](https://user-images.githubusercontent.com/73633272/169918326-065d1d4b-50ea-4389-9fa2-8daae48a0554.gif)
+사진
 
 
 ## Preview
+### 참여중인 스터디 목록
+[참여중인스터디](https://user-images.githubusercontent.com/73633272/169918283-5739e81f-4e0d-4a30-a17b-f32ae361cbe7.gif)
+### 스터디 목록
+![스터디목록](https://user-images.githubusercontent.com/73633272/169918312-541cfb4b-a477-49f8-ad1c-69128ed94fdc.gif)
 
-사진
+### 출석 체크
+![출석체크](https://user-images.githubusercontent.com/73633272/169918299-48471ebd-c6b5-4a8c-9205-7dbc57ec8d23.gif)
+### 벌금 정산
+![벌금정산](https://user-images.githubusercontent.com/73633272/169918317-03d45e48-1f77-4c38-aac8-ce7421e16bc0.gif)
+### 공부 
+![공부시간](https://user-images.githubusercontent.com/73633272/169918326-065d1d4b-50ea-4389-9fa2-8daae48a0554.gif)
 
 ## Team
 
