@@ -39,7 +39,7 @@
 ![출석체크](https://user-images.githubusercontent.com/73633272/169918299-48471ebd-c6b5-4a8c-9205-7dbc57ec8d23.gif)
 ### 벌금 정산
 ![벌금정산](https://user-images.githubusercontent.com/73633272/169918317-03d45e48-1f77-4c38-aac8-ce7421e16bc0.gif)
-### 공부 
+### 공부 시간 
 ![공부시간](https://user-images.githubusercontent.com/73633272/169918326-065d1d4b-50ea-4389-9fa2-8daae48a0554.gif)
 
 ## Team
