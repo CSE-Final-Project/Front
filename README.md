@@ -24,9 +24,9 @@
 ## Tech Stack
 사진
 
-## Flow Chart
+## Key Features
+![주요기능](https://user-images.githubusercontent.com/77188666/169919644-34689419-c86b-4768-b079-31038e5f3e04.JPG)
 
-사진
 
 
 ## Preview
