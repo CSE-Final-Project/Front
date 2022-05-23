@@ -31,7 +31,7 @@
 
 ## Preview
 ### 참여중인 스터디 목록
-[참여중인스터디](https://user-images.githubusercontent.com/73633272/169918283-5739e81f-4e0d-4a30-a17b-f32ae361cbe7.gif)
+![참여중인스터디](https://user-images.githubusercontent.com/73633272/169918525-c1924e4c-e594-4fff-8d1a-08a387d22a82.gif)
 ### 스터디 목록
 ![스터디목록](https://user-images.githubusercontent.com/73633272/169918312-541cfb4b-a477-49f8-ad1c-69128ed94fdc.gif)
 
