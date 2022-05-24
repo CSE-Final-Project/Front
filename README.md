@@ -30,6 +30,8 @@
 
 
 ## Preview
+### 메인 화면
+![메인](https://user-images.githubusercontent.com/73633272/169926718-d9512c8f-84c6-4879-96c4-5b0a142149c5.gif)
 ### 참여중인 스터디 목록
 ![참여중인스터디](https://user-images.githubusercontent.com/73633272/169918525-c1924e4c-e594-4fff-8d1a-08a387d22a82.gif)
 ### 스터디 목록
