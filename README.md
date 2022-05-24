@@ -22,7 +22,7 @@
 #여러분은_그저_공부만_하세요
 
 ## Tech Stack
-사진
+![기술 스택](https://user-images.githubusercontent.com/76865900/169923095-516b5d64-da0c-47d3-97bf-5b2f5c1c80ea.png)
 
 ## Key Features
 ![주요기능](https://user-images.githubusercontent.com/77188666/169919644-34689419-c86b-4768-b079-31038e5f3e04.JPG)
