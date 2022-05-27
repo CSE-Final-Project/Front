@@ -42,7 +42,7 @@ const WriteComment = () => {
                         onChange = {(e)=>setComment(e.target.value)} />
                 </Form.Group>
                 <div className="d-grid gap-2">
-                <Button variant="primary" size="lg" type="submit">
+                <Button variant="warning" size="lg" type="submit">
                     +
                     
                 </Button>

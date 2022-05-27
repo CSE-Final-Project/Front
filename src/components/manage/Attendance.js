@@ -316,9 +316,9 @@ const Attendance = (props) => {
                                     
                                     {
                                     resultlist[id].map(check => {
-                                        if(check == 'O')
+                                        if(check == 'X')
                                             return(<div style={onecheckStyle}>X</div>)
-                                        else if(check == 'X')
+                                        else if(check == 'O')
                                             return(<div style={onecheckStyle}>O</div>)
                                         else
                                            // return(<div style={onecheckStyle}>-</div>)

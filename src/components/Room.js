@@ -334,7 +334,7 @@ const Room = (props) => {
 
                 var response; 
                 if(mode) { //자동 측정 on 모드
-                    response = await fetch('https://223.131.223.239:5000/image', { //https://223.131.223.239:5000/image
+                    response = await fetch('https://223.131.223.239:58292/image', { //https://223.131.223.239:5000/image
                     method: "POST",
                     body: formData,
                     signal: abortController.signal,

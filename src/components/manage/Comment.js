@@ -62,7 +62,7 @@ const Comment = (props) => {
                 localStorage.getItem('user')===comment.user_id? (
                     <Div2>
                         {/* <Button size="sm">수정</Button> &nbsp; */}
-                        <Button size="sm" onClick = {()=>{fetchDelete()}}>삭제</Button> &nbsp;
+                        <Button variant="warning" size="sm" onClick = {()=>{fetchDelete()}}>삭제</Button> &nbsp;
                     </Div2>
                 ) : null
             }
