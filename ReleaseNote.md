@@ -13,7 +13,7 @@
 - 스터디 모집  
 - 스터디별 랭킹  
 <br/> 
-<br/> 
+  
 ## :pushpin: 이용 방법  
 :exclamation: 딥러닝 서버 접속 허용 과정을 반드시 거쳐야 합니다.  
 :exclamation: 사용 환경 : 모바일 안드로이드, PC의 크롬 브라우저 (ios는 지원되지 않습니다.)  
@@ -29,8 +29,8 @@
 ### 웹사이트 이용 테스트  
 #### 0. 접속  
 * 크롬 브라우저에서 https://client.nudo-study.cf/ 접속  
-<br/> 
-
+  
+  
 #### 1. 로그인  
 * 우측 상단의 메뉴 ⇒ 로그인으로 아이디 aaaa, 비밀번호 1234로 로그인합니다.  
 <img src="https://user-images.githubusercontent.com/76865900/172979868-5e60b327-c664-4c82-9157-c27cffcb05a7.png" width="700"> 
