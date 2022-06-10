@@ -14,6 +14,7 @@ const TimeRecord = (props) => {
     axios.defaults.withCredentials = true;
     console.log('time_reocord');
 
+    var monthChange = false; //월 바뀌는 주간 flag
     const studyId = props.studyID;
 
     //리팩토링 필요, Attendance에서 중복 사용, weekTab 컴포넌트로 분리 
@@ -31,12 +32,13 @@ const TimeRecord = (props) => {
     var compare2 = [month,date]
     var num = dayLabel; 
     var dateNum = date; 
-
+    if(monthChange == true){ monthChange=false;} 
     for(var i = 0; i < 7; i++,num--,dateNum--){
         if(dateNum == 0 ){
+                monthChange = true;
                 if((month-1)%2 == 0){ 
-                    if((month-1)==2) dateNum = 28;
-                    else dateNum = ((month-1)==8) ? 31 : 30;  
+                    if((month-1)==2){dateNum = 28;}
+                    else{dateNum = ((month-1)==8) ? 31 : 30;}
                     //윤년 2월 예외처리 추가
                 }else{
                     dateNum = 31;
@@ -147,6 +149,13 @@ const changeAfter = () => {
         paddingTop: '1.5%' //세로 위치
     }
 
+    const weekTabMonthStyle2 = {
+        width: '10%',
+        textAlign: 'left',
+        paddingTop: '2%', //세로 위치
+        fontSize: 'small'
+    }
+
     //시작일 포함된 주간이면 숨김 처리
     const weekTabLeftButtonStyle = {
         visibility: isInclude ? 'hidden' : 'visible',
@@ -167,7 +176,12 @@ const changeAfter = () => {
         
         <div>
             <div style={weekTabParentStyle}>
-                <span style={weekTabMonthStyle}>{month}월</span>
+            {
+                            (monthChange)?
+                            <span style={weekTabMonthStyle2}>{month-1}/{month}월</span>
+                            : 
+                            <span style={weekTabMonthStyle}>{month}월</span>
+            } 
                 <div style={weekTabLeftButtonStyle}><FaChevronLeft onClick={()=>changeBefore()}/></div>
                 {weekInfo&&weekInfo.map((day, index) => {
                    if(!isInclude || day.date >= startdate ){

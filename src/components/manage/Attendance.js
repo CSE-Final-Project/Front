@@ -8,7 +8,7 @@ import { FaRegWindowMinimize } from "react-icons/fa";
 
 const Attendance = (props) => {
     axios.defaults.withCredentials = true;
-
+    var monthChange = false; //월 바뀌는 주간 flag
     var fix_today = new Date();
     var fix_month = fix_today.getMonth()+1; 
     var fix_date = fix_today.getDate(); 
@@ -23,11 +23,13 @@ const Attendance = (props) => {
     var compare2 = [month,date]
     var num = dayLabel; 
     var dateNum = date; 
+    if(monthChange == true){ monthChange=false;} 
     for(var i = 0; i < 7; i++,num--,dateNum--){
         if(dateNum == 0 ){
+                monthChange = true;
                 if((month-1)%2 == 0){
-                    if((month-1)==2) dateNum = 28;
-                    else dateNum = ((month-1)==8) ? 31 : 30; 
+                    if((month-1)==2) {dateNum = 28;}
+                    else{ dateNum = ((month-1)==8) ? 31 : 30; }
                     //윤년 2월 예외처리 추가
                 }else{
                     dateNum = 31;
@@ -84,9 +86,11 @@ const Attendance = (props) => {
             dayLabel = new_date.getDay();
             num = dayLabel; 
             dateNum = date;
+            if(monthChange == true){ monthChange=false;} 
                 for(var i = 0; i < 7; i++,num--,dateNum--){
                      //var dateNum = date-i; 
                      if(dateNum == 0 ){
+                        monthChange = true;
                         if(month%2 == 0){ 
                             dateNum = (month==8) ? 31 : 30 
                             //윤년 2월 예외처리 추가
@@ -119,9 +123,11 @@ const Attendance = (props) => {
             dayLabel = new_date.getDay();
             num = dayLabel; 
             dateNum = date;
+            if(monthChange == true){ monthChange=false;} 
                 for(var i = 0; i < 7; i++,num--,dateNum--){
                     // var dateNum = date-i; 
                     if(dateNum == 0 ){
+                        monthChange = true;
                         if((month-1)%2 == 0){ 
                             dateNum = ((month-1)==8) ? 31 : 30 
                             //윤년 2월 예외처리 추가
@@ -227,6 +233,12 @@ const Attendance = (props) => {
         paddingTop: '1.5%' //세로 위치
     }
 
+    const weekTabMonthStyle2 = {
+        width: '10%',
+        textAlign: 'left',
+        paddingTop: '2%', //세로 위치
+        fontSize: 'small'
+    }
 
     //시작일 포함된 주간이면 숨김 처리
     const weekTabLeftButtonStyle = {
@@ -292,7 +304,12 @@ const Attendance = (props) => {
         
         <div>
             <div style={weekTabParentStyle}>
-                <span style={weekTabMonthStyle}>{month}월</span>
+            {
+                            (monthChange)?
+                            <span style={weekTabMonthStyle2}>{month-1}/{month}월</span>
+                            : 
+                            <span style={weekTabMonthStyle}>{month}월</span>
+            } 
                 <div style={weekTabLeftButtonStyle}><FaChevronLeft onClick={()=>changeBefore()}/></div>
                 {weekInfo&&weekInfo.map((day, index) => {
                     if(!isInclude || day.date >= startdate ){
