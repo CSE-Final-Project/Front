@@ -32,7 +32,7 @@
   
   
 #### 1. 로그인  
-* 우측 상단의 메뉴 ⇒ 로그인으로 아이디 aaaa, 비밀번호 1234로 로그인합니다.  
+* 우측 상단의 메뉴 ⇒ 로그인 클릭 후 아이디 aaaa, 비밀번호 1234로 로그인합니다.  
 <img src="https://user-images.githubusercontent.com/76865900/172979868-5e60b327-c664-4c82-9157-c27cffcb05a7.png" width="700"> 
 <br/> 
 
