@@ -37,15 +37,12 @@ const SimpleStopWatch = (props) => {
                 props.getVideoColorValue('false') //흑백 - 블랙 타이밍 확인용
                 socket.emit('false-event', { peer_tf: props.myID, dst_room: props.roomID, tf_state: 'false'})
             }
-        }else{ //mode on
+        }/*else{ //mode on
             props.getClickValue(true);
             props.getWatchValue('false'); //0505 true -> false로 바꿈, 처음에는 false로 시작해야하지 않나..
             console.log("4. props.watch: ", props.watch);
             socket.emit('false-event', { peer_tf: props.myID, dst_room: props.roomID, tf_state: 'false'})
-        } //else{
-        //     props.getWatchValue('false');
-        //     socket.emit('false-event', { peer_tf: props.myID, dst_room: props.roomID, tf_state: 'false'})
-        // }
+        } */
     }
 
     // console.log('wow: ',props.detect);
@@ -104,16 +101,18 @@ const SimpleStopWatch = (props) => {
 
 const fullChange=() =>{
     const element = document.documentElement; 
-    if(props.watch==='false'){ //false(멈춤) -> true(작동) 타이밍 
-        if(element.requestFullscreen) {console.log("element.requestFullscreen"); element.requestFullscreen();} 
-        else if(element.mozRequestFullScreen) {element.mozRequestFullScreen(); }
-        else if(element.webkitRequestFullscreen) {console.log("element.webkitRequestFullscreen"); element.webkitRequestFullScreen(); }
-        else if(element.msRequestFullscreen) {element.msRequestFullScreen(); }
-    }else{
-        if(document.exitFullscreen){ console.log("document.exitFullscreen"); document.exitFullscreen(); }
-        else if(document.mozCancleFullScreen){ document.mozCancleFullScreen(); }
-        else if(document.webkitExitFullscreen){ document.webkitExitFullscreen(); }
-        else if(document.msExitFullscreen){ document.msExitFullscreen(); }
+    if(!props.mode){
+        if(props.watch==='false'){ //false(멈춤) -> true(작동) 타이밍 
+            if(element.requestFullscreen) {console.log("element.requestFullscreen"); element.requestFullscreen();} 
+            else if(element.mozRequestFullScreen) {element.mozRequestFullScreen(); }
+            else if(element.webkitRequestFullscreen) {console.log("element.webkitRequestFullscreen"); element.webkitRequestFullScreen(); }
+            else if(element.msRequestFullscreen) {element.msRequestFullScreen(); }
+        }else{
+            if(document.exitFullscreen){ console.log("document.exitFullscreen"); document.exitFullscreen(); }
+            else if(document.mozCancleFullScreen){ document.mozCancleFullScreen(); }
+            else if(document.webkitExitFullscreen){ document.webkitExitFullscreen(); }
+            else if(document.msExitFullscreen){ document.msExitFullscreen(); }
+        }
     }
 }
 // startOrStop(); 
