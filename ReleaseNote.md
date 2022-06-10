@@ -58,7 +58,7 @@
 <br/> 
 
 * 자유게시판을 통해 스터디 공지를 알리고 스터디원들과 소통할 수 있습니다.  
-<img src="https://user-images.githubusercontent.com/76865900/172988537-e2af9ca8-d03e-4804-84bb-ef2215846681.png">  
+<img src="https://user-images.githubusercontent.com/76865900/172988737-aae6cfb5-dbbb-40ec-a41b-06f49bd08ff8.png" height="500">  
 <br/> 
 
 #### 4. 스터디 모집  
