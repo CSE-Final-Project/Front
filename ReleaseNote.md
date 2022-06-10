@@ -1,6 +1,7 @@
 # :pencil2: STUDY.DO Quick Start Guide
 딥러닝 이미지 인식 기반 공부 시간 자동 측정 캠스터디 플랫폼
-
+<br/> 
+<br/> 
 ## :pushpin: 주요 기능
 - 캠스터디 진행  
  └─ 공부 시간 자동 측정  
