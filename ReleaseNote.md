@@ -1,5 +1,4 @@
-# Quick Start Guide
-:pencil2: STUDY.DO Quick Start Guide
+# :pencil2: STUDY.DO Quick Start Guide
 딥러닝 이미지 인식 기반 공부 시간 자동 측정 캠스터디 플랫폼
 
 :pushpin: 주요 기능
@@ -21,7 +20,7 @@
 :exclamation: ios는 지원되지 않습니다.<br>
 [딥러닝 서버 접속 허용 설정] 
 1. https://223.131.223.239:58292 로 접속합니다. 
-2. 연결이 비공개로 설정되어 있지 않습니다. → [고급] 버튼 클릭 → "223.131.223.239(안전하지 않음)(으)로 이동" 클릭
+2. 연결이 비공개로 설정되어 있지 않습니다. → [고급] 버튼 클릭 → "223.131.223.239(안전하지 않음)(으)로 이동" 클릭<br>
 
 [웹사이트 이용] 
 1. https://client.nudo-study.cf/ 접속
