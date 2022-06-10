@@ -43,10 +43,10 @@ const BoardCard = (props) => {
     return (
         <Container>
             <Writer onClick={()=>{enterComment(props.studyID,post.idx)}}>{post.title}</Writer> <br/>
-            content : {post.content} <br/>
-            idx : {post.idx} <br/>
-            user_id : {post.user_id} <br/>
-            date : {post.date} <br/>
+            content: {post.content} <br/>
+            idx: {post.idx} <br/>
+            user_id: {post.user_id} <br/>
+            date: {post.date} <br/>
             {
                 localStorage.getItem('user')===post.user_id? (
                     <Div2>

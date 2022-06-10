@@ -45,11 +45,11 @@ const StudiesComp = (props) => {
                 <Card.Body>
                     <Card.Title>{study.title}</Card.Title>
                     <Card.Text>
-                        목표 시간: {study.target_time} <br/>
-                        멤버 수: {study.member_number} <br/>
-                        하루 벌금: {study.penalty} <br/>
+                        목표 시간&nbsp;&nbsp; : {study.target_time} <br/>
+                        멤버 수&nbsp; &nbsp; &nbsp; &nbsp; : {study.member_number} <br/>
+                        하루 벌금&nbsp; &nbsp; :{study.penalty} <br/>
                         스터디 정보: {study.info} <br/>
-                        방장이름: {study.leader} <br/>
+                        방장이름&nbsp; &nbsp; &nbsp; : {study.leader} <br/>
                         스터디 아이디: {study.id} <br/>
                     </Card.Text>
                     {

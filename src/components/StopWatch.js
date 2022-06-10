@@ -49,11 +49,11 @@ const StopWatch = (props) => {
                 props.getVideoColorValue('false') //흑백 - 블랙 타이밍 확인용
                 socket.emit('false-event', { peer_tf: props.myID, dst_room: props.roomID, tf_state: 'false'})
             }
-        }else{ //mode on
-            props.getClickValue(true);
-            props.getWatchValue('false'); //0505 true -> false로 바꿈, 처음에는 false로 시작해야하지 않나..
-            socket.emit('false-event', { peer_tf: props.myID, dst_room: props.roomID, tf_state: 'false'})
-        } //else{
+        }//else{ //mode on
+          //  props.getClickValue(true);
+          //  props.getWatchValue('false'); //0505 true -> false로 바꿈, 처음에는 false로 시작해야하지 않나..
+          //  socket.emit('false-event', { peer_tf: props.myID, dst_room: props.roomID, tf_state: 'false'})
+      //  } //else{
         //     props.getWatchValue('false');
         //     socket.emit('false-event', { peer_tf: props.myID, dst_room: props.roomID, tf_state: 'false'})
         // }
