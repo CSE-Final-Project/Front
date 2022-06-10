@@ -57,6 +57,10 @@
 <img src="https://user-images.githubusercontent.com/76865900/172983585-f836687b-b30d-481f-b9b9-44a2a49af257.png" height="250">  
 <br/> 
 
+* 자유게시판을 통해 스터디 공지를 알리고 스터디원들과 소통할 수 있습니다.  
+<img src="https://user-images.githubusercontent.com/76865900/172988537-e2af9ca8-d03e-4804-84bb-ef2215846681.png">  
+<br/> 
+
 #### 4. 스터디 모집  
 * 우측 상단의 메뉴 ⇒ "스터디 목록" 페이지로 이동합니다.  
 * [JOIN] 버튼을 클릭해 모집이 완료되지 않은 스터디 중 원하는 스터디에 가입할 수 있습니다.  
