@@ -5,8 +5,11 @@ import { FaChevronRight } from "react-icons/fa";
 import TimeRecordCard from './TimeRecordCard';
 import '../../css/TimeRecord.css';
 
+var count =0; // 처음 들어왔는지 확인하는 용도 
+
 const TimeRecord = (props) => {
 
+    var monthChange = false; //월 바뀌는 주간 flag
     const studyId = props.studyID;
 
     //리팩토링 필요, Attendance에서 중복 사용, weekTab 컴포넌트로 분리 
@@ -24,12 +27,13 @@ const TimeRecord = (props) => {
     var compare2 = [month,date]
     var num = dayLabel; 
     var dateNum = date; 
-
+    if(monthChange == true){ monthChange=false;} 
     for(var i = 0; i < 7; i++,num--,dateNum--){
         if(dateNum == 0 ){
+                monthChange = true;
                 if((month-1)%2 == 0){ 
-                    if((month-1)==2) dateNum = 28;
-                    else dateNum = ((month-1)==8) ? 31 : 30;  
+                    if((month-1)==2) {dateNum = 28;}
+                    else{ dateNum = ((month-1)==8) ? 31 : 30;  }
                     //윤년 2월 예외처리 추가
                 }else{
                     dateNum = 31;
@@ -95,8 +99,9 @@ const changeAfter = () => {
         weekInfo.reverse();
         setToday(new_date)
 }
-   const [time, setTime] = useState(null);
-   
+   //  var count =0; // 처음 들어왔는지 확인하는 용도 
+   const [time, setTime] = useState();//처음엔 오늘 날짜로 출력
+
    const clickDate = async (e, index) => {
        var clickdate  = new Date(new Date().setDate(today.getDate()-6+index));
        var URL = '/api/studies/time/'+studyId; 
@@ -112,6 +117,14 @@ const changeAfter = () => {
             console.log(e);
         }
    }
+
+   
+   if(count==0){
+        count++;
+        console.log("처음 들어왔을 때 화면: ", count);
+        clickDate(6);
+   }
+
 
    const weekTabParentStyle = {
     display: 'flex',
@@ -140,6 +153,13 @@ const changeAfter = () => {
         paddingTop: '1.5%' //세로 위치
     }
 
+    const weekTabMonthStyle2 = {
+        width: '10%',
+        textAlign: 'left',
+        paddingTop: '2%', //세로 위치
+        fontSize: 'small'
+    }
+
     //시작일 포함된 주간이면 숨김 처리
     const weekTabLeftButtonStyle = {
         visibility: isInclude ? 'hidden' : 'visible',
@@ -160,7 +180,12 @@ const changeAfter = () => {
         
         <div>
             <div style={weekTabParentStyle}>
-                <span style={weekTabMonthStyle}>{month}월</span>
+            {
+                            (monthChange)?
+                            <span style={weekTabMonthStyle2}>{month-1}/{month}월</span>
+                            : 
+                            <span style={weekTabMonthStyle}>{month}월</span>
+            }    
                 <div style={weekTabLeftButtonStyle}><FaChevronLeft onClick={()=>changeBefore()}/></div>
                 {weekInfo&&weekInfo.map((day, index) => {
                    if(!isInclude || day.date >= startdate ){
@@ -176,18 +201,6 @@ const changeAfter = () => {
                 <div style={weekTabRightButtonStyle}><FaChevronRight onClick={()=>changeAfter()}/> </div>   
             </div>
 
-            {/* 발표용-지우기 */}
-            &nbsp;&nbsp;&nbsp;&nbsp; 시간
-            &nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            3
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            3.5
-            {/* 발표용-지우기 */}
 
            {
                 time&&time.map(function(time,i){

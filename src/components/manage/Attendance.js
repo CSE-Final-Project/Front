@@ -7,7 +7,7 @@ import { FaRegSquare } from "react-icons/fa";
 import { FaRegWindowMinimize } from "react-icons/fa";
 
 const Attendance = (props) => {
-
+    var monthChange = false; //월 바뀌는 주간 flag
     var fix_today = new Date();
     var fix_month = fix_today.getMonth()+1; 
     var fix_date = fix_today.getDate(); 
@@ -17,16 +17,22 @@ const Attendance = (props) => {
     var week = ["일", "월", "화", "수", "목", "금", "토"];
     var weekInfo = []; 
     var month = today.getMonth()+1; 
+    console.log("@month: ", month); 
     var date = today.getDate(); 
     var dayLabel = today.getDay();
+    console.log("@dayLabel: ", dayLabel); 
     var compare2 = [month,date]
     var num = dayLabel; 
     var dateNum = date; 
+    if(monthChange == true){ monthChange=false;} 
     for(var i = 0; i < 7; i++,num--,dateNum--){
         if(dateNum == 0 ){
+                //month--;
+                monthChange = true;
                 if((month-1)%2 == 0){
-                    if((month-1)==2) dateNum = 28;
-                    else dateNum = ((month-1)==8) ? 31 : 30; 
+                    if((month-1)==2){ 
+                      dateNum = 28;}else{
+                          dateNum = ((month-1)==8) ? 31 : 30; }
                     //윤년 2월 예외처리 추가
                 }else{
                     dateNum = 31;
@@ -41,6 +47,15 @@ const Attendance = (props) => {
         }
     }
     weekInfo.reverse();
+
+    //시작일 이전 날짜 회색 처리
+    var startday = props.startdate;
+    var isInclude = false;
+    var startdate = Number(startday.slice(8,10)); 
+    var startmonth = Number(startday.slice(5,7));
+    if(weekInfo.findIndex(i => i.date == startdate) > -1 && startmonth==month){
+         isInclude = true;
+    }
     
     var resultlist = {};
 
@@ -74,9 +89,12 @@ const Attendance = (props) => {
             dayLabel = new_date.getDay();
             num = dayLabel; 
             dateNum = date;
+            if(monthChange == true){ monthChange=false;} 
                 for(var i = 0; i < 7; i++,num--,dateNum--){
                      //var dateNum = date-i; 
                      if(dateNum == 0 ){
+                        //month--;
+                        monthChange = true;
                         if(month%2 == 0){ 
                             dateNum = (month==8) ? 31 : 30 
                             //윤년 2월 예외처리 추가
@@ -109,10 +127,13 @@ const Attendance = (props) => {
             dayLabel = new_date.getDay();
             num = dayLabel; 
             dateNum = date;
+            if(monthChange == true){ monthChange=false;} 
                 for(var i = 0; i < 7; i++,num--,dateNum--){
                     // var dateNum = date-i; 
                     if(dateNum == 0 ){
-                        if((month-1)%2 == 0){ 
+                        monthChange = true;
+                        //month--;
+                        if((month-1)%2 == 0){
                             dateNum = ((month-1)==8) ? 31 : 30 
                             //윤년 2월 예외처리 추가
                         }else{
@@ -138,6 +159,7 @@ const Attendance = (props) => {
             setAtten(null);
             setLoading(true);
             const response = await axios.post(URL1,{date:date});
+            console.log("@response: ", response);
             setAtten(response.data);
         }catch (e){
             console.log(e);
@@ -179,10 +201,12 @@ const Attendance = (props) => {
                     }else{
                         var num = obj_date.indexOf(weekInfo[j].date);
                          if(obj[num].attendance){
-                             attendlist[j]='O';
+                            attendlist[j]='X';
+                           //  attendlist[j]='O';
                             }
                          else{
-                             attendlist[j]='X';
+                            attendlist[j]='O';
+                          //   attendlist[j]='X';
                          }
                     }
             } 
@@ -203,10 +227,25 @@ const Attendance = (props) => {
         textAlign: 'center'
     }
 
+    const weekTabChildStyle_unact = {
+        width: '10%',
+        border: '1px solid white',
+        borderRadius: '0.5rem',
+        textAlign: 'center',
+        opacity: '0.4'
+    }
+
     const weekTabMonthStyle = {
         width: '10%',
         textAlign: 'left',
         paddingTop: '1.5%' //세로 위치
+    }
+
+    const weekTabMonthStyle2 = {
+        width: '10%',
+        textAlign: 'left',
+        paddingTop: '2%', //세로 위치
+        fontSize: 'small'
     }
 
 
@@ -243,7 +282,7 @@ const Attendance = (props) => {
     const onecheckStyle = {
         width: '10%',
         paddingLeft: '9%', //간격
-        paddingBottom: '2%'  //세로 위치
+        paddingBottom: '2%',  //세로 위치
     }
 
     const idStyle = {
@@ -265,7 +304,7 @@ const Attendance = (props) => {
     if(!atten) return null;
     
     console.log('return 직전 resultlist:', resultlist);
-
+    console.log("weekInfo: ", weekInfo);
     //발표용 - 지우기
     var k =1
     //
@@ -274,12 +313,23 @@ const Attendance = (props) => {
         
         <div>
             <div style={weekTabParentStyle}>
-                <span style={weekTabMonthStyle}>{month}월</span>
+            {
+                            (monthChange)?
+                            <span style={weekTabMonthStyle2}>{month-1}/{month}월</span>
+                            : 
+                            <span style={weekTabMonthStyle}>{month}월</span>
+            }                   
                 <div style={weekTabLeftButtonStyle}><FaChevronLeft onClick={()=>changeBefore()}/></div>
                 {weekInfo&&weekInfo.map((day, index) => {
+                    if(!isInclude || day.date >= startdate ){
               return (
                   <div style={weekTabChildStyle} key={index}>{day.weekday}<br/>{day.date}</div>
               )
+                    }else{
+                        return (
+                            <div style={weekTabChildStyle_unact} key={index}>{day.weekday}<br/>{day.date}</div>
+                        )
+                    }
           })}   
                 <div style={weekTabRightButtonStyle}><FaChevronRight onClick={()=>changeAfter()}/> </div>   
             </div>
@@ -293,22 +343,12 @@ const Attendance = (props) => {
                                     {
                                     resultlist[id].map(check => {
                                         if(check == 'O')
-                                            return(<div style={onecheckStyle}><FaRegCheckSquare/></div>)
+                                            return(<div style={onecheckStyle}>O</div>)
                                         else if(check == 'X')
-                                            return(<div style={onecheckStyle}><FaRegSquare/></div>)
-                                        else  
-                                            //발표용-지우기
-                                            if(k%3==2){
-                                                k+=1
-                                                return(<div style={onecheckStyle}>X</div>)
-                                            } 
-                                            else{
-                                                k+=1
-                                                return(<div style={onecheckStyle}>O</div>)
-                                            }
-                                            //발표용-지우기
-                                            
-                                            // return(<div style={onecheckStyle}><FaRegWindowMinimize/></div>)
+                                            return(<div style={onecheckStyle}>X</div>)
+                                        else
+                                           // return(<div style={onecheckStyle}>-</div>)
+                                             return(<div style={onecheckStyle}><FaRegWindowMinimize/></div>)
                                     })
                                     }
                                     <div style={nullStyle}></div>
