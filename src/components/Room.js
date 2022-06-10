@@ -63,12 +63,12 @@ const Container = styled.div`
     flex-wrap: wrap;
 `;
 
+//    filter:  ${props => props.color==="false" ? 'grayscale(100%)' : 'brightness(1)'}; 
 const StyledVideo = styled.video`
     position: absolute;
     bottom: 0px;
     width: 100%;
     height: 100%;
-    filter:  ${props => props.color==="false" ? 'grayscale(100%)' : 'brightness(1)'}; 
 `;
 
 const VacantImage = styled.div`
@@ -176,7 +176,7 @@ const Room = (props) => {
     useEffect(() => { //렌더링 될 때마다 실행, peers 값 변할 때마다 렌더링
 
 
-        socketRef.current = io.connect("https://10.200.31.199:8000"); //현재 커넥트 정보 저장  
+        socketRef.current = io.connect("https://192.168.0.28:8000"); //현재 커넥트 정보 저장  
         console.log("내 peer id: ", socketRef.current); 
         navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: false })
         .then(stream => {
@@ -325,6 +325,21 @@ const Room = (props) => {
 
 
     useEffect(()=>{
+        const fullChange=() =>{
+            const element = document.documentElement; 
+                if(element.requestFullscreen) {console.log("element.requestFullscreen"); element.requestFullscreen();} 
+                else if(element.mozRequestFullScreen) {element.mozRequestFullScreen(); }
+                else if(element.webkitRequestFullscreen) {console.log("element.webkitRequestFullscreen"); element.webkitRequestFullScreen(); }
+                else if(element.msRequestFullscreen) {element.msRequestFullScreen(); }            
+        }
+
+        const exitFullChange=() =>{
+            //const element = document.documentElement; 
+            if(document.exitFullscreen){ console.log("document.exitFullscreen"); document.exitFullscreen(); }
+            else if(document.mozCancleFullScreen){ document.mozCancleFullScreen(); }
+            else if(document.webkitExitFullscreen){ document.webkitExitFullscreen(); }
+            else if(document.msExitFullscreen){ document.msExitFullscreen(); }
+        }
         const interval = setInterval(async () => {
             captureImageFromCamera();
 
@@ -334,7 +349,7 @@ const Room = (props) => {
 
                 var response; 
                 if(mode) { //자동 측정 on 모드
-                    response = await fetch('https://223.131.223.239:5000/image', { //https://223.131.223.239:5000/image
+                    response = await fetch('https://223.131.223.239:58292/image', { //https://223.131.223.239:5000/image
                     method: "POST",
                     body: formData,
                     signal: abortController.signal,
@@ -351,6 +366,7 @@ const Room = (props) => {
                             num++;
                             yn_arr[num%2]=0;
                             if(start == 0 | (yn_arr[0]+yn_arr[1])%2!=0){
+                                fullChange();
                                 timeStart(); //필요
                                 setWatch('true');          
                             }
@@ -359,6 +375,7 @@ const Room = (props) => {
                             num++;
                             yn_arr[num%2]=1;
                             if((yn_arr[0]+yn_arr[1])%2!=0){
+                                exitFullChange();
                                 timeEnd();     
                                 setWatch('false'); //0516 추가         
                             }
